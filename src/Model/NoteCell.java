@@ -3,14 +3,18 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Random;
 
-
+/*
+ * Note cells move around the grid in paths or loops. Loops will automatically restart, paths will move backwards
+ * once the note cell reaches the end. Each note cell has a musical note attributed to it and a random color.
+ * It will play it's note when it collides with another note cell.
+ */
 public class NoteCell{
 	private Coordinates curPos;
 	private String note;
 	private String notes = "C C#D D#E F F#G G#A A#B ";
 	private int noteNum;
-	private Boolean loop;
-	private Boolean reverse;
+	private Boolean loop; //Whether or not the path is a loop
+	private Boolean reverse; //Whether the note is currently moving backwards along it's path.
 	private ArrayList<Coordinates> path;
 	private int pathPos;
 	private Random rand = new Random();
@@ -33,7 +37,10 @@ public class NoteCell{
 		color = Color.getHSBColor(hue, saturation, luminance);
 	}
 
-	//Birth Constructor
+	/*
+	 * This is a constructor for when cells are "birthed" within the game. A random path is created and
+	 * assigned to them.
+	 */
 	public NoteCell(int x, int y, int parnote1, int parnote2) {
 		curPos = new Coordinates(x, y);
 		loop = false;
@@ -68,6 +75,9 @@ public class NoteCell{
 		this.color = newColor;
 	}
 	
+	/*
+	 * Creates a random path of random length between 2 and 15 cells.
+	 */
 	public void generateRandomPath() {
 		int pathLength = randInt(2, 15);	
 		int newx = -1;
@@ -86,6 +96,9 @@ public class NoteCell{
 		}
 	}
 	
+	/*
+	 * Returns true if the path already contains the coordinate cell.
+	 */
 	public boolean pathContains(Coordinates testCoor) {
 		for(int i = 1; i < path.size(); i++) {
 			if (path.get(i).equals(testCoor)) {
@@ -132,9 +145,11 @@ public class NoteCell{
 		}
 
 	}
-
+	
+	/*
+	 * Sets the position of the cell to the next coordinate in the path or loop. Reverses if necessary.
+	 */
 	public void advance(){
-//		System.out.println(pathPos);
 		if (path.size() != 1) {
 			if (loop && reverse) {
 				if (pathPos > 0) {

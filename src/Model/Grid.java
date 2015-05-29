@@ -4,7 +4,7 @@ import java.util.Random;
 
 public class Grid {
 	private ArrayList<NoteCell> noteCells;
-	private ArrayList<NoteCell> delayedNoteCells;
+	private ArrayList<NoteCell> delayedNoteCells; //Birthed cells are added to the grid 1 iteration after collision 
 	private ArrayList<Coordinates> collisions;
 	private ArrayList<GridCell> occupiedCells;
 	private GridCell[][] grid;
@@ -29,6 +29,14 @@ public class Grid {
 		birth = false;
 		setGrid();
 	}
+	
+	public void setGrid() {
+		for (int i = 0; i < numCells; i++) {
+			for (int j = 0; j < numCells; j++) {
+				grid[i][j] = new GridCell(i, j, sound);
+			}
+		}
+	}
 
 	public void update() {
 		resetGrid();
@@ -47,7 +55,7 @@ public class Grid {
 			}
 		}
 
-		addDelayedCells();
+		addDelayedCells(); //From births from previous collision round
 
 		//Check Collisions
 		if (collisions.size() > 0) {
@@ -56,7 +64,7 @@ public class Grid {
 				int y = collisions.get(i).getY();
 				grid[x][y].playNotes();
 
-				if (birth) {
+				if (birth) { //The birth option can be toggled
 					if (grid[x][y].getNumNoteCells() == 2) {
 						int rnum = randInt(0, 1);
 						if (rnum == 1) {
@@ -124,14 +132,6 @@ public class Grid {
 		}
 		grid[x][y].removeNoteCells();
 		occupiedCells.remove(grid[x][y]);
-	}
-
-	public void setGrid() {
-		for (int i = 0; i < numCells; i++) {
-			for (int j = 0; j < numCells; j++) {
-				grid[i][j] = new GridCell(i, j, sound);
-			}
-		}
 	}
 
 	public ArrayList<NoteCell> getCells(){

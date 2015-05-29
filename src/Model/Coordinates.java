@@ -1,5 +1,8 @@
 package Model;
 
+/*
+ * Holds the (x,y) position of each note cell.
+ */
 public class Coordinates {
 	private int x;
 	private int y;
@@ -9,6 +12,9 @@ public class Coordinates {
 		y = newY;
 	}
 	
+	/*
+	 * Tests if this coordinate is in the same position as another.
+	 */
 	public Boolean equals(Coordinates testCoor){
 		if(x == testCoor.getX() && y == testCoor.getY()){
 			return true;
@@ -20,6 +26,9 @@ public class Coordinates {
 		System.out.println("("+x+","+y+")");
 	}
 	
+	/*
+	 * Tests if a given coordinate is a neighboring coordinate of this one, vertically or horizontally. 
+	 */
 	public Boolean isNeighbor(Coordinates testCoor) {
 		int nx = testCoor.getX();
 		int ny = testCoor.getY();

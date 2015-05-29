@@ -1,6 +1,10 @@
 package Model;
 import java.util.ArrayList;
 
+/*
+ * The grid is made up of grid cells, each at position (x,y). Each grid cell can hold multiple note cells.
+ * Grid cells do not move, note cells move from grid cell to grid cell.
+ */
 public class GridCell{
 	private ArrayList<NoteCell> occupyingCells;
 	private int numNoteCells;
@@ -49,9 +53,14 @@ public class GridCell{
 	public ArrayList<NoteCell> getOccupyingCells() {
 		return occupyingCells;
 	}
-
+	
+	/*
+	 * Play the notes of each note cell in the grid cell.
+	 */
 	public void playNotes() {
 		double volume = 0;
+		
+		//Adjust volume if multiple cells. This is currently not working I'm not sure why.
 		switch(numNoteCells) {
 			case 1: volume = 0;
 			case 2: volume = .6;
