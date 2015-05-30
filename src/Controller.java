@@ -17,46 +17,63 @@ public class Controller {
 	private Grid grid;
 	private boolean running;
 	private boolean pause;
-	private int clickedCellX;
+	private int clickedCellX; //(x,y) position of the cell the user clicks
 	private int clickedCellY;
-	private ArrayList<Coordinates> drawnPath;
+	private ArrayList<Coordinates> drawnPath; //To hold the path that the user draws.
 
 	public Controller(Frame frame, Grid grid) {
 		drawnPath = new ArrayList<Coordinates>();
 		this.frame = frame;
 		this.grid = grid;
-		this.frame.addListener(new Listener());
-		this.frame.getPanel().addMouse(new MyMouse());
+		
+		frame.addListener(new Listener()); //Listener for all buttons
+		frame.getPanel().addMouse(new MyMouse());
+		
 		running = true;
 		pause = true;
+		
 		frame.changeVisible(true);
 		grid.update();
-		sendCells();
+		
+		sendCells(); //Transfers note cells from the grid to the frame
 	}
-
+	
+	/*
+	 * Main Loop
+	 */
 	public void start() {
 		while (running) {
 			if (!pause) {
 				grid.update();
-				sendCells();
+				sendCells(); //Update frame with new cell info
 			}
-			frame.getPanel().repaint();
-			try {
+			frame.getPanel().repaint(); //Repaint frame with new cell data
+			
+			try { //Delay before next grid update
 				TimeUnit.MILLISECONDS.sleep(250);
 			} catch(InterruptedException ex) {
 				Thread.currentThread().interrupt();
 			}
 		}
 	}
-
+	
+	/*
+	 * Get the note cells from the grid
+	 */
 	public ArrayList<NoteCell> getCells() {
 		return grid.getCells();
 	}
-
+	
+	/*
+	 * Get the occupied grid cells
+	 */
 	public ArrayList<GridCell> getOccupiedCells() {
 		return grid.getOccupiedCells();
 	}
-
+	
+	/*
+	 * Send the note cells, occupied grid cells, and the drawn path arraylist to the frame
+	 */
 	private void sendCells() {
 		frame.getPanel().setCells(getCells(), getOccupiedCells(), drawnPath);
 	}
@@ -64,15 +81,19 @@ public class Controller {
 	public boolean isPause() {
 		return pause;
 	}
-
+	
+	/*
+	 * Remove last clicked cell from the drawn path
+	 */
 	public void removeCell(int x, int y) {
-		for (Coordinates coor : drawnPath){
-			if (coor.getX() == x && coor.getY() == y) {
-				drawnPath.remove(coor);				
-			}
+		if (drawnPath.get(drawnPath.size()-1).getX() == x && drawnPath.get(drawnPath.size()-1).getY() == y) {
+			drawnPath.remove(drawnPath.size()-1);				
 		}
 	}
 	
+	/*
+	 * Print drawn path.
+	 */
 	public void printPath() {
 		String path = "";
 		for(Coordinates coor : drawnPath) {
@@ -80,11 +101,14 @@ public class Controller {
 		}
 		System.out.println(path);
 	}
-
+	
+	/*
+	 * Listener for all buttons on the frame.
+	 */
 	private class Listener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent button) {
-			String b = button.getActionCommand();
+			String b = button.getActionCommand(); //Determine which button was pressed
 			if (b == "startStop" && drawnPath.size() == 0) {
 				pause = !pause;
 				frame.changeVisible(pause);
@@ -99,7 +123,7 @@ public class Controller {
 			}
 			else if (b == "generate" && drawnPath.size() == 0) {
 				grid.clearGrid();
-				grid.generate();
+				grid.generate(); //Generate some random cells
 				pause = false;
 				frame.changeVisible(pause);
 				drawnPath.clear();
@@ -129,12 +153,15 @@ public class Controller {
 			}
 		}
 	}
-
+	
+	/*
+	 * Mouse class for drawing a path
+	 */
 	private class MyMouse implements MouseListener {
 
 		@Override
 		public void mouseClicked(MouseEvent click) {
-			clickedCellX = (int)(click.getX()/50);
+			clickedCellX = (int)(click.getX()/50); //Determine which grid cell is clicked
 			clickedCellY = (int)(click.getY()/50);
 			if (pause) {
 				pathContains(clickedCellX, clickedCellY);

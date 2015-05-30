@@ -3,8 +3,11 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
+/*
+ * Frame for the entrie program including the grid and the buttons
+ */
 class Frame extends JFrame{
-	private Panel panel;
+	private Panel panel; //holds the actual grid
 	private int screenSize;
 	private int cellWidth;
 	private int numCells;
@@ -33,7 +36,7 @@ class Frame extends JFrame{
 		numCells = newNumCells;
 		screenSize = cellWidth*numCells;
 		
-		controlSetup();
+		controlSetup(); //Set action commands for buttons
 		
 		setLayout(new GridBagLayout());
 		gbc = new GridBagConstraints();
@@ -162,6 +165,9 @@ class Frame extends JFrame{
 		}
 	}
 	
+	/*
+	 * Hides buttons if the grid is not paused
+	 */
 	public void changeVisible(boolean val) {
 		insert.setVisible(val);
 		delete.setVisible(val);

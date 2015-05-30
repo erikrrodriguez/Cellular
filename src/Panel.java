@@ -8,7 +8,9 @@ import Model.Coordinates;
 import Model.GridCell;
 import Model.NoteCell;
 
-
+/*
+ * This is the representation of the grid within the frame.
+ */
 public class Panel extends JPanel{
 	
 	private ArrayList<NoteCell> noteCells;
@@ -32,7 +34,10 @@ public class Panel extends JPanel{
 	public Dimension getPreferredSize() {
         return new Dimension(screenSize,screenSize);
     }
-
+	
+	/*
+	 * Redraw the grid.
+	 */
 	public void paint(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
 		
@@ -65,7 +70,7 @@ public class Panel extends JPanel{
 				}
 				g2.drawString(exclaim, cellSize*gridCell.getX()+16, cellSize*gridCell.getY()+32);
 			}
-			else {
+			else { //If only one note cell in the grid cell
 				g2.setColor(gridCell.getNoteCell().getColor());
 				g2.fillRect(cellSize*gridCell.getX(), cellSize*gridCell.getY(), cellSize, cellSize);
 				
@@ -89,7 +94,7 @@ public class Panel extends JPanel{
 		}
 		
 
-		//Draw Grid
+		//Draw Grid lines
 		for (int i = 0; i < screenSize; i += cellSize) {
 			g2.setColor(Color.WHITE);
 			g2.drawLine(i, 0, i, cellSize*numCells);
