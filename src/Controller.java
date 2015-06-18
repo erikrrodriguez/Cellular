@@ -27,7 +27,7 @@ public class Controller {
 		this.grid = grid;
 		
 		frame.addListener(new Listener()); //Listener for all buttons
-		frame.getPanel().addMouse(new MyMouse());
+		frame.getPanel().addMouse(new Mouse());
 		
 		running = true;
 		pause = true;
@@ -157,7 +157,7 @@ public class Controller {
 	/*
 	 * Mouse class for drawing a path
 	 */
-	private class MyMouse implements MouseListener {
+	private class Mouse implements MouseListener {
 
 		@Override
 		public void mouseClicked(MouseEvent click) {

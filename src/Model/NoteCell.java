@@ -9,10 +9,8 @@ import java.util.Random;
  * It will play it's note when it collides with another note cell.
  */
 public class NoteCell{
-	private Coordinates curPos;
-	private String note;
-	private String notes = "C C#D D#E F F#G G#A A#B ";
-	private int noteNum;
+	protected Coordinates curPos;
+	private String note; //Holds Pitch and Octave
 	private Boolean loop; //Whether or not the path is a loop
 	private Boolean reverse; //Whether the note is currently moving backwards along it's path.
 	private ArrayList<Coordinates> path;
@@ -23,8 +21,7 @@ public class NoteCell{
 	//Constructor
 	public NoteCell(int x, int y, String newNote) {
 		curPos = new Coordinates(x, y);
-		note = newNote.substring(0, 2);
-		noteNum = setNoteNum(note);
+		note = newNote;
 		loop = false;
 		reverse = false;
 		path = new ArrayList<Coordinates>();
@@ -41,30 +38,32 @@ public class NoteCell{
 	 * This is a constructor for when cells are "birthed" within the game. A random path is created and
 	 * assigned to them.
 	 */
-	public NoteCell(int x, int y, int parnote1, int parnote2) {
-		curPos = new Coordinates(x, y);
-		loop = false;
-		reverse = false;
-		path = new ArrayList<Coordinates>();
-		path.add(curPos);
-		pathPos = 0;
-
-		noteNum = (parnote1 + parnote2) % 12;
-		note = noteNumToNote(noteNum);
-
-		generateRandomPath();
-
-		float hue = rand.nextFloat();
-		float saturation = 0.9f;//1.0 for brilliant, 0.0 for dull
-		float luminance = 1.0f; //1.0 for brighter, 0.0 for black
-		color = Color.getHSBColor(hue, saturation, luminance);
-	}
+//	public NoteCell(int x, int y, String parnote1, String parnote2) {
+//		curPos = new Coordinates(x, y);
+//		loop = false;
+//		reverse = false;
+//		path = new ArrayList<Coordinates>();
+//		path.add(curPos);
+//		pathPos = 0;
+//
+//		noteNum = (parnote1 + parnote2) % 12;
+//		note = noteNumToNote(noteNum);
+//
+//		generateRandomPath();
+//
+//		float hue = rand.nextFloat();
+//		float saturation = 0.9f;//1.0 for brilliant, 0.0 for dull
+//		float luminance = 1.0f; //1.0 for brighter, 0.0 for black
+//		color = Color.getHSBColor(hue, saturation, luminance);
+//	}
 	
+	/*
+	 * Constructor for Drawn Cell Paths
+	 */
 	public NoteCell(String note, Color newColor, ArrayList<Coordinates> newPath){
 		this.path = new ArrayList<Coordinates>(newPath);
 		curPos = path.get(0);
 		this.note = note;
-		noteNum = setNoteNum(this.note);
 		loop = false;
 		reverse = false;
 		if (path.get(0).equals(path.get(path.size() - 1))){
@@ -114,11 +113,6 @@ public class NoteCell{
 			pathstring = pathstring + "(" + path.get(i).getX() + "," + path.get(i).getY() + ")  ";
 		}
 		System.out.println(pathstring);
-	}
-
-
-	private String noteNumToNote(int noteNum) {
-		return notes.substring(2*noteNum, 2*noteNum+2);
 	}
 
 	public void addToPath(int x, int y){
@@ -193,12 +187,12 @@ public class NoteCell{
 		return curPos;
 	}
 
-	public String getNote(){
-		return note;
+	public String getPitch(){
+		return note.substring(0, 2);
 	}
 	
-	public String getOctave() {
-		return note.substring(1, 2);
+	public int getOctave() {
+		return Integer.parseInt(note.substring(2, 3));
 	}
 
 	public ArrayList<Coordinates> getPath() {
@@ -215,14 +209,6 @@ public class NoteCell{
 
 	public void reverse() {
 		reverse = !reverse;
-	}
-
-	public int setNoteNum(String note) {
-		return (notes.indexOf(note.substring(0, 2)) / 2);
-	}
-
-	public int getNoteNum() {
-		return noteNum;
 	}
 
 	public int randInt(int min, int max) {
