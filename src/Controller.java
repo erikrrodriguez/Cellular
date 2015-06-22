@@ -142,13 +142,11 @@ public class Controller {
 			else if (b == "insert" && pause) {
 				if (frame.getNote() != "-" && frame.getOctave() != "-" && drawnPath.size() > 0) {
 					String note = frame.getNote();
-//					int octave = Integer.parseInt(frame.getOctave());
+					String octave = frame.getOctave();
 					Color color = frame.getColor();
-					NoteCell noteCell = new NoteCell(note, color, drawnPath);
+					NoteCell noteCell = new NoteCell(note+octave, color, drawnPath);
 					grid.addNoteCell(noteCell);
 					drawnPath.clear();
-					pause = false;
-					frame.changeVisible(pause);
 				}
 			}
 		}

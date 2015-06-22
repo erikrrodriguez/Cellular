@@ -12,8 +12,8 @@ class Frame extends JFrame{
 	private int cellWidth;
 	private int numCells;
 	private String[] notes = {"-", "C ", "C#", "D ", "D#", "E ", "F ", "F#", "G ", "G#", "A ", "A#", "B "};
-	private String[] octaves = {"-", "2", "3", "4", "5", "6", "7", "8"};
-	private String[] colors = {"Red", "Blue", "Green", "Yellow", "Orange", "Magenta"};
+	private String[] octaves = {"-", "4", "5", "6"};
+	private String[] colors = {"Red", "Blue", "Green", "Yellow", "Orange", "Magenta", "Random"};
 	
 	private GridBagConstraints gbc;
 	

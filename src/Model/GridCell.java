@@ -58,17 +58,17 @@ public class GridCell{
 	 * Play the notes of each note cell in the grid cell.
 	 */
 	public void playNotes() {
-		double volume = 0;
+		double volume;
 		
 		//Adjust volume if multiple notes. This is currently not working I'm not sure why.
 		switch(numNoteCells) {
 			case 1: volume = 1;
 			case 2: volume = .6;
 			case 3: volume = .5;
+			default: volume = 1;
 		}
 		for(NoteCell cell : occupyingCells) {
 			int index = "A ASB C CSD DSE F FSG GS".indexOf(cell.getPitch())/2 + 12*(cell.getOctave()-4);
-			System.out.println(index);
 			sound.playSound(index, volume);
 		}
 		

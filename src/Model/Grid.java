@@ -50,7 +50,7 @@ public class Grid {
 			grid[x][y].addNoteCell(noteCell);
 			addOccupied(grid[x][y]);
 
-			if (grid[x][y].getNumNoteCells() > 1 && !collisions.contains(noteCell.getPos())) {
+			if (!collisions.contains(noteCell.getPos()) && grid[x][y].getNumNoteCells() > 1) {
 				collisions.add(noteCell.getPos());
 			}
 		}
