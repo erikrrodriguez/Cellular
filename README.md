@@ -3,11 +3,11 @@ A musical cellular automation application.
 
 <br></br>
 
-<b>Game Overview:</b>
-<p>The app consists of a 9x9 grid. </p>
-<p>Cells move around the grid in either loops or paths.</p>
-<p>Each cell has a musical note attributed to it.</p>
-<p>A cell will "play" it's note when it collides with one or more cells.</p>
+**Game Overview:**
+* The app consists of a 9x9 grid.
+* Cells move around the grid in either loops or paths.
+* Each cell has a musical note attributed to it.
+* A cell will "play" it's note when it collides with one or more cells.
 
 <br></br>
 ![Cellular](http://i.imgur.com/4yVcap3.png)
