@@ -1,7 +1,6 @@
 # Cellular
 A musical cellular automation application.
 
-<br></br>
 
 **Game Overview:**
 * The app consists of a 9x9 grid.
@@ -9,7 +8,7 @@ A musical cellular automation application.
 * Each cell has a musical note attributed to it.
 * A cell will "play" it's note when it collides with one or more cells.
 
-<br></br>
+
 ![Cellular](http://i.imgur.com/4yVcap3.png)
 
 To quickly see what the app does, press the **Generate** button. Generate creates A4, F4, C4, and G4 notes with random paths each starting on a grid square adjacent to the center grid square.
