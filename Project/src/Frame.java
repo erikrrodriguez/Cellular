@@ -128,6 +128,7 @@ class Frame extends JFrame{
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setTitle("Cellular");
 		setVisible(true);
+		//setResizable(false);
 		setLocationRelativeTo(null);
 	}
 	
