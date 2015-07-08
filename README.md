@@ -21,5 +21,12 @@ To delete a cell you have drawn click it's starting cell and press the **Delete 
 
 **Start/Stop** will stop and start the simulation.
 
-The **Birth** toggle does not currently work. But eventually will enable a new "free-roaming" cell to be created when cells collide.
+The **Birth** toggle allows for a 25% chance for a new cell to be created when two cells collide. This child cell does not have a path but roams randomly through the grid. It also cannot participate in new cell births.
+
+## TO DO
+* Adjust how a child cell's note is determined.
+* Implement a reset button to move all note cells to their starting positions and delete all child cells.
+* Allow only neighboring squares to be added or removed when drawing a path
+* **Future:** Print out what one overall pattern looks like to sheet music.
+* **Future:** Output MIDI data to control VSTs
 
