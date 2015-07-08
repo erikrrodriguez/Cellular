@@ -11,7 +11,7 @@ A musical cellular automation application.
 
 ![Cellular](http://i.imgur.com/4yVcap3.png)
 
-To quickly see what the app does, press the **Generate** button. Generate creates A4, F4, C4, and G4 notes with random paths each starting on a grid square adjacent to the center grid square.
+To quickly see what the app does, press the **Generate** button. Generate creates C4, E4, G4, and B4 notes (CM7 chord) with random paths each starting on a grid square adjacent to the center grid square.
 
 You can also draw your own notes and paths while the game is paused. Simply click the squares in the path order you would like. Once you have your path, note, octave, and color defined press the **Insert** button.
 
@@ -24,6 +24,7 @@ To delete a cell you have drawn click it's starting cell and press the **Delete 
 The **Birth** toggle allows for a 25% chance for a new cell to be created when two cells collide. This child cell does not have a path but roams randomly through the grid. It also cannot participate in new cell births.
 
 ## TO DO
+* ALlow generate button to generate random notes rather than CEGB.
 * Adjust how a child cell's note is determined.
 * Implement a reset button to move all note cells to their starting positions and delete all child cells.
 * Allow only neighboring squares to be added or removed when drawing a path
