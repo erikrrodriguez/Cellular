@@ -50,7 +50,7 @@ public class Grid {
 			grid[x][y].addNoteCell(noteCell);
 			addOccupied(grid[x][y]);
 
-			if (!collisions.contains(noteCell.getPos()) && grid[x][y].getNumNoteCells() > 1) {
+			if (grid[x][y].getNumNoteCells() > 1 && !collisions.contains(noteCell.getPos())) {
 				collisions.add(noteCell.getPos());
 			}
 		}
@@ -64,24 +64,31 @@ public class Grid {
 				int y = collisions.get(i).getY();
 				grid[x][y].playNotes();
 
-//				if (birth) { //The birth option can be toggled
-//					if (grid[x][y].getNumNoteCells() == 2) {
-//						int rnum = randInt(0, 1);
-//						if (rnum == 1) {
-//							NoteCell parent1 = grid[x][y].getNoteCell(0);
-//							NoteCell parent2 = grid[x][y].getNoteCell(1);
-//							NoteCell noteCell = new NoteCell(x, y, parent1.getNoteNum(), parent2.getNoteNum());
-//							delayedNoteCells.add(noteCell);
-//						}
-//					}
-//					if (grid[x][y].getNumNoteCells() >= 3) {
-//						clearCell(x, y);
-//					}
-//				}
+				if (birth) { //The birth option can be toggled
+					if (grid[x][y].getNumNoteCells() == 2 && !containsBirthCell(x, y)) {
+						int rnum = randInt(0, 3); //25% chance of birth
+						if (rnum == 0) {
+							NoteCell parent1 = grid[x][y].getNoteCell(0);
+							//NoteCell parent2 = grid[x][y].getNoteCell(1);
+							BirthCell birthCell = new BirthCell(x, y, parent1.getNote());
+							delayedNoteCells.add(birthCell);
+						}
+					}
+					if (grid[x][y].getNumNoteCells() >= 4) {
+						clearCell(x, y);
+					}
+				}
 			}
 			collisions.clear();
 
 		}
+	}
+
+	private boolean containsBirthCell(int x, int y) {
+		if (grid[x][y].getNoteCell(0).getClass().equals(BirthCell.class) || 
+				grid[x][y].getNoteCell(1).getClass().equals(BirthCell.class))
+			return true;
+		return false;
 	}
 
 	private void addOccupied(GridCell gridCell) {
@@ -154,11 +161,11 @@ public class Grid {
 
 	public void generate() {
 		clear = false;
-		NoteCell cell1 = new NoteCell(4, 3, "A 4");
+		NoteCell cell1 = new NoteCell(4, 3, "C 4");
 		cell1.generateRandomPath();
 		addNoteCell(cell1);
 
-		NoteCell cell2 = new NoteCell(4, 5, "F 4");
+		NoteCell cell2 = new NoteCell(4, 5, "E 4");
 		cell2.generateRandomPath();
 		addNoteCell(cell2);
 
@@ -166,7 +173,7 @@ public class Grid {
 		cell3.generateRandomPath();
 		addNoteCell(cell3);
 
-		NoteCell cell4 = new NoteCell(5,4, "C 4");
+		NoteCell cell4 = new NoteCell(5,4, "B 4");
 		cell4.generateRandomPath();
 		addNoteCell(cell4);
 

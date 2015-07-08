@@ -107,6 +107,7 @@ public class Panel extends JPanel{
 		this.noteCells = noteCells;
 		this.occupiedCells = occupiedCells;
 		this.drawnPath = drawnPath;
+		repaint();
 	}
 	
 	public void addMouse(MouseListener listener) {

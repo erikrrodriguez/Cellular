@@ -79,8 +79,7 @@ public class NoteCell{
 	 */
 	public void generateRandomPath() {
 		int pathLength = randInt(2, 15);	
-		int newx = -1;
-		int newy = -1;
+		int newx, newy;
 		for(int i = 0; i < pathLength; i++) {
 			Coordinates newCoor = new Coordinates(-1, -1);
 			while (!path.get(i).isNeighbor(newCoor) || pathContains(newCoor)) {
@@ -186,11 +185,26 @@ public class NoteCell{
 	public Coordinates getPos(){
 		return curPos;
 	}
-
+	
+	/**
+	 * Returns the entire note: "C 5", "AS4", ect
+	 * @return
+	 */
+	public String getNote() {
+		return note;
+	}
+	
+	/**
+	 * returns the pitch. C, CS, ect.
+	 * @return
+	 */
 	public String getPitch(){
 		return note.substring(0, 2);
 	}
 	
+	/*
+	 * returns only the octave: 4,5, or 6.
+	 */
 	public int getOctave() {
 		return Integer.parseInt(note.substring(2, 3));
 	}

@@ -4,7 +4,7 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 
 /*
- * Frame for the entrie program including the grid and the buttons
+ * Frame for the entire program including the grid and the buttons
  */
 class Frame extends JFrame{
 	private Panel panel; //holds the actual grid

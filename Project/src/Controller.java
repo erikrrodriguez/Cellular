@@ -45,9 +45,8 @@ public class Controller {
 		while (running) {
 			if (!pause) {
 				grid.update();
-				sendCells(); //Update frame with new cell info
+				sendCells(); //Update panel with new cell info
 			}
-			frame.getPanel().repaint(); //Repaint frame with new cell data
 			
 			try { //Delay before next grid update
 				TimeUnit.MILLISECONDS.sleep(250);
@@ -120,6 +119,7 @@ public class Controller {
 				grid.clearGrid();
 				pause = true;
 				frame.changeVisible(pause);
+				sendCells();
 			}
 			else if (b == "generate" && drawnPath.size() == 0) {
 				grid.clearGrid();
