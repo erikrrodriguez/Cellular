@@ -15,7 +15,7 @@ To quickly see what the app does, press the **Generate** button. Generate create
 
 You can also draw your own notes and paths while the game is paused. Simply click the squares in the path order you would like. Once you have your path, note, octave, and color defined press the **Insert** button.
 
-To delete a cell you have drawn click it's starting cell and press the **Delete button twice**
+To delete a cell you have drawn click it and press the **Delete button twice**
 
 **Clear** will delete all cells in the grid.
 
