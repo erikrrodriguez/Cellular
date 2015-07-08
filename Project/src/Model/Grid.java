@@ -85,8 +85,8 @@ public class Grid {
 	}
 
 	private boolean containsBirthCell(int x, int y) {
-		if (grid[x][y].getNoteCell(0).getClass().equals(BirthCell.class) || 
-				grid[x][y].getNoteCell(1).getClass().equals(BirthCell.class))
+		if (grid[x][y].getNoteCell(0) instanceof BirthCell || 
+				grid[x][y].getNoteCell(1) instanceof BirthCell)
 			return true;
 		return false;
 	}
