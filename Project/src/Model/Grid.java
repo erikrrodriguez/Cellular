@@ -67,42 +67,43 @@ public class Grid {
 				grid[x][y].playNotes();
 
 				if (birth) { //The birth option can be toggled
-					if (grid[x][y].getNumNoteCells() == 2 && !containsBirthCell(x, y)) {
-						int rnum = randInt(0, 15);
-						if (rnum <= 3) {	//25% chance of birth
-							NoteCell parNote1 = grid[x][y].getNoteCell(0);
-							NoteCell parNote2 = grid[x][y].getNoteCell(1);
-							String parPitch1 = parNote1.getPitch();
-							String parPitch2 = parNote2.getPitch();
-							int parOctave1 = parNote1.getOctave();
-							int parOctave2 = parNote2.getOctave();
-							String chldNote = "";
-							if (rnum == 0) 	chldNote = parPitch1 + parOctave2;
-							if (rnum == 1) 	chldNote = parPitch2 + parOctave1;
-							if (rnum == 2) {
-								int index1 = "A A#B C C#D D#E F F#G G#".indexOf(parPitch1);
-								int index2 = "A A#B C C#D D#E F F#G G#".indexOf(parPitch2);
-								int index = 2*((index1 + index2) % 11);
-								chldNote = "A A#B C C#D D#E F F#G G#".substring(index, index+2);
-								chldNote += (parOctave1 + parOctave2)/2;
-							}
-							if (rnum == 3) {
-								int index1 = "A A#B C C#D D#E F F#G G#".indexOf(parPitch1);
-								int index2 = "A A#B C C#D D#E F F#G G#".indexOf(parPitch2);
-								int index = 2*(Math.abs((index1 - index2)) % 11);
-								chldNote = "A A#B C C#D D#E F F#G G#".substring(index, index+2);
-								chldNote += (parOctave1 + parOctave2)/2;
-							}
-							BirthCell birthCell = new BirthCell(x, y, chldNote, parNote1.getColor(), parNote2.getColor());
-							delayedNoteCells.add(birthCell);
-						}
-					}
-					if (grid[x][y].getNumNoteCells() >= 4) {
-						clearCell(x, y);
-					}
+					if (grid[x][y].getNumNoteCells() == 2 
+							&& !containsBirthCell(x, y)) birthNewCell(x, y);
+					if (grid[x][y].getNumNoteCells() >= 4) clearCell(x, y);
 				}
 			}
 			collisions.clear();
+		}
+	}
+	
+	private void birthNewCell(int x, int y) {
+		int rnum = randInt(0, 15);
+		if (rnum <= 3) {	//25% chance of birth
+			NoteCell parNote1 = grid[x][y].getNoteCell(0);
+			NoteCell parNote2 = grid[x][y].getNoteCell(1);
+			String parPitch1 = parNote1.getPitch();
+			String parPitch2 = parNote2.getPitch();
+			int parOctave1 = parNote1.getOctave();
+			int parOctave2 = parNote2.getOctave();
+			String chldNote = "";
+			if (rnum == 0) 	chldNote = parPitch1 + parOctave2;
+			if (rnum == 1) 	chldNote = parPitch2 + parOctave1;
+			if (rnum == 2) {
+				int index1 = "A A#B C C#D D#E F F#G G#".indexOf(parPitch1);
+				int index2 = "A A#B C C#D D#E F F#G G#".indexOf(parPitch2);
+				int index = 2*((index1 + index2) % 11);
+				chldNote = "A A#B C C#D D#E F F#G G#".substring(index, index+2);
+				chldNote += (parOctave1 + parOctave2)/2;
+			}
+			if (rnum == 3) {
+				int index1 = "A A#B C C#D D#E F F#G G#".indexOf(parPitch1);
+				int index2 = "A A#B C C#D D#E F F#G G#".indexOf(parPitch2);
+				int index = 2*(Math.abs((index1 - index2)) % 11);
+				chldNote = "A A#B C C#D D#E F F#G G#".substring(index, index+2);
+				chldNote += (parOctave1 + parOctave2)/2;
+			}
+			BirthCell birthCell = new BirthCell(x, y, chldNote, parNote1.getColor(), parNote2.getColor());
+			delayedNoteCells.add(birthCell);
 		}
 	}
 
@@ -131,7 +132,8 @@ public class Grid {
 		noteCells.add(newCell);
 		grid[newCell.getPos().getX()][newCell.getPos().getY()].addNoteCell(newCell);
 		addOccupied(grid[newCell.getPos().getX()][newCell.getPos().getY()]);
-		if (grid[newCell.getPos().getX()][newCell.getPos().getY()].getNumNoteCells() > 1 && !collisions.contains(newCell.getPos())) {
+		if (grid[newCell.getPos().getX()][newCell.getPos().getY()].getNumNoteCells() > 1 
+				&& !collisions.contains(newCell.getPos())) {
 			collisions.add(newCell.getPos());
 		}
 

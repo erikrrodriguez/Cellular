@@ -119,14 +119,12 @@ public class Controller {
 				grid.clearGrid();
 				pause = true;
 				frame.changeVisible(pause);
-				sendCells();
 			}
 			else if (b == "generate" && drawnPath.size() == 0) {
 				grid.clearGrid();
 				grid.generate(); //Generate some random cells
 				pause = false;
 				frame.changeVisible(pause);
-				drawnPath.clear();
 			}
 			else if (b == "delete") {
 				if (drawnPath.size() > 0) {
