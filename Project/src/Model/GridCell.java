@@ -62,10 +62,14 @@ public class GridCell{
 		
 		//Adjust volume if multiple notes. This is currently not working I'm not sure why.
 		switch(numNoteCells) {
-			case 1: volume = 1;
-			case 2: volume = .6;
-			case 3: volume = .5;
-			default: volume = 1;
+			case 2: volume = 1.0;
+					break;
+			case 3: volume = 0.6;
+					break;
+			case 4: volume = 0.5;
+					break;
+			default: volume = 0.4;
+					break;
 		}
 		for(NoteCell cell : occupyingCells) {
 			int index = "A ASB C CSD DSE F FSG GS".indexOf(cell.getPitch())/2 + 12*(cell.getOctave()-4);
