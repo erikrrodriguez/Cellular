@@ -76,7 +76,7 @@ public class Panel extends JPanel{
 				
 				g2.setColor(Color.black);
 				g2.setFont(new Font("default", Font.BOLD, 20));
-				g2.drawString(gridCell.getNoteCell().getPitch(), cellSize*gridCell.getX()+16, cellSize*gridCell.getY()+32);
+				g2.drawString(gridCell.getNoteCell().getPitch(), cellSize*gridCell.getX()+15, cellSize*gridCell.getY()+32);
 			}
 
 		}

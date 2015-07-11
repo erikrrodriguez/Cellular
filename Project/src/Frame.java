@@ -146,7 +146,7 @@ class Frame extends JFrame{
 		return panel;
 	}
 	
-	public String getNote(){
+	public String getPitch(){
 		return (String) noteSelect.getSelectedItem();
 	}
 	

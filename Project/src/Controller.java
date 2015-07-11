@@ -140,8 +140,8 @@ public class Controller {
 				grid.changeBirth();
 			}
 			else if (b == "insert" && pause) {
-				if (frame.getNote() != "-" && frame.getOctave() != "-" && drawnPath.size() > 0) {
-					String note = frame.getNote();
+				if (frame.getPitch() != "-" && frame.getOctave() != "-" && drawnPath.size() > 0) {
+					String note = frame.getPitch();
 					String octave = frame.getOctave();
 					Color color = frame.getColor();
 					NoteCell noteCell = new NoteCell(note+octave, color, drawnPath);
@@ -149,6 +149,7 @@ public class Controller {
 					drawnPath.clear();
 				}
 			}
+			sendCells();
 		}
 	}
 	
@@ -163,6 +164,7 @@ public class Controller {
 			clickedCellY = (int)(click.getY()/50);
 			if (pause) {
 				pathContains(clickedCellX, clickedCellY);
+				sendCells();
 			}
 		}
 		
