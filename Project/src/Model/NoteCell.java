@@ -16,7 +16,7 @@ public class NoteCell{
 	private ArrayList<Coordinates> path;
 	private int pathPos;
 	private Random rand = new Random();
-	private Color color;
+	protected Color color;
 
 	//Constructor for Generated Cells
 	public NoteCell(int x, int y, String newNote) {
@@ -55,6 +55,7 @@ public class NoteCell{
 			loop = true;
 		}
 		pathPos = 0;
+		this.color = newColor;
 		switch(getOctave()){
 		case 4: color = color.darker();
 						break;

@@ -66,11 +66,32 @@ public class Grid {
 
 				if (birth) { //The birth option can be toggled
 					if (grid[x][y].getNumNoteCells() == 2 && !containsBirthCell(x, y)) {
-						int rnum = randInt(0, 3); //25% chance of birth
-						if (rnum == 0) {
-							NoteCell parent1 = grid[x][y].getNoteCell(0);
-							//NoteCell parent2 = grid[x][y].getNoteCell(1);
-							BirthCell birthCell = new BirthCell(x, y, parent1.getNote());
+						int rnum = randInt(0, 15);
+						if (rnum <= 3) {	//25% chance of birth
+							NoteCell parNote1 = grid[x][y].getNoteCell(0);
+							NoteCell parNote2 = grid[x][y].getNoteCell(1);
+							String parPitch1 = parNote1.getPitch();
+							String parPitch2 = parNote2.getPitch();
+							int parOctave1 = parNote1.getOctave();
+							int parOctave2 = parNote2.getOctave();
+							String chldNote = "";
+							if (rnum == 0) 	chldNote = parPitch1 + parOctave2;
+							if (rnum == 1) 	chldNote = parPitch2 + parOctave1;
+							if (rnum == 2) {
+								int index1 = "A A#B C C#D D#E F F#G G#".indexOf(parPitch1);
+								int index2 = "A A#B C C#D D#E F F#G G#".indexOf(parPitch2);
+								int index = 2*((index1 + index2) % 11);
+								chldNote = "A A#B C C#D D#E F F#G G#".substring(index, index+2);
+								chldNote += (parOctave1 + parOctave2)/2;
+							}
+							if (rnum == 3) {
+								int index1 = "A A#B C C#D D#E F F#G G#".indexOf(parPitch1);
+								int index2 = "A A#B C C#D D#E F F#G G#".indexOf(parPitch2);
+								int index = 2*(Math.abs((index1 - index2)) % 11);
+								chldNote = "A A#B C C#D D#E F F#G G#".substring(index, index+2);
+								chldNote += (parOctave1 + parOctave2)/2;
+							}
+							BirthCell birthCell = new BirthCell(x, y, chldNote, parNote1.getColor(), parNote2.getColor());
 							delayedNoteCells.add(birthCell);
 						}
 					}
