@@ -72,7 +72,7 @@ public class GridCell{
 					break;
 		}
 		for(NoteCell cell : occupyingCells) {
-			int index = "A ASB C CSD DSE F FSG GS".indexOf(cell.getPitch())/2 + 12*(cell.getOctave()-4);
+			int index = "A A#B C C#D D#E F F#G G#".indexOf(cell.getPitch())/2 + 12*(cell.getOctave()-4);
 			sound.playSound(index, volume);
 		}
 		
