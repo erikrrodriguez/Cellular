@@ -80,21 +80,41 @@ public class NoteCell{
 				newCoor.set(newx, newy);
 			}
 			addToPath(newCoor);
-			if (loop){
+			if (loop || noOpenNeighbors(path.get(i+1).getX(), path.get(i+1).getY())){
 				break;
 			}
 		}
 	}
+	private boolean noOpenNeighbors(int x, int y) {
+		int lboundx = x;
+		int uboundx = x;
+		int lboundy = y;
+		int uboundy = y;
+		if (x != 0) lboundx = x-1;
+		if (x != 8) uboundx = x+1;
+		if (y != 0) lboundy = y-1;
+		if (y != 8) uboundy = y+1;
+		for(int i = lboundx; i < uboundx; i++) {
+			for(int j = lboundy; j < uboundy; j++) {
+				if (!pathContains(i, j)) return false;
+			}
+		}
+		return true;
+	}
 	
+	private boolean pathContains(int x, int y) {
+		for(int i = 0; i < path.size(); i++) {
+			if (path.get(i).getX() == x && path.get(i).getY() == y)	return true;
+		}
+		return false;
+	}
 	/*
 	 * Returns true if the path already contains the coordinate cell. But DOES NOT count
 	 * the starting cell to allow for loop creation
 	 */
 	public boolean pathContains(Coordinates testCoor) {
 		for(int i = 1; i < path.size(); i++) {
-			if (path.get(i).equals(testCoor)) {
-				return true;
-			}
+			if (path.get(i).equals(testCoor)) return true;
 		}
 		return false;
 	}
