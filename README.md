@@ -27,7 +27,7 @@ The **Birth** toggle allows for a 25% chance for a new cell to be created when t
 * It may be the sum of the parent pitches and the average of their octaves.
 * It may be the difference pf the parent pitches and the average of their octaves.
 
-Its color will be a mix of its two parent's colors. Also in this mode if any square holds 4 or more cells at one time, then all of those cells will be removed from the game. This prevents the game from being overrun with two many cells.
+Its color will be a mix of its two parent's colors. Also in this mode if any square holds 4 or more cells at one time, then all of those cells will be removed from the game. This prevents the game from being overrun with too many cells.
 
 
 ## TO DO
