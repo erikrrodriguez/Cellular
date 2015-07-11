@@ -24,8 +24,8 @@ To delete a cell you have drawn click it and press the **Delete button twice**
 The **Birth** toggle allows for a 25% chance for a new cell to be created when two cells collide. This child cell does not have a path but roams randomly through the grid. It also cannot participate in new cell births.
 
 ## TO DO
-* ALlow generate button to generate random notes rather than CEGB.
-* Adjust how a child cell's note is determined.
+* Allow generate button to generate random notes rather than CEGB.
+* ~~Adjust how a child cell's note is determined.~~
 * Implement a reset button to move all note cells to their starting positions and delete all child cells.
 * Allow only neighboring squares to be added or removed when drawing a path
 * **Future:** Print out what one overall pattern looks like to sheet music.
