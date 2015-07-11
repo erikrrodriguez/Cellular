@@ -18,7 +18,7 @@ public class NoteCell{
 	private Random rand = new Random();
 	private Color color;
 
-	//Constructor
+	//Constructor for Generated Cells
 	public NoteCell(int x, int y, String newNote) {
 		curPos = new Coordinates(x, y);
 		note = newNote;
@@ -30,32 +30,18 @@ public class NoteCell{
 
 		float hue = rand.nextFloat();
 		float saturation = 0.9f;//1.0 for brilliant, 0.0 for dull
-		float luminance = 1.0f; //1.0 for brighter, 0.0 for black
+		float luminance; //1.0 for brighter, 0.0 for black, octave dependent
+		switch(getOctave()){
+			case 4: luminance = .4f;
+					break;
+			case 5: luminance = .7f;
+					break;
+			default: luminance = 1.0f;
+					break;
+			
+		}
 		color = Color.getHSBColor(hue, saturation, luminance);
 	}
-
-	/*
-	 * This is a constructor for when cells are "birthed" within the game. A random path is created and
-	 * assigned to them.
-	 */
-//	public NoteCell(int x, int y, String parnote1, String parnote2) {
-//		curPos = new Coordinates(x, y);
-//		loop = false;
-//		reverse = false;
-//		path = new ArrayList<Coordinates>();
-//		path.add(curPos);
-//		pathPos = 0;
-//
-//		noteNum = (parnote1 + parnote2) % 12;
-//		note = noteNumToNote(noteNum);
-//
-//		generateRandomPath();
-//
-//		float hue = rand.nextFloat();
-//		float saturation = 0.9f;//1.0 for brilliant, 0.0 for dull
-//		float luminance = 1.0f; //1.0 for brighter, 0.0 for black
-//		color = Color.getHSBColor(hue, saturation, luminance);
-//	}
 	
 	/*
 	 * Constructor for Drawn Cell Paths
@@ -71,7 +57,15 @@ public class NoteCell{
 			loop = true;
 		}
 		pathPos = 0;
-		this.color = newColor;
+		switch(getOctave()){
+		case 4: color = color.darker();
+						break;
+		case 6: color = color.brighter();
+						break;
+		default: break;
+		
+	}
+		
 	}
 	
 	/*
