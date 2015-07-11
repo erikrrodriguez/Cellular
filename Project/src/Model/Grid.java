@@ -40,8 +40,12 @@ public class Grid {
 
 	public void update() {
 		resetGrid();
-
-		//move cells to new positions
+		advanceCells();
+		checkCollisions();
+		addDelayedCells(); //From births from previous collision round
+	}
+	
+	private void advanceCells() {
 		for(NoteCell noteCell : noteCells) {
 			noteCell.advance();
 			int x = noteCell.getPos().getX();
@@ -54,10 +58,8 @@ public class Grid {
 				collisions.add(noteCell.getPos());
 			}
 		}
-
-		addDelayedCells(); //From births from previous collision round
-
-		//Check Collisions
+	}
+	private void checkCollisions() {
 		if (collisions.size() > 0) {
 			for(int i = 0; i < collisions.size(); i++) {
 				int x = collisions.get(i).getX();
@@ -101,7 +103,6 @@ public class Grid {
 				}
 			}
 			collisions.clear();
-
 		}
 	}
 
@@ -116,7 +117,6 @@ public class Grid {
 		if (!occupiedCells.contains(gridCell)) {
 			occupiedCells.add(gridCell);
 		}
-
 	}
 
 	private void addDelayedCells() {
@@ -129,7 +129,11 @@ public class Grid {
 
 	public void addNoteCell(NoteCell newCell){
 		noteCells.add(newCell);
-		grid[newCell.getPos().getX()][newCell.getPos().getY()].addNoteCell(newCell);	
+		grid[newCell.getPos().getX()][newCell.getPos().getY()].addNoteCell(newCell);
+		addOccupied(grid[newCell.getPos().getX()][newCell.getPos().getY()]);
+		if (grid[newCell.getPos().getX()][newCell.getPos().getY()].getNumNoteCells() > 1 && !collisions.contains(newCell.getPos())) {
+			collisions.add(newCell.getPos());
+		}
 
 	}
 
