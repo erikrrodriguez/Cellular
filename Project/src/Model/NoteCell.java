@@ -70,10 +70,11 @@ public class NoteCell{
 	 * Creates a path of random length between 2 and 15 cells.
 	 */
 	public void generateRandomPath() {
-		int pathLength = randInt(2, 15);	
-		int newx, newy;
+		int pathLength = randInt(4, 20);	
+		int newx = randInt(curPos.getX()-1, curPos.getX()+1);
+		int newy = randInt(curPos.getY()-1, curPos.getY()+1);
 		for(int i = 0; i < pathLength; i++) {
-			Coordinates newCoor = new Coordinates(-10, -10);
+			Coordinates newCoor = new Coordinates(newx, newy);
 			while (!path.get(i).isNeighbor(newCoor) || pathContains(newCoor)) {
 				newx = randInt(path.get(i).getX()-1, path.get(i).getX()+1);
 				newy = randInt(path.get(i).getY()-1, path.get(i).getY()+1);
@@ -94,8 +95,8 @@ public class NoteCell{
 		if (x != 8) uboundx = x+1;
 		if (y != 0) lboundy = y-1;
 		if (y != 8) uboundy = y+1;
-		for(int i = lboundx; i < uboundx; i++) {
-			for(int j = lboundy; j < uboundy; j++) {
+		for(int i = lboundx; i <= uboundx; i++) {
+			for(int j = lboundy; j <= uboundy; j++) {
 				if (!pathContains(i, j)) return false;
 			}
 		}
