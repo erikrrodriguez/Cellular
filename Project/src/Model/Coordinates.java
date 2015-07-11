@@ -16,7 +16,7 @@ public class Coordinates {
 	 * Tests if this coordinate is in the same position as another.
 	 */
 	public Boolean equals(Coordinates testCoor){
-		if(x == testCoor.getX() && y == testCoor.getY()){
+		if (x == testCoor.getX() && y == testCoor.getY()){
 			return true;
 		}
 		return false;

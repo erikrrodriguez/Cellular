@@ -30,17 +30,15 @@ public class NoteCell{
 
 		float hue = rand.nextFloat();
 		float saturation = 0.9f;//1.0 for brilliant, 0.0 for dull
-		float luminance; //1.0 for brighter, 0.0 for black, octave dependent
-		switch(getOctave()){
-			case 4: luminance = .4f;
-					break;
-			case 5: luminance = .7f;
-					break;
-			default: luminance = 1.0f;
-					break;
-			
-		}
+		float luminance = 1.0f; //1.0 for brighter, 0.0 for black
 		color = Color.getHSBColor(hue, saturation, luminance);
+		switch(getOctave()){
+		case 4: color = color.darker();
+						break;
+		case 6: color = color.brighter();
+						break;
+		default: break;
+		}
 	}
 	
 	/*
@@ -63,8 +61,7 @@ public class NoteCell{
 		case 6: color = color.brighter();
 						break;
 		default: break;
-		
-	}
+		}
 		
 	}
 	
@@ -75,7 +72,7 @@ public class NoteCell{
 		int pathLength = randInt(2, 15);	
 		int newx, newy;
 		for(int i = 0; i < pathLength; i++) {
-			Coordinates newCoor = new Coordinates(-1, -1);
+			Coordinates newCoor = new Coordinates(-10, -10);
 			while (!path.get(i).isNeighbor(newCoor) || pathContains(newCoor)) {
 				newx = randInt(path.get(i).getX()-1, path.get(i).getX()+1);
 				newy = randInt(path.get(i).getY()-1, path.get(i).getY()+1);
@@ -89,7 +86,8 @@ public class NoteCell{
 	}
 	
 	/*
-	 * Returns true if the path already contains the coordinate cell.
+	 * Returns true if the path already contains the coordinate cell. But DOES NOT count
+	 * the starting cell to allow for loop creation
 	 */
 	public boolean pathContains(Coordinates testCoor) {
 		for(int i = 1; i < path.size(); i++) {
@@ -128,7 +126,7 @@ public class NoteCell{
 		else {
 			path.add(newCoor);
 			loop = false;
-			reverse = true;
+			//reverse = true;
 		}
 
 	}
