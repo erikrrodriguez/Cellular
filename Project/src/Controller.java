@@ -108,46 +108,58 @@ public class Controller {
 		@Override
 		public void actionPerformed(ActionEvent button) {
 			String b = button.getActionCommand(); //Determine which button was pressed
-			if (b == "startStop" && drawnPath.size() == 0) {
+			switch(b) {
+				case "startStop": startStop(); break;
+				case "clear": clear(); break;
+				case "generate": generate(); break;
+				case "delete": delete(); break;
+				case "insert": insert(); break;
+				case "birth": grid.changeBirth(); break;
+				default: break;
+			}
+			sendCells();
+		}
+		public void startStop() {
+			if (drawnPath.size() == 0) {
 				pause = !pause;
 				frame.changeVisible(pause);
 				if (!pause){
 					drawnPath.clear();
 				}
 			}
-			else if (b == "clear" && drawnPath.size() == 0) {
-				grid.clearGrid();
-				pause = true;
-				frame.changeVisible(pause);
+		}
+		public void clear() {
+			drawnPath.clear();
+			grid.clearGrid();
+			pause = true;
+			frame.changeVisible(pause);
+		}
+		public void generate() {
+			drawnPath.clear();
+			grid.clearGrid();
+			grid.generate(); //Generate some random cells
+			pause = false;
+			frame.changeVisible(pause);
+			
+		}
+		public void delete() {
+			if (drawnPath.size() > 0) {
+				drawnPath.clear();
 			}
-			else if (b == "generate" && drawnPath.size() == 0) {
-				grid.clearGrid();
-				grid.generate(); //Generate some random cells
-				pause = false;
-				frame.changeVisible(pause);
+			else {
+				grid.clearCell(clickedCellX, clickedCellY);
 			}
-			else if (b == "delete") {
-				if (drawnPath.size() > 0) {
-					drawnPath.clear();
-				}
-				else {
-					grid.clearCell(clickedCellX, clickedCellY);
-				}
+		}
+		public void insert() {
+			if (pause && frame.getPitch() != "-" && frame.getOctave() != "-" && drawnPath.size() > 0) {
+				String note = frame.getPitch();
+				String octave = frame.getOctave();
+				Color color = frame.getColor();
+				NoteCell noteCell = new NoteCell(note+octave, color, drawnPath);
+				grid.addNoteCell(noteCell);
+				drawnPath.clear();
 			}
-			else if (b == "birth") {
-				grid.changeBirth();
-			}
-			else if (b == "insert" && pause) {
-				if (frame.getPitch() != "-" && frame.getOctave() != "-" && drawnPath.size() > 0) {
-					String note = frame.getPitch();
-					String octave = frame.getOctave();
-					Color color = frame.getColor();
-					NoteCell noteCell = new NoteCell(note+octave, color, drawnPath);
-					grid.addNoteCell(noteCell);
-					drawnPath.clear();
-				}
-			}
-			sendCells();
+			
 		}
 	}
 	
@@ -175,7 +187,10 @@ public class Controller {
 					break;
 				}
 			}
-			if (!found && drawnPath.size() == 0) {
+			if (found && drawnPath.get(drawnPath.size()-1).getX() == x && drawnPath.get(drawnPath.size()-1).getY() == y) {
+				drawnPath.remove(drawnPath.size()-1);
+			}
+			else if (!found && drawnPath.size() == 0) {
 				drawnPath.add(new Coordinates(x, y));
 			}
 			else if (!found && isNeighbor(drawnPath.get(drawnPath.size()-1).getX(), drawnPath.get(drawnPath.size()-1).getY(), x, y)){

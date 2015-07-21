@@ -67,7 +67,7 @@ public class NoteCell{
 	}
 	
 	/*
-	 * Creates a path of random length between 2 and 15 cells.
+	 * Creates a random path of random length.
 	 */
 	public void generateRandomPath() {
 		int pathLength = randInt(4, 20);	
