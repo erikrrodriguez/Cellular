@@ -9,6 +9,7 @@
 package com.illposed.osc.utility;
 
 import com.illposed.osc.OSCImpulse;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -228,6 +229,7 @@ public class OSCJavaToByteArrayConverter {
 	public void write(Object anObject) {
 		// Can't do switch on class
 		if (anObject instanceof Collection) {
+			@SuppressWarnings("unchecked")
 			final Collection<Object> theArray = (Collection<Object>) anObject;
 			for (final Object entry : theArray) {
 				write(entry);
@@ -259,7 +261,7 @@ public class OSCJavaToByteArrayConverter {
 	 * converts to.
 	 * @param typeClass Class of a Java object in the arguments
 	 */
-	public void writeType(Class typeClass) {
+	public void writeType(@SuppressWarnings("rawtypes") Class typeClass) {
 
 		// A big ol' else-if chain -- what's polymorphism mean, again?
 		// I really wish I could extend the base classes!
@@ -291,6 +293,7 @@ public class OSCJavaToByteArrayConverter {
 	 * Write the types for an array element in the arguments.
 	 * @param arguments array of base Objects
 	 */
+	@SuppressWarnings("unchecked")
 	private void writeTypesArray(Collection<Object> arguments) {
 
 		for (final Object argument : arguments) {
