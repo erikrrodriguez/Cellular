@@ -3,14 +3,14 @@ import javax.swing.JTabbedPane;
 
 public class MainFrame extends JFrame{
 	
-	private Frame mainScreen;
+	private Frame firstTab;
 
 	public MainFrame(Frame mainScreen, OSCPanel osc) {
 		JTabbedPane tabs=new JTabbedPane();
 		
-		this.mainScreen = mainScreen;
+		firstTab = mainScreen;
 		
-        tabs.addTab("Cellular", this.mainScreen);
+        tabs.addTab("Game", firstTab);
         
         tabs.addTab("OSCSend", osc);
         
@@ -25,7 +25,7 @@ public class MainFrame extends JFrame{
 	}
 	
 	public Frame getFrame() {
-		return mainScreen;
+		return firstTab;
 	}
 
 }
