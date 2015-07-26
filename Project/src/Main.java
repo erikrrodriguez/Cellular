@@ -15,7 +15,11 @@ public class Main {
 		Audio sound = new Audio();
 		Grid grid = new Grid(9, sound);		
 		Frame frame = new Frame(9);
-		Controller controller = new Controller(frame, grid);
+		
+		OSCPanel oscPanel = new OSCPanel();
+		MainFrame mainScreen = new MainFrame(frame, oscPanel);
+		
+		Controller controller = new Controller(mainScreen, grid);
 		
 		controller.start(); //Run the program
 

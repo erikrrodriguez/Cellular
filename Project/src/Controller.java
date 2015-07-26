@@ -13,7 +13,7 @@ import Model.NoteCell;
 
 public class Controller {
 
-	private Frame frame;	
+	private MainFrame mainScreen;	
 	private Grid grid;
 	private boolean running;
 	private boolean pause;
@@ -21,18 +21,18 @@ public class Controller {
 	private int clickedCellY;
 	private ArrayList<Coordinates> drawnPath; //To hold the path that the user draws.
 
-	public Controller(Frame frame, Grid grid) {
+	public Controller(MainFrame frame, Grid grid) {
 		drawnPath = new ArrayList<Coordinates>();
-		this.frame = frame;
+		this.mainScreen = frame;
 		this.grid = grid;
 		
-		frame.addListener(new Listener()); //Listener for all buttons
-		frame.getPanel().addMouse(new Mouse());
+		mainScreen.getFrame().addListener(new Listener()); //Listener for all buttons
+		mainScreen.getFrame().getPanel().addMouse(new Mouse());
 		
 		running = true;
 		pause = true;
 		
-		frame.changeVisible(true);
+		mainScreen.getFrame().changeVisible(true);
 		grid.update();
 		
 		sendCells(); //Transfers note cells from the grid to the frame
@@ -74,7 +74,7 @@ public class Controller {
 	 * Send the note cells, occupied grid cells, and the drawn path arraylist to the frame
 	 */
 	private void sendCells() {
-		frame.getPanel().setCells(getCells(), getOccupiedCells(), drawnPath);
+		mainScreen.getFrame().getPanel().setCells(getCells(), getOccupiedCells(), drawnPath);
 	}
 
 	public boolean isPause() {
@@ -115,14 +115,19 @@ public class Controller {
 				case "delete": delete(); break;
 				case "insert": insert(); break;
 				case "birth": grid.changeBirth(); break;
+				case "reset": reset(); break;
 				default: break;
 			}
 			sendCells();
 		}
+		public void reset() {
+			System.out.println("reset!");
+			grid.resetCells();
+		}
 		public void startStop() {
 			if (drawnPath.size() == 0) {
 				pause = !pause;
-				frame.changeVisible(pause);
+				mainScreen.getFrame().changeVisible(pause);
 				if (!pause){
 					drawnPath.clear();
 				}
@@ -132,14 +137,14 @@ public class Controller {
 			drawnPath.clear();
 			grid.clearGrid();
 			pause = true;
-			frame.changeVisible(pause);
+			mainScreen.getFrame().changeVisible(pause);
 		}
 		public void generate() {
 			drawnPath.clear();
 			grid.clearGrid();
 			grid.generate(); //Generate some random cells
 			pause = false;
-			frame.changeVisible(pause);
+			mainScreen.getFrame().changeVisible(pause);
 			
 		}
 		public void delete() {
@@ -151,10 +156,10 @@ public class Controller {
 			}
 		}
 		public void insert() {
-			if (pause && frame.getPitch() != "-" && frame.getOctave() != "-" && drawnPath.size() > 0) {
-				String note = frame.getPitch();
-				String octave = frame.getOctave();
-				Color color = frame.getColor();
+			if (pause && mainScreen.getFrame().getPitch() != "-" && mainScreen.getFrame().getOctave() != "-" && drawnPath.size() > 0) {
+				String note = mainScreen.getFrame().getPitch();
+				String octave = mainScreen.getFrame().getOctave();
+				Color color = mainScreen.getFrame().getColor();
 				NoteCell noteCell = new NoteCell(note+octave, color, drawnPath);
 				grid.addNoteCell(noteCell);
 				drawnPath.clear();

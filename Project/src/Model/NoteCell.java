@@ -200,6 +200,10 @@ public class NoteCell{
 		return curPos;
 	}
 	
+	public void setPos(int index) {
+		curPos = path.get(index);
+	}
+	
 	/**
 	 * Returns the entire note: "C 5", "AS4", ect
 	 * @return
@@ -244,4 +248,5 @@ public class NoteCell{
 
 		return randomNum;
 	}
+
 }

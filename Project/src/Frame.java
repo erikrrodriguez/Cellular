@@ -7,7 +7,7 @@ import javax.swing.*;
 /*
  * Frame for the entire program including the grid and the buttons
  */
-class Frame extends JFrame{
+class Frame extends JPanel{
 	private Panel panel; //holds the actual grid
 	private int screenSize;
 	private int cellWidth;
@@ -15,19 +15,25 @@ class Frame extends JFrame{
 	private String[] notes = {"-", "C ", "C#", "D ", "D#", "E ", "F ", "F#", "G ", "G#", "A ", "A#", "B "};
 	private String[] octaves = {"-", "4", "5", "6"};
 	private String[] colors = {"-", "Red", "Blue", "Green", "Yellow", "Orange", "Magenta"};
+	private String[] pathOptions = {"-", "Drawn", "Random"};
 	
 	private GridBagConstraints gbc;
 	
 	private JButton startStop = new JButton("Start/Stop");
-	private JButton clear = new JButton("Clear  ");
+	private JButton clear = new JButton("Clear");
 	private JButton generate = new JButton("Generate");
+	private JButton insert = new JButton("Insert");
+	private JButton delete = new JButton("Delete");
+	private JButton reset = new JButton("Reset");
+	
 	private JCheckBox birth = new JCheckBox("Birth", false);
 	
 	private JLabel note = new JLabel("Note:");
 	private JLabel octave = new JLabel("Octave:");
 	private JLabel color = new JLabel("Color:");
-	private JButton insert = new JButton("Insert");
-	private JButton delete = new JButton("Delete");
+	private JLabel path = new JLabel("Path:");
+	
+	private JComboBox<String> pathSelect = new JComboBox<String>(pathOptions);
 	private JComboBox<String> noteSelect = new JComboBox<String>(notes);
 	private JComboBox<String> octaveSelect = new JComboBox<String>(octaves);
 	private JComboBox<String> colorSelect = new JComboBox<String>(colors);
@@ -44,8 +50,6 @@ class Frame extends JFrame{
 		panel = new Panel(screenSize, numCells);
 		JPanel filler = new JPanel();
 		filler.setPreferredSize(new Dimension(cellWidth,cellWidth));
-		JPanel filler2 = new JPanel();
-		filler2.setPreferredSize(new Dimension(cellWidth,cellWidth));
 		
 		gbc.gridx = 0;
 		gbc.gridy = 0;
@@ -74,6 +78,10 @@ class Frame extends JFrame{
 		add(clear, gbc);
 		
 		gbc.gridx = 11;
+		gbc.gridy = 2;
+		add(reset, gbc);
+		
+		gbc.gridx = 12;
 		gbc.gridy = 2;
 		add(generate, gbc);
 		
@@ -105,6 +113,10 @@ class Frame extends JFrame{
 		gbc.gridy = 6;
 		add(color, gbc);
 		
+		gbc.gridx = 12;
+		gbc.gridy = 6;
+		add(path, gbc);
+		
 		gbc.gridx = 9;
 		gbc.gridy = 7;
 		add(noteSelect, gbc);
@@ -117,6 +129,10 @@ class Frame extends JFrame{
 		gbc.gridy = 7;
 		add(colorSelect, gbc);
 		
+		gbc.gridx = 12;
+		gbc.gridy = 7;
+		add(pathSelect, gbc);
+		
 		gbc.gridx = 9;
 		gbc.gridy = 8;
 		add(insert, gbc);
@@ -125,12 +141,12 @@ class Frame extends JFrame{
 		gbc.gridy = 8;
 		add(delete, gbc);
 		
-		pack();
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		setTitle("Cellular");
-		setVisible(true);
-		setResizable(false);
-		setLocationRelativeTo(null);
+//		pack();
+//		setDefaultCloseOperation(EXIT_ON_CLOSE);
+//		setTitle("Cellular");
+//		setVisible(true);
+//		setResizable(false);
+//		setLocationRelativeTo(null);
 	}
 	
 	public void controlSetup() {
@@ -141,6 +157,7 @@ class Frame extends JFrame{
 		clear.setActionCommand("clear");
 		generate.setActionCommand("generate");
 		birth.setActionCommand("birth");
+		reset.setActionCommand("reset");
 	}
 	
 	public Panel getPanel() {
@@ -151,8 +168,16 @@ class Frame extends JFrame{
 		return (String) noteSelect.getSelectedItem();
 	}
 	
+	public void setPitch(String pitch) {
+		noteSelect.setSelectedItem(pitch);
+	}
+	
 	public String getOctave() {
 		return (String) octaveSelect.getSelectedItem();
+	}
+	
+	public void setOctave(String octave) {
+		noteSelect.setSelectedItem(octave);
 	}
 	
 	public Color getColor() {
@@ -167,6 +192,10 @@ class Frame extends JFrame{
 		}
 	}
 	
+	public void setColor(String color) {
+		colorSelect.setSelectedItem(color);
+	}
+	
 	/*
 	 * Hides buttons if the grid is not paused
 	 */
@@ -176,6 +205,8 @@ class Frame extends JFrame{
 		noteSelect.setVisible(val);
 		octaveSelect.setVisible(val);
 		colorSelect.setVisible(val);
+		pathSelect.setVisible(val);
+		path.setVisible(val);
 		note.setVisible(val);
 		color.setVisible(val);
 		octave.setVisible(val);
@@ -188,5 +219,6 @@ class Frame extends JFrame{
 		insert.addActionListener(listener);
 		delete.addActionListener(listener);
 		birth.addActionListener(listener);
+		reset.addActionListener(listener);
 	}
 }

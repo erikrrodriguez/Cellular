@@ -218,4 +218,11 @@ public class Grid {
 		birth = !birth;
 	}
 
+	public void resetCells() {
+		for (NoteCell cell : noteCells) {
+			cell.setPos(0);
+		}
+		
+	}
+
 }
