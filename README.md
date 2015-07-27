@@ -1,5 +1,5 @@
 # Cellular
-A musical cellular automation application. Written in Java using Eclipse. Utilizing the TinySound library by finnkuusisto: https://github.com/finnkuusisto/TinySound
+A musical cellular automation application. Written in Java using Eclipse. Utilizing the TinySound library by finnkuusisto: https://github.com/finnkuusisto/TinySound and the JavaOSC Library: https://github.com/hoijui/JavaOSC
 
 
 **Game Overview:**
