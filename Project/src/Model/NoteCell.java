@@ -27,50 +27,31 @@ public class NoteCell{
 		path = new ArrayList<Coordinates>();
 		path.add(curPos);
 		pathPos = 0;
-
-		float hue = rand.nextFloat();
-		float saturation = 0.9f;//1.0 for brilliant, 0.0 for dull
-		float luminance = 1.0f; //1.0 for brighter, 0.0 for black
-		color = Color.getHSBColor(hue, saturation, luminance);
-		switch(getOctave()){
-		case 4: color = color.darker();
-						break;
-		case 6: color = color.brighter();
-						break;
-		default: break;
-		}
+		setRandomColor();
 	}
 	
 	/*
 	 * Constructor for Drawn Cell Paths
 	 */
-	public NoteCell(String note, Color newColor, ArrayList<Coordinates> newPath){
-		this.path = new ArrayList<Coordinates>(newPath);
+	public NoteCell(String newNote, Color newColor, ArrayList<Coordinates> newPath){
+		path = new ArrayList<Coordinates>(newPath);
 		curPos = path.get(0);
-		this.note = note;
+		pathPos = 0;
+		note = newNote;
 		loop = false;
 		reverse = false;
 		if (path.get(0).equals(path.get(path.size() - 1))){
 			path.remove(path.size()-1);
 			loop = true;
 		}
-		pathPos = 0;
-		this.color = newColor;
-		switch(getOctave()){
-		case 4: color = color.darker();
-						break;
-		case 6: color = color.brighter();
-						break;
-		default: break;
-		}
-		
+		setColor(newColor);
 	}
 	
 	/*
 	 * Creates a random path of random length.
 	 */
 	public void generateRandomPath() {
-		System.out.println(curPos.getX() + " " + curPos.getY());
+		//System.out.println(curPos.getX() + " " + curPos.getY());
 		int pathLength = randInt(4, 20);	
 		int newx = randInt(curPos.getX()-1, curPos.getX()+1);
 		int newy = randInt(curPos.getY()-1, curPos.getY()+1);
@@ -149,9 +130,33 @@ public class NoteCell{
 		else {
 			path.add(newCoor);
 			loop = false;
-			//reverse = true;
 		}
 
+	}
+	
+	public void setColor(Color newColor) {
+		color = newColor;
+		switch(getOctave()){
+		case 4: color = color.darker();
+						break;
+		case 6: color = color.brighter();
+						break;
+		default: break;
+		}
+	}
+	
+	public void setRandomColor() {
+		float hue = rand.nextFloat();
+		float saturation = 0.9f;//1.0 for brilliant, 0.0 for dull
+		float luminance = 1.0f; //1.0 for brighter, 0.0 for black
+		color = Color.getHSBColor(hue, saturation, luminance);
+		switch(getOctave()){
+		case 4: color = color.darker();
+						break;
+		case 6: color = color.brighter();
+						break;
+		default: break;
+		}
 	}
 	
 	/*
