@@ -49,9 +49,10 @@ public class OSCSend {
 		ip = newIP;
 	}
 	
-	public void sendMsg(String message) {
+	public void sendMsg(int[] array) {
 		
-		OSCMessage msg = new OSCMessage(message);
+		OSCMessage msg = new OSCMessage();
+		msg.addArgument(array);
 		try {
 			sender.send(msg);
 		} catch (IOException e) {

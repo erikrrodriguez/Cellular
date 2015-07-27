@@ -117,9 +117,19 @@ public class Controller {
 				case "insert": insert(); break;
 				case "birth": grid.changeBirth(); break;
 				case "reset": reset(); break;
+				case "OSC": setOSC(); break;
 				default: break;
 			}
 			sendCells();
+		}
+		public void setOSC() {
+			if (grid.isOSC()) {
+				
+			}
+			else {
+				
+			}
+			grid.changeOSC();
 		}
 		public void reset() {
 			System.out.println("reset!");

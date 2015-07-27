@@ -1,6 +1,9 @@
-import Model.Audio;
+import java.net.SocketException;
+import java.net.UnknownHostException;
 
+import Model.Audio;
 import Model.Grid;
+import Model.OSCSend;
 import View.Frame;
 import View.MainFrame;
 import View.OSCPanel;
@@ -14,10 +17,11 @@ import View.OSCPanel;
  */
 public class Main {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws SocketException, UnknownHostException {
 		
 		Audio sound = new Audio();
-		Grid grid = new Grid(9, sound);		
+		OSCSend oscSend = new OSCSend(6668);
+		Grid grid = new Grid(9, sound, oscSend);		
 		Frame frame = new Frame(9);
 		
 		OSCPanel oscPanel = new OSCPanel();

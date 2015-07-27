@@ -162,6 +162,7 @@ public class Frame extends JPanel{
 		clear.setActionCommand("clear");
 		generate.setActionCommand("generate");
 		birth.setActionCommand("birth");
+		OSC.setActionCommand("OSC");
 		reset.setActionCommand("reset");
 	}
 	
@@ -224,6 +225,7 @@ public class Frame extends JPanel{
 		insert.addActionListener(listener);
 		delete.addActionListener(listener);
 		birth.addActionListener(listener);
+		OSC.addActionListener(listener);
 		reset.addActionListener(listener);
 	}
 }

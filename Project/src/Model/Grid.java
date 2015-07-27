@@ -11,11 +11,13 @@ public class Grid {
 	private int numCells;
 	private Random rand;
 	private Audio sound;
+	private OSCSend oscSend;
 	private boolean clear;
 	private boolean birth;
+	private boolean osc;
 
 	//constructor
-	public Grid(int newNumCells, Audio sound) {
+	public Grid(int newNumCells, Audio sound, OSCSend oscSend) {
 		noteCells = new ArrayList<NoteCell>();
 		delayedNoteCells = new ArrayList<NoteCell>();
 		collisions = new ArrayList<Coordinates>();
@@ -24,16 +26,19 @@ public class Grid {
 		numCells = newNumCells;
 		rand = new Random();
 		grid = new GridCell[numCells][numCells];
+		
 		this.sound = sound;
+		this.oscSend = oscSend;
 		clear = true;
 		birth = false;
+		osc = false;
 		setGrid();
 	}
 	
 	public void setGrid() {
 		for (int i = 0; i < numCells; i++) {
 			for (int j = 0; j < numCells; j++) {
-				grid[i][j] = new GridCell(i, j, sound);
+				grid[i][j] = new GridCell(i, j, sound, oscSend);
 			}
 		}
 	}
@@ -64,7 +69,7 @@ public class Grid {
 			for(int i = 0; i < collisions.size(); i++) {
 				int x = collisions.get(i).getX();
 				int y = collisions.get(i).getY();
-				grid[x][y].playNotes();
+				grid[x][y].playNotes(osc);
 
 				if (birth) { //The birth option can be toggled
 					if (grid[x][y].getNumNoteCells() == 2 
@@ -217,7 +222,14 @@ public class Grid {
 	public void changeBirth() {
 		birth = !birth;
 	}
-
+	
+	public void changeOSC() {
+		osc = !osc;
+	}
+	
+	public boolean isOSC() {
+		return osc;
+	}
 	public void resetCells() {
 		for (NoteCell cell : noteCells) {
 			cell.setPos(0);

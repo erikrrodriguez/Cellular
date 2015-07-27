@@ -11,13 +11,15 @@ public class GridCell{
 	private int x;
 	private int y;
 	private Audio sound;
+	private OSCSend oscSend;
 	
-	public GridCell(int newx, int newy, Audio sound) {
+	public GridCell(int newx, int newy, Audio sound, OSCSend oscSend) {
 		occupyingCells = new ArrayList<NoteCell>();
 		numNoteCells = 0;
 		x = newx;
 		y = newy;
 		this.sound = sound;
+		this.oscSend = oscSend;
 	}
 	
 	public int getX() {
@@ -57,25 +59,43 @@ public class GridCell{
 	/*
 	 * Play the notes of each note cell in the grid cell.
 	 */
-	public void playNotes() {
+	public void playNotes(boolean osc) {
 		double volume;
 		
-		//Adjust volume if multiple notes. This is currently not working I'm not sure why.
+		//Adjust volume if multiple notes.
 		switch(numNoteCells) {
-			case 2: volume = 1.0;
-					break;
-			case 3: volume = 0.6;
-					break;
-			case 4: volume = 0.5;
-					break;
-			default: volume = 0.4;
-					break;
+			case 2: volume = 1.0; break;
+			case 3: volume = 0.6; break;
+			case 4: volume = 0.5; break;
+			default: volume = 0.4; break;
 		}
-		for(NoteCell cell : occupyingCells) {
-			int index = "A A#B C C#D D#E F F#G G#".indexOf(cell.getPitch())/2 + 12*(cell.getOctave()-4);
-			sound.playSound(index, volume);
+		if (osc) {
+			sendOSC();
+		}
+		else{
+			playNotes(volume);
 		}
 		
+	}
+	
+	private void playNotes(double volume) {
+		int index;
+		for(NoteCell cell : occupyingCells) {
+			index = "A A#B C C#D D#E F F#G G#".indexOf(cell.getPitch())/2 + 12*(cell.getOctave()-4);
+			sound.playSound(index, volume);
+		}
+	}
+	
+	private void sendOSC() {
+		int[] array = new int[occupyingCells.size()];
+		int count = 0;
+		int midiNote;
+		for(NoteCell cell : occupyingCells) {
+			midiNote = "C C#D D#E F F#G G#A A#B ".indexOf(cell.getPitch())/2 + 60 + 12*(cell.getOctave()-4);
+			array[count] = midiNote;
+			count++;
+		}
+		oscSend.sendMsg(array);
 	}
 
 }
