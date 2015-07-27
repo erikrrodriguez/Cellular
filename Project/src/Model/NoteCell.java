@@ -70,6 +70,7 @@ public class NoteCell{
 	 * Creates a random path of random length.
 	 */
 	public void generateRandomPath() {
+		System.out.println(curPos.getX() + " " + curPos.getY());
 		int pathLength = randInt(4, 20);	
 		int newx = randInt(curPos.getX()-1, curPos.getX()+1);
 		int newy = randInt(curPos.getY()-1, curPos.getY()+1);

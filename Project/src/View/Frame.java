@@ -1,6 +1,7 @@
 package View;
 import java.awt.*;
 import java.awt.event.ActionListener;
+
 import javax.swing.*;
 
 /*
@@ -13,7 +14,7 @@ public class Frame extends JPanel{
 	private int numCells;
 	private String[] notes = {"-", "C ", "C#", "D ", "D#", "E ", "F ", "F#", "G ", "G#", "A ", "A#", "B "};
 	private String[] octaves = {"-", "4", "5", "6"};
-	private String[] colors = {"-", "Red", "Blue", "Green", "Yellow", "Orange", "Magenta"};
+	private String[] colors = {"-", "Red", "Blue", "Green", "Yellow", "Orange", "Magenta", "Random"};
 	private String[] pathOptions = {"-", "Drawn", "Random"};
 	
 	private GridBagConstraints gbc;
@@ -184,6 +185,10 @@ public class Frame extends JPanel{
 	
 	public void setOctave(String octave) {
 		noteSelect.setSelectedItem(octave);
+	}
+	
+	public String getPath() {
+		return (String) pathSelect.getSelectedItem();
 	}
 	
 	public Color getColor() {

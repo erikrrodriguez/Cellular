@@ -167,11 +167,26 @@ public class Controller {
 			}
 		}
 		public void insert() {
-			if (pause && mainScreen.getFrame().getPitch() != "-" && mainScreen.getFrame().getOctave() != "-" && drawnPath.size() > 0) {
+			if (pause && mainScreen.getFrame().getPitch() != "-" 
+					&& mainScreen.getFrame().getOctave() != "-" && mainScreen.getFrame().getPath() == "Drawn" 
+						&& drawnPath.size() > 0) {
 				String note = mainScreen.getFrame().getPitch();
 				String octave = mainScreen.getFrame().getOctave();
 				Color color = mainScreen.getFrame().getColor();
 				NoteCell noteCell = new NoteCell(note+octave, color, drawnPath);
+				grid.addNoteCell(noteCell);
+				drawnPath.clear();
+			}
+			else if (pause && mainScreen.getFrame().getPitch() != "-" 
+					&& mainScreen.getFrame().getOctave() != "-" 
+						&& mainScreen.getFrame().getPath() == "Random"
+						&& drawnPath.size() == 1) {
+				System.out.println("here!");
+				String note = mainScreen.getFrame().getPitch();
+				String octave = mainScreen.getFrame().getOctave();
+				Color color = mainScreen.getFrame().getColor();
+				NoteCell noteCell = new NoteCell(note+octave, color, drawnPath);
+				noteCell.generateRandomPath();
 				grid.addNoteCell(noteCell);
 				drawnPath.clear();
 			}
