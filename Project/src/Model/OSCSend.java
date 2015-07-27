@@ -17,7 +17,15 @@ public class OSCSend {
 		this.ip = ip;
 		this.port = port;
 		@SuppressWarnings("unused")
-		OSCPortOut sender = new OSCPortOut();
+		OSCPortOut sender = new OSCPortOut(ip, port);
+		//default port 57110
+	}
+	
+	public OSCSend(int port) throws SocketException, UnknownHostException {
+		this.ip = InetAddress.getLocalHost();
+		this.port = port;
+		@SuppressWarnings("unused")
+		OSCPortOut sender = new OSCPortOut(port);
 		//default port 57110
 	}
 	

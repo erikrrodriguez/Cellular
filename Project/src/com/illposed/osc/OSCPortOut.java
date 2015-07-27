@@ -82,6 +82,10 @@ public class OSCPortOut extends OSCPort {
 	public OSCPortOut() throws UnknownHostException, SocketException {
 		this(InetAddress.getLocalHost(), DEFAULT_SC_OSC_PORT);
 	}
+	
+	public OSCPortOut(int port) throws UnknownHostException, SocketException {
+		this(InetAddress.getLocalHost(), port);
+	}
 
 	/**
 	 * Send an OSC packet (message or bundle) to the receiver we are bound to.

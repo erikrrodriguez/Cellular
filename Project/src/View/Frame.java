@@ -26,6 +26,7 @@ public class Frame extends JPanel{
 	private JButton reset = new JButton("Reset");
 	
 	private JCheckBox birth = new JCheckBox("Birth", false);
+	private JCheckBox OSC = new JCheckBox("OSC", false);
 	
 	private JLabel note = new JLabel("Note:");
 	private JLabel octave = new JLabel("Octave:");
@@ -90,6 +91,11 @@ public class Frame extends JPanel{
 		gbc.gridheight = 1;
 		gbc.fill = GridBagConstraints.CENTER;
 		add(birth, gbc);
+		
+		gbc.gridx = 10;
+		gbc.gridy = 3;
+		gbc.fill = GridBagConstraints.CENTER;
+		add(OSC, gbc);
 		
 		gbc.gridx = 9;
 		gbc.gridy = 4;
