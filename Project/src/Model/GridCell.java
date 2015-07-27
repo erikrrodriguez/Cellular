@@ -60,8 +60,17 @@ public class GridCell{
 	 * Play the notes of each note cell in the grid cell.
 	 */
 	public void playNotes(boolean osc) {
-		double volume;
+		if (osc) {
+			sendOSC();
+		}
+		else{
+			playNotes();
+		}
 		
+	}
+	
+	private void playNotes() {
+		double volume;
 		//Adjust volume if multiple notes.
 		switch(numNoteCells) {
 			case 2: volume = 1.0; break;
@@ -69,16 +78,6 @@ public class GridCell{
 			case 4: volume = 0.5; break;
 			default: volume = 0.4; break;
 		}
-		if (osc) {
-			sendOSC();
-		}
-		else{
-			playNotes(volume);
-		}
-		
-	}
-	
-	private void playNotes(double volume) {
 		int index;
 		for(NoteCell cell : occupyingCells) {
 			index = "A A#B C C#D D#E F F#G G#".indexOf(cell.getPitch())/2 + 12*(cell.getOctave()-4);
