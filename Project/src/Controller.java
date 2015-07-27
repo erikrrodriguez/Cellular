@@ -10,6 +10,7 @@ import Model.Coordinates;
 import Model.Grid;
 import Model.GridCell;
 import Model.NoteCell;
+import View.MainFrame;
 
 public class Controller {
 

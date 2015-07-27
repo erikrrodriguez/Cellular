@@ -1,5 +1,9 @@
 import Model.Audio;
+
 import Model.Grid;
+import View.Frame;
+import View.MainFrame;
+import View.OSCPanel;
 
 /*
  * Initiate and run the program.
