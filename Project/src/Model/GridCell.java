@@ -52,6 +52,10 @@ public class GridCell{
 			numNoteCells = 0;
 	}
 	
+	public void removeCell(NoteCell cell) {
+		occupyingCells.remove(cell);
+	}
+	
 	public ArrayList<NoteCell> getOccupyingCells() {
 		return occupyingCells;
 	}

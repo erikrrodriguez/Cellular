@@ -1,5 +1,6 @@
 package Model;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Random;
 
 public class Grid {
@@ -231,11 +232,29 @@ public class Grid {
 		return osc;
 	}
 	public void resetCells() {
+		deleteChildCells();
 		resetGrid();
 		for (NoteCell cell : noteCells) {
 			cell.setPos(0);
 		}
 		
+	}
+	
+	private void deleteChildCells() {
+		Iterator<NoteCell> iter = noteCells.iterator();
+
+		while (iter.hasNext()) {
+		    NoteCell cell = iter.next();
+		    if (cell instanceof BirthCell) {
+				iter.remove();
+				grid[cell.getPos().getX()][cell.getPos().getY()].removeCell(cell);
+				if (grid[cell.getPos().getX()][cell.getPos().getY()].getNumNoteCells() == 0) {
+					occupiedCells.remove(grid[cell.getPos().getX()][cell.getPos().getY()]);
+				}
+				cell = null;
+				
+			}
+		}
 	}
 
 }
