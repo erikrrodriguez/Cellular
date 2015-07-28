@@ -231,6 +231,7 @@ public class Grid {
 		return osc;
 	}
 	public void resetCells() {
+		resetGrid();
 		for (NoteCell cell : noteCells) {
 			cell.setPos(0);
 		}

@@ -132,7 +132,6 @@ public class Controller {
 			grid.changeOSC();
 		}
 		public void reset() {
-			System.out.println("reset!");
 			grid.resetCells();
 		}
 		public void startStop() {
@@ -180,13 +179,14 @@ public class Controller {
 			else if (pause && mainScreen.getFrame().getPitch() != "-" 
 					&& mainScreen.getFrame().getOctave() != "-" 
 						&& mainScreen.getFrame().getPath() == "Random"
-						&& drawnPath.size() == 1) {
-				System.out.println("here!");
+						&& drawnPath.size() > 0) {
 				String note = mainScreen.getFrame().getPitch();
 				String octave = mainScreen.getFrame().getOctave();
 				Color color = mainScreen.getFrame().getColor();
-				NoteCell noteCell = new NoteCell(note+octave, color, drawnPath);
+				
+				NoteCell noteCell = new NoteCell(drawnPath.get(0).getX(), drawnPath.get(0).getY(), note+octave, color);
 				noteCell.generateRandomPath();
+				
 				grid.addNoteCell(noteCell);
 				drawnPath.clear();
 			}
