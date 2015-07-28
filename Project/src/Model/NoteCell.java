@@ -26,10 +26,10 @@ public class NoteCell{
 		reverse = false;
 		path = new ArrayList<Coordinates>();
 		path.add(curPos);
-		pathPos = 0;
+		pathPos = -1;
 		setRandomColor();
 	}
-	
+
 	public NoteCell(int x, int y, String newNote, Color color) {
 		curPos = new Coordinates(x, y);
 		note = newNote;
@@ -37,17 +37,17 @@ public class NoteCell{
 		reverse = false;
 		path = new ArrayList<Coordinates>();
 		path.add(curPos);
-		pathPos = 0;
+		pathPos = -1;
 		setColor(color);
 	}
-	
+
 	/*
 	 * Constructor for Drawn Cell Paths
 	 */
 	public NoteCell(String newNote, Color newColor, ArrayList<Coordinates> newPath){
 		path = new ArrayList<Coordinates>(newPath);
 		curPos = path.get(0);
-		pathPos = 0;
+		pathPos = -1;
 		note = newNote;
 		loop = false;
 		reverse = false;
@@ -57,7 +57,7 @@ public class NoteCell{
 		}
 		setColor(newColor);
 	}
-	
+
 	/*
 	 * Creates a random path of random length.
 	 */
@@ -95,7 +95,7 @@ public class NoteCell{
 		}
 		return true;
 	}
-	
+
 	private boolean pathContains(int x, int y) {
 		for(int i = 0; i < path.size(); i++) {
 			if (path.get(i).getX() == x && path.get(i).getY() == y)	return true;
@@ -112,7 +112,7 @@ public class NoteCell{
 		}
 		return false;
 	}
-	
+
 	public void printPath() {
 		String pathstring = "";
 		for(int i = 0; i < path.size(); i++) {
@@ -144,18 +144,18 @@ public class NoteCell{
 		}
 
 	}
-	
+
 	public void setColor(Color newColor) {
 		color = newColor;
 		switch(getOctave()){
 		case 4: color = color.darker();
-						break;
+		break;
 		case 6: color = color.brighter();
-						break;
+		break;
 		default: break;
 		}
 	}
-	
+
 	public void setRandomColor() {
 		float hue = rand.nextFloat();
 		float saturation = 0.9f;//1.0 for brilliant, 0.0 for dull
@@ -163,18 +163,21 @@ public class NoteCell{
 		color = Color.getHSBColor(hue, saturation, luminance);
 		switch(getOctave()){
 		case 4: color = color.darker();
-						break;
+		break;
 		case 6: color = color.brighter();
-						break;
+		break;
 		default: break;
 		}
 	}
-	
+
 	/*
 	 * Sets the position of the cell to the next coordinate in the path or loop. Reverses if necessary.
 	 */
 	public void advance(){
-		if (path.size() != 1) {
+		if (pathPos == -1) {
+			pathPos++;
+		}
+		else if (path.size() != 1) {
 			if (loop && reverse) {
 				if (pathPos > 0) {
 					pathPos--;
@@ -216,12 +219,12 @@ public class NoteCell{
 	public Coordinates getPos(){
 		return curPos;
 	}
-	
+
 	public void setPos(int index) {
 		curPos = path.get(index);
-		pathPos = index;
+		pathPos = index-1;
 	}
-	
+
 	/**
 	 * Returns the entire note: "C 5", "AS4", ect
 	 * @return
@@ -229,7 +232,7 @@ public class NoteCell{
 	public String getNote() {
 		return note;
 	}
-	
+
 	/**
 	 * returns the pitch. C, CS, ect.
 	 * @return
@@ -237,7 +240,7 @@ public class NoteCell{
 	public String getPitch(){
 		return note.substring(0, 2);
 	}
-	
+
 	/*
 	 * returns only the octave: 4,5, or 6.
 	 */
