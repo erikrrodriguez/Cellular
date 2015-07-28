@@ -33,8 +33,7 @@ Its color will be a mix of its two parent's colors. Also in this mode if any squ
 ## TO DO
 * Allow generate button to generate random notes rather than CEGB.
 * ~~Adjust how a child cell's note is determined.~~
-* Implement a reset button to move all note cells to their starting positions and delete all child cells.
-* Allow only neighboring squares to be added or removed when drawing or erasing a path
+* ~~Implement a reset button to move all note cells to their starting positions and delete all child cells.~~
 * **Future:** Print out what one overall pattern looks like to sheet music.
-* **Future:** Output MIDI data to control VSTs
+* **Future:** Output OSC data to control VSTs
 
