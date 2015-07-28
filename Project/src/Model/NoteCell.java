@@ -30,6 +30,17 @@ public class NoteCell{
 		setRandomColor();
 	}
 	
+	public NoteCell(int x, int y, String newNote, Color color) {
+		curPos = new Coordinates(x, y);
+		note = newNote;
+		loop = false;
+		reverse = false;
+		path = new ArrayList<Coordinates>();
+		path.add(curPos);
+		pathPos = 0;
+		setColor(color);
+	}
+	
 	/*
 	 * Constructor for Drawn Cell Paths
 	 */
@@ -208,6 +219,7 @@ public class NoteCell{
 	
 	public void setPos(int index) {
 		curPos = path.get(index);
+		pathPos = index;
 	}
 	
 	/**
