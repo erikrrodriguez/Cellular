@@ -13,20 +13,22 @@ public class OSCSend {
 	private InetAddress ip;
 	private int port;
 	
-	public OSCSend(InetAddress ip, int port) throws SocketException, UnknownHostException {
-		this.ip = ip;
-		this.port = port;
+	public OSCSend() throws SocketException, UnknownHostException {
+		this.ip = InetAddress.getLocalHost();
+		this.port = 57110;
 		@SuppressWarnings("unused")
-		OSCPortOut sender = new OSCPortOut(ip, port);
-		//default port 57110
+		OSCPortOut sender = new OSCPortOut();
 	}
 	
-	public OSCSend(int port) throws SocketException, UnknownHostException {
-		this.ip = InetAddress.getLocalHost();
-		this.port = port;
-		@SuppressWarnings("unused")
-		OSCPortOut sender = new OSCPortOut(port);
-		//default port 57110
+	public void sendMsg(int[] array) {
+		OSCMessage msg = new OSCMessage();
+		try {
+			sender.send(msg);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 	
 	public int getPort() {
@@ -47,19 +49,6 @@ public class OSCSend {
 	
 	public void setIP(InetAddress newIP) {
 		ip = newIP;
-	}
-	
-	public void sendMsg(int[] array) {
-		
-		OSCMessage msg = new OSCMessage();
-		msg.addArgument(array);
-		try {
-			sender.send(msg);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
 	}
 }
 

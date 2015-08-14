@@ -20,7 +20,7 @@ public class Main {
 	public static void main(String[] args) throws SocketException, UnknownHostException {
 		
 		Audio sound = new Audio();
-		OSCSend oscSend = new OSCSend(6668);
+		OSCSend oscSend = new OSCSend();
 		Grid grid = new Grid(9, sound, oscSend);		
 		Frame frame = new Frame(9);
 		

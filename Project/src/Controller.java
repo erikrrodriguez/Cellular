@@ -123,12 +123,6 @@ public class Controller {
 			sendCells();
 		}
 		public void setOSC() {
-			if (grid.isOSC()) {
-				
-			}
-			else {
-				
-			}
 			grid.changeOSC();
 		}
 		public void reset() {
