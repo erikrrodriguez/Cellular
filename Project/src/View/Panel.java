@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
+import Model.BirthCell;
 import Model.Coordinates;
 import Model.GridCell;
 import Model.NoteCell;
@@ -76,7 +77,12 @@ public class Panel extends JPanel{
 				g2.setColor(gridCell.getNoteCell().getColor());
 				g2.fillRect(cellSize*gridCell.getX(), cellSize*gridCell.getY(), cellSize, cellSize);
 				
-				g2.setColor(Color.black);
+				if (gridCell.getNoteCell() instanceof BirthCell) {
+					g2.setColor(Color.white);
+				}
+				else {
+					g2.setColor(Color.black);
+				}
 				g2.setFont(new Font("default", Font.BOLD, 20));
 				g2.drawString(gridCell.getNoteCell().getPitch(), cellSize*gridCell.getX()+15, cellSize*gridCell.getY()+32);
 			}
