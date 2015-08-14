@@ -22,26 +22,13 @@ public class Coordinates {
 		return false;
 	}
 	
-	public void print() {
-		System.out.println("("+x+","+y+")");
-	}
-	
 	/*
 	 * Tests if a given coordinate is a neighboring coordinate of this one, vertically or horizontally. 
 	 */
-	public Boolean isNeighbor(Coordinates testCoor) {
-		int nx = testCoor.getX();
-		int ny = testCoor.getY();
-		if (nx < 0 || nx > 8 || ny < 0 || ny > 8) {
-			return false;
-		}
-		if ((nx < x && ny < y) || (nx > x && ny > y) || (nx > x && ny < y) || (nx < x && ny > y)) {
-			return false;
-		}
-		if (nx == x && ny == y) {
-			return false;
-		}
-		return true;
+	public Boolean isNeighbor(int nx, int ny) {
+		int d1 = Math.abs(nx - x);
+		int d2 = Math.abs(ny - y);
+		return nx >= 0 && ny >= 0 && nx <= 8 && ny <= 8 && d1 + d2 == 1;
 	}
 	
 	public void set(int newX, int newY){

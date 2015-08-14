@@ -242,7 +242,6 @@ public class Grid {
 	
 	private void deleteChildCells() {
 		Iterator<NoteCell> iter = noteCells.iterator();
-
 		while (iter.hasNext()) {
 		    NoteCell cell = iter.next();
 		    if (cell instanceof BirthCell) {

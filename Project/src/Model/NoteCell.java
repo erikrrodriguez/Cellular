@@ -62,38 +62,40 @@ public class NoteCell{
 	 * Creates a random path of random length.
 	 */
 	public void generateRandomPath() {
-		//System.out.println(curPos.getX() + " " + curPos.getY());
-		int pathLength = randInt(4, 20);	
+		int pathLength = randInt(80, 81);	
 		int newx = randInt(curPos.getX()-1, curPos.getX()+1);
 		int newy = randInt(curPos.getY()-1, curPos.getY()+1);
 		for(int i = 0; i < pathLength; i++) {
-			Coordinates newCoor = new Coordinates(newx, newy);
-			while (!path.get(i).isNeighbor(newCoor) || pathContains(newCoor)) {
+			while (!path.get(i).isNeighbor(newx, newy) || pathContains(newx, newy)) {
 				newx = randInt(path.get(i).getX()-1, path.get(i).getX()+1);
 				newy = randInt(path.get(i).getY()-1, path.get(i).getY()+1);
-				newCoor.set(newx, newy);
 			}
-			addToPath(newCoor);
-			if (loop || noOpenNeighbors(path.get(i+1).getX(), path.get(i+1).getY())){
+			addToPath(newx, newy);
+			if (loop || !openNeighbor(newx, newy)) {
 				break;
 			}
 		}
 	}
-	private boolean noOpenNeighbors(int x, int y) {
-		int lboundx = x;
-		int uboundx = x;
-		int lboundy = y;
-		int uboundy = y;
-		if (x != 0) lboundx = x-1;
-		if (x != 8) uboundx = x+1;
-		if (y != 0) lboundy = y-1;
-		if (y != 8) uboundy = y+1;
-		for(int i = lboundx; i <= uboundx; i++) {
-			for(int j = lboundy; j <= uboundy; j++) {
-				if (!pathContains(i, j)) return false;
+	private boolean openNeighbor(int x, int y) {
+		for(int i = -1; i < 2; i+=2) {
+			for(int j = -1; j < 2; j+=2) {
+				if (x+i >= 0 && x+i <= 8 && y+j >= 0 && y+j <= 8) {
+					if (!pathContains(x+i, y+j)) return true;
+				}
 			}
 		}
-		return true;
+		return false;
+		
+//		int lboundx = (x - 1 < 0) ? x : x-1;
+//		int lboundy = (y - 1 < 0) ? y : y-1;
+//		int uboundx = (x + 1 > 8) ? x : x+1;
+//		int uboundy = (y + 1 > 8) ? y : y+1;
+//		for(int i = lboundx; i <= uboundx; i++) {
+//			for(int j = lboundy; j <= uboundy; j++) {
+//				if (!pathContains(i, j)) return false;
+//			}
+//		}
+//		return true;
 	}
 
 	private boolean pathContains(int x, int y) {
@@ -134,16 +136,15 @@ public class NoteCell{
 		}
 	}
 
-	private void addToPath(Coordinates newCoor) {
-		if (path.get(0).equals(newCoor)) {
-			loop = true;
-		}
-		else {
-			path.add(newCoor);
-			loop = false;
-		}
-
-	}
+//	private void addToPath(Coordinates newCoor) {
+//		if (path.get(0).equals(newCoor)) {
+//			loop = true;
+//		}
+//		else {
+//			path.add(newCoor);
+//			loop = false;
+//		}
+//	}
 
 	public void setColor(Color newColor) {
 		color = newColor;
