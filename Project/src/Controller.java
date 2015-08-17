@@ -189,7 +189,6 @@ public class Controller {
 					drawnPath.clear();
 				}
 			}
-
 		}
 	}
 
