@@ -51,7 +51,7 @@ public class NoteCell{
 		note = newNote;
 		loop = false;
 		reverse = false;
-		if (path.get(0).equals(path.get(path.size() - 1))){
+		if (path.size() > 1 && path.get(0).equals(path.get(path.size() - 1))){
 			path.remove(path.size()-1);
 			loop = true;
 		}
@@ -125,16 +125,6 @@ public class NoteCell{
 		}
 	}
 
-//	private void addToPath(Coordinates newCoor) {
-//		if (path.get(0).equals(newCoor)) {
-//			loop = true;
-//		}
-//		else {
-//			path.add(newCoor);
-//			loop = false;
-//		}
-//	}
-
 	public void setColor(Color newColor) {
 		color = newColor;
 		switch(getOctave()){
@@ -164,7 +154,7 @@ public class NoteCell{
 	 * Sets the position of the cell to the next coordinate in the path or loop. Reverses if necessary.
 	 */
 	public void advance(){
-		if (pathPos == -1) {
+		if (path.size() > 1 && pathPos == -1) {
 			pathPos++;
 		}
 		else if (path.size() != 1) {

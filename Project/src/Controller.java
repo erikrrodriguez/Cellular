@@ -37,7 +37,7 @@ public class Controller {
 		mainScreen.getFrame().changeVisible(true);
 		grid.update();
 
-		sendCells(); //Transfers note cells from the grid to the frame
+		updateView(); //Transfers note cells from the grid to the frame
 	}
 
 	/*
@@ -47,7 +47,7 @@ public class Controller {
 		while (running) {
 			if (!pause) {
 				grid.update();
-				sendCells(); //Update panel with new cell info
+				updateView(); //Update panel with new cell info
 			}
 
 			try { //Delay before next grid update
@@ -75,7 +75,7 @@ public class Controller {
 	/*
 	 * Send the note cells, occupied grid cells, and the drawn path arraylist to the frame
 	 */
-	private void sendCells() {
+	private void updateView() {
 		mainScreen.getFrame().getPanel().setCells(getCells(), getOccupiedCells(), drawnPath);
 	}
 
@@ -121,7 +121,7 @@ public class Controller {
 			case "OSC": setOSC(); break;
 			default: break;
 			}
-			sendCells();
+			updateView();
 		}
 		public void setOSC() {
 			grid.changeOSC();
@@ -203,7 +203,7 @@ public class Controller {
 			clickedCellY = (int)(click.getY()/50);
 			if (pause) {
 				pathContains(clickedCellX, clickedCellY);
-				sendCells();
+				updateView();
 			}
 		}
 
