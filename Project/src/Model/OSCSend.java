@@ -9,7 +9,6 @@ import com.illposed.osc.*;
 
 public class OSCSend {
 	
-	private OSCPortOut sender;
 	private InetAddress ip;
 	private int port;
 	
@@ -19,15 +18,17 @@ public class OSCSend {
 	}
 	
 	public void sendMsg(int[] array) throws UnknownHostException, SocketException {
-		OSCPortOut sender = new OSCPortOut();
-		OSCMessage msg = new OSCMessage("/cellular");
-		try {
-			sender.send(msg);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		OSCPortOut sender = new OSCPortOut(ip, port);
+		for(int i=0; i < array.length; i++) {
+			OSCMessage msg = new OSCMessage("/cellular");
+			msg.addArgument(array[i]);
+			try {
+				sender.send(msg);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
-		
 	}
 	
 	public int getPort() {
