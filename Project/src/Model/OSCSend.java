@@ -16,12 +16,11 @@ public class OSCSend {
 	public OSCSend() throws SocketException, UnknownHostException {
 		this.ip = InetAddress.getLocalHost();
 		this.port = 57110;
-		@SuppressWarnings("unused")
-		OSCPortOut sender = new OSCPortOut();
 	}
 	
-	public void sendMsg(int[] array) {
-		OSCMessage msg = new OSCMessage();
+	public void sendMsg(int[] array) throws UnknownHostException, SocketException {
+		OSCPortOut sender = new OSCPortOut();
+		OSCMessage msg = new OSCMessage("/cellular");
 		try {
 			sender.send(msg);
 		} catch (IOException e) {

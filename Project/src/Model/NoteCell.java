@@ -85,17 +85,6 @@ public class NoteCell{
 			}
 		}
 		return false;
-		
-//		int lboundx = (x - 1 < 0) ? x : x-1;
-//		int lboundy = (y - 1 < 0) ? y : y-1;
-//		int uboundx = (x + 1 > 8) ? x : x+1;
-//		int uboundy = (y + 1 > 8) ? y : y+1;
-//		for(int i = lboundx; i <= uboundx; i++) {
-//			for(int j = lboundy; j <= uboundy; j++) {
-//				if (!pathContains(i, j)) return false;
-//			}
-//		}
-//		return true;
 	}
 
 	private boolean pathContains(int x, int y) {

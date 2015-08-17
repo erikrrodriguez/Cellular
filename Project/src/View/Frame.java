@@ -15,7 +15,7 @@ public class Frame extends JPanel{
 	private String[] notes = {"-", "C ", "C#", "D ", "D#", "E ", "F ", "F#", "G ", "G#", "A ", "A#", "B "};
 	private String[] octaves = {"-", "4", "5", "6"};
 	private String[] colors = {"-", "Red", "Blue", "Green", "Yellow", "Orange", "Magenta", "Random"};
-	private String[] pathOptions = {"-", "Drawn", "Random"};
+	private String[] pathOptions = {"-", "Drawn", "Random", "Birth"};
 	
 	private GridBagConstraints gbc;
 	

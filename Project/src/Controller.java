@@ -6,6 +6,7 @@ import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
+import Model.BirthCell;
 import Model.Coordinates;
 import Model.Grid;
 import Model.GridCell;
@@ -26,19 +27,19 @@ public class Controller {
 		drawnPath = new ArrayList<Coordinates>();
 		this.mainScreen = frame;
 		this.grid = grid;
-		
+
 		mainScreen.getFrame().addListener(new Listener()); //Listener for all buttons
 		mainScreen.getFrame().getPanel().addMouse(new Mouse());
-		
+
 		running = true;
 		pause = true;
-		
+
 		mainScreen.getFrame().changeVisible(true);
 		grid.update();
-		
+
 		sendCells(); //Transfers note cells from the grid to the frame
 	}
-	
+
 	/*
 	 * Main Loop
 	 */
@@ -48,7 +49,7 @@ public class Controller {
 				grid.update();
 				sendCells(); //Update panel with new cell info
 			}
-			
+
 			try { //Delay before next grid update
 				TimeUnit.MILLISECONDS.sleep(250);
 			} catch(InterruptedException ex) {
@@ -56,21 +57,21 @@ public class Controller {
 			}
 		}
 	}
-	
+
 	/*
 	 * Get the note cells from the grid
 	 */
 	public ArrayList<NoteCell> getCells() {
 		return grid.getCells();
 	}
-	
+
 	/*
 	 * Get the occupied grid cells
 	 */
 	public ArrayList<GridCell> getOccupiedCells() {
 		return grid.getOccupiedCells();
 	}
-	
+
 	/*
 	 * Send the note cells, occupied grid cells, and the drawn path arraylist to the frame
 	 */
@@ -81,7 +82,7 @@ public class Controller {
 	public boolean isPause() {
 		return pause;
 	}
-	
+
 	/*
 	 * Remove last clicked cell from the drawn path
 	 */
@@ -90,7 +91,7 @@ public class Controller {
 			drawnPath.remove(drawnPath.size()-1);				
 		}
 	}
-	
+
 	/*
 	 * Print drawn path.
 	 */
@@ -101,7 +102,7 @@ public class Controller {
 		}
 		System.out.println(path);
 	}
-	
+
 	/*
 	 * Listener for all buttons on the frame.
 	 */
@@ -110,15 +111,15 @@ public class Controller {
 		public void actionPerformed(ActionEvent button) {
 			String b = button.getActionCommand(); //Determine which button was pressed
 			switch(b) {
-				case "startStop": startStop(); break;
-				case "clear": clear(); break;
-				case "generate": generate(); break;
-				case "delete": delete(); break;
-				case "insert": insert(); break;
-				case "birth": grid.changeBirth(); break;
-				case "reset": reset(); break;
-				case "OSC": setOSC(); break;
-				default: break;
+			case "startStop": startStop(); break;
+			case "clear": clear(); break;
+			case "generate": generate(); break;
+			case "delete": delete(); break;
+			case "insert": insert(); break;
+			case "birth": grid.changeBirth(); break;
+			case "reset": reset(); break;
+			case "OSC": setOSC(); break;
+			default: break;
 			}
 			sendCells();
 		}
@@ -149,7 +150,7 @@ public class Controller {
 			grid.generate(); //Generate some random cells
 			pause = false;
 			mainScreen.getFrame().changeVisible(pause);
-			
+
 		}
 		public void delete() {
 			if (drawnPath.size() > 0) {
@@ -161,33 +162,37 @@ public class Controller {
 		}
 		public void insert() {
 			if (pause && mainScreen.getFrame().getPitch() != "-" 
-					&& mainScreen.getFrame().getOctave() != "-" && mainScreen.getFrame().getPath() == "Drawn" 
-						&& drawnPath.size() > 0) {
-				String note = mainScreen.getFrame().getPitch();
-				String octave = mainScreen.getFrame().getOctave();
-				Color color = mainScreen.getFrame().getColor();
-				NoteCell noteCell = new NoteCell(note+octave, color, drawnPath);
-				grid.addNoteCell(noteCell);
-				drawnPath.clear();
+					&& mainScreen.getFrame().getOctave() != "-" && drawnPath.size() > 0) {
+				if (mainScreen.getFrame().getPath() == "Drawn") {
+					String note = mainScreen.getFrame().getPitch();
+					String octave = mainScreen.getFrame().getOctave();
+					Color color = mainScreen.getFrame().getColor();
+					NoteCell noteCell = new NoteCell(note+octave, color, drawnPath);
+					grid.addNoteCell(noteCell);
+					drawnPath.clear();
+				}
+				else if (mainScreen.getFrame().getPath() == "Random") {
+					String note = mainScreen.getFrame().getPitch();
+					String octave = mainScreen.getFrame().getOctave();
+					Color color = mainScreen.getFrame().getColor();
+					NoteCell noteCell = new NoteCell(drawnPath.get(0).getX(), drawnPath.get(0).getY(), note+octave, color);
+					noteCell.generateRandomPath();
+					grid.addNoteCell(noteCell);
+					drawnPath.clear();
+				}
+				else if (mainScreen.getFrame().getPath() == "Birth") {
+					String note = mainScreen.getFrame().getPitch();
+					String octave = mainScreen.getFrame().getOctave();
+					Color color = mainScreen.getFrame().getColor();
+					BirthCell birthCell = new BirthCell(drawnPath.get(0).getX(), drawnPath.get(0).getY(), note+octave, color, color);
+					grid.addNoteCell(birthCell);
+					drawnPath.clear();
+				}
 			}
-			else if (pause && mainScreen.getFrame().getPitch() != "-" 
-					&& mainScreen.getFrame().getOctave() != "-" 
-						&& mainScreen.getFrame().getPath() == "Random"
-						&& drawnPath.size() > 0) {
-				String note = mainScreen.getFrame().getPitch();
-				String octave = mainScreen.getFrame().getOctave();
-				Color color = mainScreen.getFrame().getColor();
-				
-				NoteCell noteCell = new NoteCell(drawnPath.get(0).getX(), drawnPath.get(0).getY(), note+octave, color);
-				noteCell.generateRandomPath();
-				
-				grid.addNoteCell(noteCell);
-				drawnPath.clear();
-			}
-			
+
 		}
 	}
-	
+
 	/*
 	 * Mouse class for drawing a path
 	 */
@@ -202,7 +207,7 @@ public class Controller {
 				sendCells();
 			}
 		}
-		
+
 		private void pathContains(int x, int y) {
 			boolean found = false;
 			for (int i = 1; i < drawnPath.size(); i++){
@@ -222,7 +227,7 @@ public class Controller {
 				drawnPath.add(new Coordinates(x, y));
 			}
 		}
-		
+
 		private Boolean isNeighbor(int x, int y, int nx, int ny) {
 			if ((nx==x && (y==ny-1 || y==ny+1)) || (ny==y && (x==nx-1 || x==nx+1))) {
 				return true;
