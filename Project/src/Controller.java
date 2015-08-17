@@ -184,7 +184,7 @@ public class Controller {
 					String note = mainScreen.getFrame().getPitch();
 					String octave = mainScreen.getFrame().getOctave();
 					Color color = mainScreen.getFrame().getColor();
-					BirthCell birthCell = new BirthCell(drawnPath.get(0).getX(), drawnPath.get(0).getY(), note+octave, color, color);
+					BirthCell birthCell = new BirthCell(drawnPath.get(0).getX(), drawnPath.get(0).getY(), note+octave, color, color, true);
 					grid.addNoteCell(birthCell);
 					drawnPath.clear();
 				}

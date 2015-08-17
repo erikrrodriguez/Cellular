@@ -108,7 +108,7 @@ public class Grid {
 				chldNote = "A A#B C C#D D#E F F#G G#".substring(index, index+2);
 				chldNote += (parOctave1 + parOctave2)/2;
 			}
-			BirthCell birthCell = new BirthCell(x, y, chldNote, parNote1.getColor(), parNote2.getColor());
+			BirthCell birthCell = new BirthCell(x, y, chldNote, parNote1.getColor(), parNote2.getColor(), false);
 			delayedNoteCells.add(birthCell);
 		}
 	}
@@ -231,20 +231,20 @@ public class Grid {
 	public boolean isOSC() {
 		return osc;
 	}
+	
 	public void resetCells() {
 		deleteChildCells();
 		resetGrid();
 		for (NoteCell cell : noteCells) {
 			cell.setPos(0);
 		}
-		
 	}
 	
 	private void deleteChildCells() {
 		Iterator<NoteCell> iter = noteCells.iterator();
 		while (iter.hasNext()) {
 		    NoteCell cell = iter.next();
-		    if (cell instanceof BirthCell) {
+		    if (cell instanceof BirthCell && !((BirthCell) cell).isPlaced()) {
 				iter.remove();
 				grid[cell.getPos().getX()][cell.getPos().getY()].removeCell(cell);
 				if (grid[cell.getPos().getX()][cell.getPos().getY()].getNumNoteCells() == 0) {

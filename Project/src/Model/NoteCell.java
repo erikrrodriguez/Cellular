@@ -63,15 +63,15 @@ public class NoteCell{
 	 */
 	public void generateRandomPath() {
 		int pathLength = randInt(4, 20);	
-		int newx = randInt(curPos.getX()-1, curPos.getX()+1);
-		int newy = randInt(curPos.getY()-1, curPos.getY()+1);
+		int newX, newY;
 		for(int i = 0; i < pathLength; i++) {
-			while (!path.get(i).isNeighbor(newx, newy) || pathContains(newx, newy)) {
-				newx = randInt(path.get(i).getX()-1, path.get(i).getX()+1);
-				newy = randInt(path.get(i).getY()-1, path.get(i).getY()+1);
-			}
-			addToPath(newx, newy);
-			if (loop || !openNeighbor(newx, newy)) {
+			do {
+				newX = randInt(path.get(i).getX()-1, path.get(i).getX()+1);
+				newY = randInt(path.get(i).getY()-1, path.get(i).getY()+1);
+			} while (!path.get(i).isNeighbor(newX, newY) || pathContains(newX, newY));
+			
+			addToPath(newX, newY);
+			if (loop || !openNeighbor(newX, newY)) {
 				break;
 			}
 		}
@@ -79,8 +79,8 @@ public class NoteCell{
 	private boolean openNeighbor(int x, int y) {
 		for(int i = -1; i < 2; i+=2) {
 			for(int j = -1; j < 2; j+=2) {
-				if (x+i >= 0 && x+i <= 8 && y+j >= 0 && y+j <= 8) {
-					if (!pathContains(x+i, y+j)) return true;
+				if (x+i >= 0 && x+i <= 8 && y+j >= 0 && y+j <= 8 && !pathContains(x+i, y+j)) {
+					return true;
 				}
 			}
 		}
