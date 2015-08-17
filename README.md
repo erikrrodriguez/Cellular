@@ -4,20 +4,22 @@ A musical cellular automation application. Written in Java using Eclipse. Utiliz
 
 **Game Overview:**
 * The app consists of a 9x9 grid.
-* User defined cells move around the grid in either loops or paths.
+* User defined cells move around the grid in either loops, paths or randomly.
 * Each cell has a musical note attributed to it.
 * A cell will "play" it's note when it collides with one or more cells.
 
 
 ![Cellular](http://i.imgur.com/4yVcap3.png)
 
-To quickly see what the app does, press the **Generate** button. Generate creates C4, E4, G4, and B4 notes (CM7 chord) with random paths each starting on a grid square adjacent to the center grid square.
+To quickly see what the game in action press the **Generate** button. Generate creates C4, E4, G4, and B4 notes (CM7 chord) with random paths each starting on a grid square adjacent to the center grid square.
 
 You can also draw your own notes and paths while the game is paused. Simply click the squares in the path order you would like. Once you have your path, note, octave, and color defined press the **Insert** button.
 
-To delete a cell click it and press the **Delete button twice**. The first press deletes the path you are attempting to draw, the second deletes the cell contained in the grid. 
+To delete a cell click it and press the **Delete button twice**. The first press deletes the path you are attempting to draw, the second deletes the cells contained in the grid square. 
 
 **Clear** will delete all cells in the grid.
+
+**Reset** will delete all birth cels and set each note cell to its original position
 
 **Start/Stop** will stop and start the simulation.
 
@@ -34,6 +36,6 @@ Its color will be a mix of its two parent's colors. Also in this mode if any squ
 * Allow generate button to generate random notes rather than CEGB.
 * ~~Adjust how a child cell's note is determined.~~
 * ~~Implement a reset button to move all note cells to their starting positions and delete all child cells.~~
+* ~~**Future:** Output OSC data to control VSTs~~
 * **Future:** Print out what one overall pattern looks like to sheet music.
-* **Future:** Output OSC data to control VSTs
 
