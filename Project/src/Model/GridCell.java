@@ -1,4 +1,6 @@
 package Model;
+import java.net.SocketException;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 
 /*
@@ -98,7 +100,15 @@ public class GridCell{
 			array[count] = midiNote;
 			count++;
 		}
-		oscSend.sendMsg(array);
+		try {
+			oscSend.sendMsg(array);
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SocketException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }

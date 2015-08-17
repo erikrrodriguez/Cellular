@@ -9,9 +9,8 @@
 package com.illposed.osc;
 
 import com.illposed.osc.utility.OSCJavaToByteArrayConverter;
-
 import java.util.ArrayList;
-//import java.util.Collection;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -60,17 +59,16 @@ public class OSCMessage extends AbstractOSCPacket {
 	 * Creates an OSCMessage with an address
 	 * and arguments already initialized.
 	 * @param address  the recipient of this OSC message
-	 * @param array  the data sent to the receiver
+	 * @param arguments  the data sent to the receiver
 	 */
-	public OSCMessage(String address, Object[] array) {
+	public OSCMessage(String address, Collection<Object> arguments) {
 
 		checkAddress(address);
 		this.address = address;
-		if (array == null) {
+		if (arguments == null) {
 			this.arguments = new LinkedList<Object>();
 		} else {
-			this.arguments = new ArrayList<Object>();
-			addArgument(array);
+			this.arguments = new ArrayList<Object>(arguments);
 		}
 	}
 

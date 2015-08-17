@@ -81,11 +81,6 @@ public class OSCPortOut extends OSCPort {
 	 */
 	public OSCPortOut() throws UnknownHostException, SocketException {
 		this(InetAddress.getLocalHost(), DEFAULT_SC_OSC_PORT);
-		System.out.println("here");
-	}
-	
-	public OSCPortOut(int port) throws UnknownHostException, SocketException {
-		this(InetAddress.getLocalHost(), port);
 	}
 
 	/**
@@ -94,7 +89,6 @@ public class OSCPortOut extends OSCPort {
 	 * @throws IOException if a (UDP) socket I/O error occurs
 	 */
 	public void send(OSCPacket aPacket) throws IOException {
-		System.out.println("here");
 		final byte[] byteArray = aPacket.getByteArray();
 		final DatagramPacket packet =
 				new DatagramPacket(byteArray, byteArray.length, address, getPort());
