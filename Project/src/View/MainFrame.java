@@ -16,7 +16,8 @@ public class MainFrame extends JFrame{
         tabs.addTab("Game", firstTab);
         tabs.addTab("OSCSend", secondTab);
         setContentPane(tabs);
-		pack();
+		
+        pack();
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setTitle("Cellular");
 		setVisible(true);

@@ -146,17 +146,9 @@ public class Frame extends JPanel{
 		gbc.gridx = 10;
 		gbc.gridy = 8;
 		add(delete, gbc);
-		
-//		pack();
-//		setDefaultCloseOperation(EXIT_ON_CLOSE);
-//		setTitle("Cellular");
-//		setVisible(true);
-//		setResizable(false);
-//		setLocationRelativeTo(null);
 	}
 	
 	public void controlSetup() {
-		
 		insert.setActionCommand("insert");
 		delete.setActionCommand("delete");
 		startStop.setActionCommand("startStop");
@@ -210,18 +202,18 @@ public class Frame extends JPanel{
 	/*
 	 * Hides buttons if the grid is not paused
 	 */
-	public void changeVisible(boolean val) {
-		insert.setVisible(val);
-		delete.setVisible(val);
-		noteSelect.setVisible(val);
-		octaveSelect.setVisible(val);
-		colorSelect.setVisible(val);
-		pathSelect.setVisible(val);
-		path.setVisible(val);
-		note.setVisible(val);
-		color.setVisible(val);
-		octave.setVisible(val);
-	}
+//	public void changeVisible(boolean val) {
+//		insert.setVisible(val);
+//		delete.setVisible(val);
+//		noteSelect.setVisible(val);
+//		octaveSelect.setVisible(val);
+//		colorSelect.setVisible(val);
+//		pathSelect.setVisible(val);
+//		path.setVisible(val);
+//		note.setVisible(val);
+//		color.setVisible(val);
+//		octave.setVisible(val);
+//	}
 	
 	public void addListener(ActionListener listener) {
 		startStop.addActionListener(listener);

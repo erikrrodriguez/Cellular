@@ -64,16 +64,14 @@ public class NoteCell{
 	public void generateRandomPath() {
 		int pathLength = randInt(4, 20);	
 		int newX, newY;
+		outerloop:
 		for(int i = 0; i < pathLength; i++) {
 			do {
 				newX = randInt(path.get(i).getX()-1, path.get(i).getX()+1);
 				newY = randInt(path.get(i).getY()-1, path.get(i).getY()+1);
 			} while (!path.get(i).isNeighbor(newX, newY) || pathContains(newX, newY));
-			
 			addToPath(newX, newY);
-			if (loop || !openNeighbor(newX, newY)) {
-				break;
-			}
+			if (loop || !openNeighbor(newX, newY)) 	break outerloop;
 		}
 	}
 	private boolean openNeighbor(int x, int y) {

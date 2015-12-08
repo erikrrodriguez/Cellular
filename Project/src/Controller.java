@@ -34,7 +34,7 @@ public class Controller {
 		running = true;
 		pause = true;
 
-		mainScreen.getFrame().changeVisible(true);
+		//mainScreen.getFrame().changeVisible(true);
 		grid.update();
 
 		updateView(); //Transfers note cells from the grid to the frame
@@ -73,7 +73,7 @@ public class Controller {
 	}
 
 	/*
-	 * Send the note cells, occupied grid cells, and the drawn path arraylist to the frame
+	 * Send the note cells, occupied grid cells, and the drawn path array list to the frame
 	 */
 	private void updateView() {
 		mainScreen.getFrame().getPanel().setCells(getCells(), getOccupiedCells(), drawnPath);
@@ -132,38 +132,39 @@ public class Controller {
 		public void startStop() {
 			if (drawnPath.size() == 0) {
 				pause = !pause;
-				mainScreen.getFrame().changeVisible(pause);
-				if (!pause){
-					drawnPath.clear();
-				}
+				//mainScreen.getFrame().changeVisible(pause);
+//				if (!pause){
+//					drawnPath.clear();
+//				}
 			}
 		}
 		public void clear() {
 			drawnPath.clear();
 			grid.clearGrid();
 			pause = true;
-			mainScreen.getFrame().changeVisible(pause);
+			//mainScreen.getFrame().changeVisible(pause);
 		}
 		public void generate() {
 			drawnPath.clear();
 			grid.clearGrid();
 			grid.generate(); //Generate some random cells
 			pause = false;
-			mainScreen.getFrame().changeVisible(pause);
+			//mainScreen.getFrame().changeVisible(pause);
 
 		}
 		public void delete() {
-			if (drawnPath.size() > 0) {
+			if (drawnPath.size() > 1) {
 				drawnPath.clear();
 			}
 			else {
 				grid.clearCell(clickedCellX, clickedCellY);
+				drawnPath.clear();
 			}
 		}
 		public void insert() {
-			if (pause && mainScreen.getFrame().getPitch() != "-" 
-					&& mainScreen.getFrame().getOctave() != "-" && drawnPath.size() > 0) {
-				if (mainScreen.getFrame().getPath() == "Drawn") {
+			if (mainScreen.getFrame().getPitch() != "-" 
+					&& mainScreen.getFrame().getOctave() != "-") {
+				if (mainScreen.getFrame().getPath() == "Drawn" && drawnPath.size() > 0) {
 					String note = mainScreen.getFrame().getPitch();
 					String octave = mainScreen.getFrame().getOctave();
 					Color color = mainScreen.getFrame().getColor();
@@ -201,10 +202,12 @@ public class Controller {
 		public void mouseClicked(MouseEvent click) {
 			clickedCellX = (int)(click.getX()/50); //Determine which grid cell is clicked
 			clickedCellY = (int)(click.getY()/50);
-			if (pause) {
-				pathContains(clickedCellX, clickedCellY);
-				updateView();
-			}
+			pathContains(clickedCellX, clickedCellY);
+			updateView();
+//			if (pause) {
+//				pathContains(clickedCellX, clickedCellY);
+//				updateView();
+//			}
 		}
 
 		private void pathContains(int x, int y) {
