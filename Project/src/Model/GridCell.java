@@ -92,8 +92,10 @@ public class GridCell{
 	}
 	
 	private void sendOSC() {
-		int[] array = new int[occupyingCells.size()];
-		int count = 0;
+		int[] array = new int[occupyingCells.size()+2];
+		array[0] = getX();
+		array[1] = getY();
+		int count = 2;
 		int midiNote;
 		for(NoteCell cell : occupyingCells) {
 			midiNote = "C C#D D#E F F#G G#A A#B ".indexOf(cell.getPitch())/2 + 60 + 12*(cell.getOctave()-4);
