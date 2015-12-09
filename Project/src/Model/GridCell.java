@@ -86,7 +86,15 @@ public class GridCell{
 		}
 		int index;
 		for(NoteCell cell : occupyingCells) {
-			index = "A A#B C C#D D#E F F#G G#".indexOf(cell.getPitch())/2 + 12*(cell.getOctave()-4);
+			if (cell.getOctave() < 4) {
+				index = "A A#B C C#D D#E F F#G G#".indexOf(cell.getPitch())/2;
+			}
+			else if (cell.getOctave() > 6) {
+				index = "A A#B C C#D D#E F F#G G#".indexOf(cell.getPitch())/2 + 24;
+			}
+			else {
+				index = "A A#B C C#D D#E F F#G G#".indexOf(cell.getPitch())/2 + 12*(cell.getOctave()-4);
+			}
 			sound.playSound(index, volume);
 		}
 	}
@@ -98,7 +106,7 @@ public class GridCell{
 		int count = 2;
 		int midiNote;
 		for(NoteCell cell : occupyingCells) {
-			midiNote = "C C#D D#E F F#G G#A A#B ".indexOf(cell.getPitch())/2 + 60 + 12*(cell.getOctave()-4);
+			midiNote = "C C#D D#E F F#G G#A A#B ".indexOf(cell.getPitch())/2 + 12*cell.getOctave();
 			array[count] = midiNote;
 			count++;
 		}

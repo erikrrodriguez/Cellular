@@ -13,7 +13,7 @@ public class Frame extends JPanel{
 	private int cellWidth;
 	private int numCells;
 	private String[] notes = {"-", "C ", "C#", "D ", "D#", "E ", "F ", "F#", "G ", "G#", "A ", "A#", "B "};
-	private String[] octaves = {"-", "4", "5", "6"};
+	private String[] octaves = {"-", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9"};
 	private String[] colors = {"-", "Red", "Blue", "Green", "Yellow", "Orange", "Magenta", "Random"};
 	private String[] pathOptions = {"-", "Drawn", "Random", "Birth"};
 	
@@ -191,6 +191,7 @@ public class Frame extends JPanel{
 			case "Yellow": return Color.YELLOW;
 			case "Orange": return Color.ORANGE;
 			case "Magenta": return Color.MAGENTA;
+			case "Random": return Color.PINK;
 			default: return null;
 		}
 	}

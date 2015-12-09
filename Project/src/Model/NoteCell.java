@@ -126,11 +126,15 @@ public class NoteCell{
 
 	public void setColor(Color newColor) {
 		color = newColor;
-			switch(getOctave()){
-			case 4: color = color.darker();	break;
-			case 6: color = color.brighter(); break;
-			default: break;
+		int diff = getOctave()-5;
+		for(int i = 0; i < Math.abs(diff); i++) {
+			if (diff < 0) {
+				color = color.darker();
 			}
+			if (diff > 0) {
+				color = color.brighter();
+			}
+		}
 	}
 
 	public void setRandomColor() {
@@ -219,7 +223,7 @@ public class NoteCell{
 	}
 
 	/*
-	 * returns only the octave: 4,5, or 6.
+	 * returns only the octave: 0 through 9
 	 */
 	public int getOctave() {
 		return Integer.parseInt(note.substring(2, 3));

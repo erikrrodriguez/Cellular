@@ -206,36 +206,6 @@ public class Controller {
 				}
 				drawnPath.clear();
 			}
-			
-	
-//			if (mainScreen.getFrame().getPitch() != "-" 
-//					&& mainScreen.getFrame().getOctave() != "-") {
-//				if (mainScreen.getFrame().getPath() == "Drawn" && drawnPath.size() > 0) {
-//					String note = mainScreen.getFrame().getPitch();
-//					String octave = mainScreen.getFrame().getOctave();
-//					Color color = mainScreen.getFrame().getColor();
-//					NoteCell noteCell = new NoteCell(note+octave, color, drawnPath);
-//					grid.addNoteCell(noteCell);
-//					drawnPath.clear();
-//				}
-//				else if (mainScreen.getFrame().getPath() == "Random") {
-//					String note = mainScreen.getFrame().getPitch();
-//					String octave = mainScreen.getFrame().getOctave();
-//					Color color = mainScreen.getFrame().getColor();
-//					NoteCell noteCell = new NoteCell(drawnPath.get(0).getX(), drawnPath.get(0).getY(), note+octave, color);
-//					noteCell.generateRandomPath();
-//					grid.addNoteCell(noteCell);
-//					drawnPath.clear();
-//				}
-//				else if (mainScreen.getFrame().getPath() == "Birth") {
-//					String note = mainScreen.getFrame().getPitch();
-//					String octave = mainScreen.getFrame().getOctave();
-//					Color color = mainScreen.getFrame().getColor();
-//					BirthCell birthCell = new BirthCell(drawnPath.get(0).getX(), drawnPath.get(0).getY(), note+octave, color, color, true);
-//					grid.addNoteCell(birthCell);
-//					drawnPath.clear();
-//				}
-//			}
 		}
 	}
 
