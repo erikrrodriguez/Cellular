@@ -48,7 +48,8 @@ public class NoteCell{
 		path = new ArrayList<Coordinates>(newPath);
 		curPos = path.get(0);
 		pathPos = -1;
-		note = newNote;
+		note = newNote; //pitch+octave
+		//System.out.println(note);
 		loop = false;
 		reverse = false;
 		if (path.size() > 1 && path.get(0).equals(path.get(path.size() - 1))){
@@ -125,13 +126,11 @@ public class NoteCell{
 
 	public void setColor(Color newColor) {
 		color = newColor;
-		switch(getOctave()){
-		case 4: color = color.darker();
-		break;
-		case 6: color = color.brighter();
-		break;
-		default: break;
-		}
+			switch(getOctave()){
+			case 4: color = color.darker();	break;
+			case 6: color = color.brighter(); break;
+			default: break;
+			}
 	}
 
 	public void setRandomColor() {
@@ -244,7 +243,6 @@ public class NoteCell{
 
 	public int randInt(int min, int max) {
 		int randomNum = rand.nextInt((max - min) + 1) + min;
-
 		return randomNum;
 	}
 

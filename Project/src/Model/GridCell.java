@@ -33,8 +33,8 @@ public class GridCell{
 	}
 	
 	public void addNoteCell(NoteCell cell) {
-		occupyingCells.add(cell);
-		numNoteCells++;
+			occupyingCells.add(cell);
+			numNoteCells++;
 	}
 	
 	public NoteCell getNoteCell() {
