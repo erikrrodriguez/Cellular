@@ -51,7 +51,7 @@ public class NoteCell{
 	/*
 	 * Constructor for Drawn Cell Paths
 	 */
-	public NoteCell(String newNote, Color newColor, ArrayList<Coordinates> newPath){
+	public NoteCell(String newNote, Color newColor, ArrayList<Coordinates> newPath){		
 		path = new ArrayList<Coordinates>(newPath);
 		curPos = path.get(0);
 		pathPos = -1;
@@ -111,9 +111,9 @@ public class NoteCell{
 		return false;
 	}
 
-	public void printPath() {
+	public void printPath(ArrayList<Coordinates> pathToPrint) {
 		String pathstring = "";
-		for(int i = 0; i < path.size(); i++) {
+		for(int i = 0; i < pathToPrint.size(); i++) {
 			pathstring = pathstring + "(" + path.get(i).getX() + "," + path.get(i).getY() + ")  ";
 		}
 		System.out.println(pathstring);

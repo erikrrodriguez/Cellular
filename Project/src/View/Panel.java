@@ -34,6 +34,7 @@ public class Panel extends JPanel{
 		numCells = newNumCells;
 		Dimension size = getPreferredSize();
 		size.width = screenSize;
+		size.height = screenSize;
 		this.setPreferredSize(size);
 		
 		note = "";
@@ -94,7 +95,12 @@ public class Panel extends JPanel{
 					g2.setColor(Color.black);
 				}
 				g2.setFont(new Font("default", Font.BOLD, 18));
-				note = gridCell.getNoteCell().getNote().replaceAll(" ", "");
+				if (gridCell.getNoteCell().getPitch().equals("- ")) {
+					note = "";
+				}
+				else {
+					note = gridCell.getNoteCell().getNote().replaceAll(" ", "");
+				}
 				spacing = 14;
 				switch(note.length()){
 					case 4: spacing -= 5;

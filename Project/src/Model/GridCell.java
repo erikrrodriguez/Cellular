@@ -86,16 +86,18 @@ public class GridCell{
 		}
 		int index;
 		for(NoteCell cell : occupyingCells) {
-			if (cell.getOctave() < 4) {
-				index = "A A#B C C#D D#E F F#G G#".indexOf(cell.getPitch())/2;
+			if (!cell.getPitch().equals("- ")) {
+				if (cell.getOctave() < 4) {
+					index = "A A#B C C#D D#E F F#G G#".indexOf(cell.getPitch())/2;
+				}
+				else if (cell.getOctave() > 6) {
+					index = "A A#B C C#D D#E F F#G G#".indexOf(cell.getPitch())/2 + 24;
+				}
+				else {
+					index = "A A#B C C#D D#E F F#G G#".indexOf(cell.getPitch())/2 + 12*(cell.getOctave()-4);
+				}
+				sound.playSound(index, volume);
 			}
-			else if (cell.getOctave() > 6) {
-				index = "A A#B C C#D D#E F F#G G#".indexOf(cell.getPitch())/2 + 24;
-			}
-			else {
-				index = "A A#B C C#D D#E F F#G G#".indexOf(cell.getPitch())/2 + 12*(cell.getOctave()-4);
-			}
-			sound.playSound(index, volume);
 		}
 	}
 	
@@ -111,15 +113,15 @@ public class GridCell{
 			array[count] = midiNote;
 			count++;
 		}
-//		try {
-//			oscSend.sendMsg(array);
-//		} catch (UnknownHostException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} catch (SocketException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
+		try {
+			oscSend.sendMsg(array);
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SocketException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }

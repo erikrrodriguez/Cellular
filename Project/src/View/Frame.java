@@ -9,7 +9,7 @@ import javax.swing.*;
  */
 public class Frame extends JPanel{
 	private Panel panel; //holds the actual grid
-	private int screenSize;
+	private int panelSize;
 	private int cellWidth;
 	private int numCells;
 	private String[] notes = {"- ", "C ", "C#", "D ", "D#", "E ", "F ", "F#", "G ", "G#", "A ", "A#", "B "};
@@ -42,13 +42,12 @@ public class Frame extends JPanel{
 	public Frame(int newNumCells) {
 		cellWidth = 50;
 		numCells = newNumCells;
-		screenSize = cellWidth*numCells;
-		
+		panelSize = cellWidth*numCells;
 		controlSetup(); //Set action commands for buttons
 		
 		setLayout(new GridBagLayout());
 		gbc = new GridBagConstraints();
-		panel = new Panel(screenSize, numCells);
+		panel = new Panel(panelSize, numCells);
 		JPanel filler = new JPanel();
 		filler.setPreferredSize(new Dimension(cellWidth,cellWidth));
 		
