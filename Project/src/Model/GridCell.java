@@ -107,18 +107,19 @@ public class GridCell{
 		int midiNote;
 		for(NoteCell cell : occupyingCells) {
 			midiNote = "C C#D D#E F F#G G#A A#B ".indexOf(cell.getPitch())/2 + 12*cell.getOctave();
+			System.out.println(midiNote);
 			array[count] = midiNote;
 			count++;
 		}
-		try {
-			oscSend.sendMsg(array);
-		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SocketException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//		try {
+//			oscSend.sendMsg(array);
+//		} catch (UnknownHostException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} catch (SocketException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 	}
 
 }

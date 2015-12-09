@@ -24,8 +24,8 @@ public class Panel extends JPanel{
 	private int halfCellSize;
 	private int cellSize;
 	private int numCells;
-	public int clickedCellX;
-	public int clickedCellY;
+	public String note;
+	public int spacing;
 
 	public Panel(int newScreenSize, int newNumCells){
 		screenSize = newScreenSize;
@@ -35,6 +35,9 @@ public class Panel extends JPanel{
 		Dimension size = getPreferredSize();
 		size.width = screenSize;
 		this.setPreferredSize(size);
+		
+		note = "";
+		spacing = 0;
 	}
 	
 	public void addMouse(MouseListener m) {
@@ -90,8 +93,15 @@ public class Panel extends JPanel{
 				else {
 					g2.setColor(Color.black);
 				}
-				g2.setFont(new Font("default", Font.BOLD, 20));
-				g2.drawString(gridCell.getNoteCell().getPitch(), cellSize*gridCell.getX()+15, cellSize*gridCell.getY()+32);
+				g2.setFont(new Font("default", Font.BOLD, 18));
+				note = gridCell.getNoteCell().getNote().replaceAll(" ", "");
+				spacing = 14;
+				switch(note.length()){
+					case 4: spacing -= 5;
+					case 3: spacing -= 4;
+					default: break;
+				}
+				g2.drawString(note, cellSize*gridCell.getX()+spacing, cellSize*gridCell.getY()+32);
 			}
 
 		}

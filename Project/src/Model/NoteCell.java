@@ -11,6 +11,8 @@ import java.util.Random;
 public class NoteCell{
 	protected Coordinates curPos;
 	private String note; //Holds Pitch and Octave
+	private String pitch;
+	private int octave;
 	private Boolean loop; //Whether or not the path is a loop
 	private Boolean reverse; //Whether the note is currently moving backwards along it's path.
 	private ArrayList<Coordinates> path;
@@ -22,6 +24,9 @@ public class NoteCell{
 	public NoteCell(int x, int y, String newNote) {
 		curPos = new Coordinates(x, y);
 		note = newNote;
+		pitch = note.substring(0, 2);
+		octave = Integer.parseInt(note.substring(2));
+
 		loop = false;
 		reverse = false;
 		path = new ArrayList<Coordinates>();
@@ -33,6 +38,8 @@ public class NoteCell{
 	public NoteCell(int x, int y, String newNote, Color color) {
 		curPos = new Coordinates(x, y);
 		note = newNote;
+		pitch = note.substring(0, 2);
+		octave = Integer.parseInt(note.substring(2));
 		loop = false;
 		reverse = false;
 		path = new ArrayList<Coordinates>();
@@ -49,7 +56,8 @@ public class NoteCell{
 		curPos = path.get(0);
 		pathPos = -1;
 		note = newNote; //pitch+octave
-		//System.out.println(note);
+		pitch = note.substring(0, 2);
+		octave = Integer.parseInt(note.substring(2));
 		loop = false;
 		reverse = false;
 		if (path.size() > 1 && path.get(0).equals(path.get(path.size() - 1))){
@@ -66,14 +74,14 @@ public class NoteCell{
 		int pathLength = randInt(4, 20);	
 		int newX, newY;
 		outerloop:
-		for(int i = 0; i < pathLength; i++) {
-			do {
-				newX = randInt(path.get(i).getX()-1, path.get(i).getX()+1);
-				newY = randInt(path.get(i).getY()-1, path.get(i).getY()+1);
-			} while (!path.get(i).isNeighbor(newX, newY) || pathContains(newX, newY));
-			addToPath(newX, newY);
-			if (loop || !openNeighbor(newX, newY)) 	break outerloop;
-		}
+			for(int i = 0; i < pathLength; i++) {
+				do {
+					newX = randInt(path.get(i).getX()-1, path.get(i).getX()+1);
+					newY = randInt(path.get(i).getY()-1, path.get(i).getY()+1);
+				} while (!path.get(i).isNeighbor(newX, newY) || pathContains(newX, newY));
+				addToPath(newX, newY);
+				if (loop || !openNeighbor(newX, newY)) 	break outerloop;
+			}
 	}
 	private boolean openNeighbor(int x, int y) {
 		for(int i = -1; i < 2; i+=2) {
@@ -127,13 +135,11 @@ public class NoteCell{
 	public void setColor(Color newColor) {
 		color = newColor;
 		int diff = getOctave()-5;
-		for(int i = 0; i < Math.abs(diff); i++) {
-			if (diff < 0) {
-				color = color.darker();
-			}
-			if (diff > 0) {
-				color = color.brighter();
-			}
+		if (diff < 3) {
+			color = color.darker();
+		}
+		if (diff > 3) {
+			color = color.brighter();
 		}
 	}
 
@@ -219,14 +225,14 @@ public class NoteCell{
 	 * @return
 	 */
 	public String getPitch(){
-		return note.substring(0, 2);
+		return pitch;
 	}
 
 	/*
 	 * returns only the octave: 0 through 9
 	 */
 	public int getOctave() {
-		return Integer.parseInt(note.substring(2, 3));
+		return octave;
 	}
 
 	public ArrayList<Coordinates> getPath() {
