@@ -199,22 +199,6 @@ public class Frame extends JPanel{
 		colorSelect.setSelectedItem(color);
 	}
 	
-	/*
-	 * Hides buttons if the grid is not paused
-	 */
-//	public void changeVisible(boolean val) {
-//		insert.setVisible(val);
-//		delete.setVisible(val);
-//		noteSelect.setVisible(val);
-//		octaveSelect.setVisible(val);
-//		colorSelect.setVisible(val);
-//		pathSelect.setVisible(val);
-//		path.setVisible(val);
-//		note.setVisible(val);
-//		color.setVisible(val);
-//		octave.setVisible(val);
-//	}
-	
 	public void addListener(ActionListener listener) {
 		startStop.addActionListener(listener);
 		clear.addActionListener(listener);

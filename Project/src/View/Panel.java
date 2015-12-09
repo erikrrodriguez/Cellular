@@ -2,6 +2,7 @@ package View;
 
 import java.awt.*;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
@@ -23,6 +24,8 @@ public class Panel extends JPanel{
 	private int halfCellSize;
 	private int cellSize;
 	private int numCells;
+	public int clickedCellX;
+	public int clickedCellY;
 
 	public Panel(int newScreenSize, int newNumCells){
 		screenSize = newScreenSize;
@@ -34,6 +37,10 @@ public class Panel extends JPanel{
 		this.setPreferredSize(size);
 	}
 	
+	public void addMouse(MouseListener m) {
+		this.addMouseListener(m);
+		this.addMouseMotionListener((MouseMotionListener) m);
+	}
 	public Dimension getPreferredSize() {
         return new Dimension(screenSize,screenSize);
     }
@@ -116,10 +123,6 @@ public class Panel extends JPanel{
 		this.occupiedCells = occupiedCells;
 		this.drawnPath = drawnPath;
 		repaint();
-	}
-	
-	public void addMouse(MouseListener listener) {
-		this.addMouseListener(listener);
 	}
 
 }
