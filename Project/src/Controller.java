@@ -264,9 +264,7 @@ public class Controller {
 				clickedCellX = (int)(mousedrag.getX()/50); 
 				clickedCellY = (int)(mousedrag.getY()/50);
 				pathContains(clickedCellX, clickedCellY);
-				if (drag) {
-					updateView();
-				}
+				updateView();
 			}
 		}
 

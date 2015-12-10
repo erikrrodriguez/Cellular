@@ -74,14 +74,14 @@ public class Grid {
 
 				if (birth) { //The birth option can be toggled
 					if (grid[x][y].getNumNoteCells() == 2 
-							&& !containsBirthCell(x, y)) birthNewCell(x, y);
+							&& !containsBirthCell(x, y) && !containsPlayerCell(x, y)) birthNewCell(x, y);
 					if (grid[x][y].getNumNoteCells() >= 4) clearCell(x, y);
 				}
 			}
 			collisions.clear();
 		}
 	}
-	
+
 	private void birthNewCell(int x, int y) {
 		int rnum = randInt(0, 15);
 		if (rnum <= 3) {	//25% chance of birth
@@ -116,6 +116,13 @@ public class Grid {
 	private boolean containsBirthCell(int x, int y) {
 		if (grid[x][y].getNoteCell(0) instanceof BirthCell || 
 				grid[x][y].getNoteCell(1) instanceof BirthCell)
+			return true;
+		return false;
+	}
+	
+	private boolean containsPlayerCell(int x, int y) {
+		if (grid[x][y].getNoteCell(0).getPitch().equals("- ") || 
+				grid[x][y].getNoteCell(1).getPitch().equals("- "))
 			return true;
 		return false;
 	}

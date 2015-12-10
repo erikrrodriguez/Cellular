@@ -162,6 +162,10 @@ public class Frame extends JPanel{
 		return panel;
 	}
 	
+	public int getPanelSize() {
+		return panelSize;
+	}
+	
 	public String getPitch(){
 		return (String) noteSelect.getSelectedItem();
 	}
