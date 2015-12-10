@@ -248,6 +248,10 @@ public class Controller {
 		public void mousePressed(MouseEvent click) {
 			clickedCellX = (int)(click.getX()/50); //Determine which grid cell is clicked
 			clickedCellY = (int)(click.getY()/50);
+			System.out.println(click.getX());
+			System.out.println(click.getY());
+			System.out.println((int)(click.getX()/50));
+			System.out.println((int)(click.getY()/50));
 			pathContains(clickedCellX, clickedCellY);
 			drag = true;
 			updateView();
@@ -261,6 +265,12 @@ public class Controller {
 		@Override
 		public void mouseDragged(MouseEvent mousedrag) {
 			if (mousedrag.getX() < 450 && mousedrag.getY() < 450) {
+				clickedCellX = (int)(mousedrag.getX()/50); 
+				clickedCellY = (int)(mousedrag.getY()/50);
+				System.out.println(mousedrag.getX());
+				System.out.println(mousedrag.getY());
+				System.out.println((int)(mousedrag.getX()/50));
+				System.out.println((int)(mousedrag.getY()/50));
 				pathContains(clickedCellX, clickedCellY);
 				if (drag) {
 					updateView();
