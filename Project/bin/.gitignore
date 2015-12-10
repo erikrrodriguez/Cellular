@@ -1,3 +1,6 @@
+/B6.wav
+/C4.wav
+/C5.wav
 /C6.wav
 /CS4.wav
 /CS5.wav
@@ -31,14 +34,11 @@
 /AS6.wav
 /B4.wav
 /B5.wav
-/B6.wav
-/C4.wav
-/C5.wav
-/Controller$Listener.class
-/Controller$Mouse.class
-/Controller.class
-/Main.class
 /Model/
 /View/
 /com/
 /kuusisto/
+/Controller$Listener.class
+/Controller$Mouse.class
+/Controller.class
+/Main.class
