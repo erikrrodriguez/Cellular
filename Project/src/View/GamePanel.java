@@ -15,7 +15,7 @@ import Model.NoteCell;
 /*
  * This is the representation of the grid within the frame.
  */
-public class Panel extends JPanel{
+public class GamePanel extends JPanel{
 	
 	private ArrayList<NoteCell> noteCells;
 	private ArrayList<GridCell> occupiedCells;
@@ -27,7 +27,7 @@ public class Panel extends JPanel{
 	public String note;
 	public int spacing;
 
-	public Panel(int newPanelSize, int newNumCells){
+	public GamePanel(int newPanelSize, int newNumCells){
 		panelSize = newPanelSize;
 		cellSize = 50;
 		halfCellSize = cellSize/2;

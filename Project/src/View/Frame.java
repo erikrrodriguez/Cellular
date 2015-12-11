@@ -1,14 +1,13 @@
 package View;
 import java.awt.*;
 import java.awt.event.ActionListener;
-
 import javax.swing.*;
 
 /*
  * Frame for the entire program including the grid and the buttons
  */
 public class Frame extends JPanel{
-	private Panel panel; //holds the actual grid
+	private GamePanel panel; //holds the actual grid
 	private int panelSize;
 	private int cellWidth;
 	private int numCells;
@@ -47,7 +46,7 @@ public class Frame extends JPanel{
 		
 		setLayout(new GridBagLayout());
 		gbc = new GridBagConstraints();
-		panel = new Panel(panelSize, numCells);
+		panel = new GamePanel(panelSize, numCells);
 		JPanel filler = new JPanel();
 		filler.setPreferredSize(new Dimension(cellWidth,cellWidth));
 		
@@ -158,7 +157,7 @@ public class Frame extends JPanel{
 		reset.setActionCommand("reset");
 	}
 	
-	public Panel getPanel() {
+	public GamePanel getPanel() {
 		return panel;
 	}
 	
