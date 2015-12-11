@@ -216,27 +216,52 @@ public class Controller {
 	 */
 	private class Mouse implements MouseListener, MouseMotionListener {
 		private boolean drag = false;
-
-		private void pathContains(int x, int y) {
-			boolean found = false;
-			for (int i = 1; i < drawnPath.size(); i++){
-				if (!drag && drawnPath.get(i).getX() == x && drawnPath.get(i).getY() == y) {
-					//drawnPath.remove(i); //uncommenting this allows for looped triangle paths and skipped squares
-					found = true;
-					break;
+		private int lastDragCellX = -1;
+		private int lastDragCellY = -1;
+		
+		private void drawnPathAddRemove(int x, int y) {
+			if (drawnPath.size() == 0) {
+				drawnPath.add(new Coordinates(x, y));
+				lastDragCellX = clickedCellX;
+				lastDragCellY = clickedCellY;
+			}
+			else {
+				Coordinates start = drawnPath.get(0); 
+				Coordinates last  = drawnPath.get(drawnPath.size()-1);
+				int size = drawnPath.size();
+				if (x == last.getX() && y == last.getY()) {
+					drawnPath.remove(drawnPath.size() - 1);
+					lastDragCellX = clickedCellX;
+					lastDragCellY = clickedCellY;
 				}
-			}
-			if (!drag && found && drawnPath.get(drawnPath.size()-1).getX() == x && drawnPath.get(drawnPath.size()-1).getY() == y) {
-				drawnPath.remove(drawnPath.size()-1);
-			}
-			else if (!found && drawnPath.size() == 0) {
-				drawnPath.add(new Coordinates(x, y));
-			}
-			else if (!found && isNeighbor(drawnPath.get(drawnPath.size()-1).getX(), drawnPath.get(drawnPath.size()-1).getY(), x, y)){
-				drawnPath.add(new Coordinates(x, y));
-			}
+				else if (drag && size > 1 && x == drawnPath.get(drawnPath.size()-2).getX() && y == drawnPath.get(drawnPath.size()-2).getY()) {
+					drawnPath.remove(drawnPath.size()-1);
+					lastDragCellX = x;
+					lastDragCellY = y;
+				}
+				else if (size > 2 && x == start.getX() && y == start.getY() && isNeighbor(last.getX(), last.getY(), x, y)) {
+					drawnPath.add(new Coordinates(x, y));
+					lastDragCellX = clickedCellX;
+					lastDragCellY = clickedCellY;
+				}
+				else {
+					boolean found = false;
+					for (int i = 1; i < drawnPath.size(); i++){
+						if (drawnPath.get(i).getX() == x && drawnPath.get(i).getY() == y) {
+							//drawnPath.remove(i); //uncommenting this allows for looped triangle paths and skipped squares
+							found = true;
+							break;
+						}
+					}
+					if (!found && isNeighbor(last.getX(), last.getY(), x, y) && !(last.equals(start) && size > 2)) {
+						drawnPath.add(new Coordinates(x,y));
+						lastDragCellX = clickedCellX;
+						lastDragCellY = clickedCellY;
+					}
+				}				
+			}			
 		}
-
+		
 		private Boolean isNeighbor(int x, int y, int nx, int ny) {
 			if ((nx==x && (y==ny-1 || y==ny+1)) || (ny==y && (x==nx-1 || x==nx+1))) {
 				return true;
@@ -248,7 +273,7 @@ public class Controller {
 		public void mousePressed(MouseEvent click) {
 			clickedCellX = (int)(click.getX()/50); //Determine which grid cell is clicked
 			clickedCellY = (int)(click.getY()/50);
-			pathContains(clickedCellX, clickedCellY);
+			drawnPathAddRemove(clickedCellX, clickedCellY);
 			drag = true;
 			updateView();
 		}
@@ -256,14 +281,19 @@ public class Controller {
 		@Override
 		public void mouseReleased(MouseEvent arg0) {
 			drag = false;
+			lastDragCellX = -1;
+			lastDragCellY = -1;
 		}
 		
 		@Override
-		public void mouseDragged(MouseEvent mousedrag) {
-			if (mousedrag.getX() < 450 && mousedrag.getY() < 450) {
-				clickedCellX = (int)(mousedrag.getX()/50); 
-				clickedCellY = (int)(mousedrag.getY()/50);
-				pathContains(clickedCellX, clickedCellY);
+		public void mouseDragged(MouseEvent mouseDrag) {
+			int mouseDragCellX = (int)(mouseDrag.getX()/50);
+			int mouseDragCellY = (int)(mouseDrag.getY()/50);
+			if (mouseDragCellX != lastDragCellX || mouseDragCellY != lastDragCellY && 
+					mouseDrag.getX() < 450 && mouseDrag.getY() < 450) {
+				clickedCellX = mouseDragCellX;
+				clickedCellY = mouseDragCellY;
+				drawnPathAddRemove(mouseDragCellX, mouseDragCellY);
 				updateView();
 			}
 		}
