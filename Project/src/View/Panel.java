@@ -20,21 +20,21 @@ public class Panel extends JPanel{
 	private ArrayList<NoteCell> noteCells;
 	private ArrayList<GridCell> occupiedCells;
 	private ArrayList<Coordinates> drawnPath;
-	private int screenSize;
+	private int panelSize;
 	private int halfCellSize;
 	private int cellSize;
 	private int numCells;
 	public String note;
 	public int spacing;
 
-	public Panel(int newScreenSize, int newNumCells){
-		screenSize = newScreenSize;
+	public Panel(int newPanelSize, int newNumCells){
+		panelSize = newPanelSize;
 		cellSize = 50;
-		halfCellSize = 25;
+		halfCellSize = cellSize/2;
 		numCells = newNumCells;
 		Dimension size = getPreferredSize();
-		size.width = screenSize;
-		size.height = screenSize;
+		size.width = panelSize;
+		size.height = panelSize;
 		this.setPreferredSize(size);
 		
 		note = "";
@@ -46,7 +46,7 @@ public class Panel extends JPanel{
 		this.addMouseMotionListener((MouseMotionListener) m);
 	}
 	public Dimension getPreferredSize() {
-        return new Dimension(screenSize,screenSize);
+        return new Dimension(panelSize,panelSize);
     }
 	
 	/*
@@ -56,7 +56,7 @@ public class Panel extends JPanel{
 		Graphics2D g2 = (Graphics2D) g;
 		
 		g2.setColor(Color.BLACK);
-		g2.fillRect(0, 0, screenSize, screenSize);
+		g2.fillRect(0, 0, panelSize, panelSize);
 
 		//Draw Paths
 		for(NoteCell noteCell : noteCells) {
@@ -126,7 +126,7 @@ public class Panel extends JPanel{
 		
 
 		//Draw Grid lines
-		for (int i = 0; i < screenSize; i += cellSize) {
+		for (int i = 0; i < panelSize; i += cellSize) {
 			g2.setColor(Color.WHITE);
 			g2.drawLine(i, 0, i, cellSize*numCells);
 			g2.drawLine(0, i, cellSize*numCells, i);
