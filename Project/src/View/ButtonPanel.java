@@ -1,16 +1,19 @@
 package View;
-import java.awt.*;
-import java.awt.event.ActionListener;
-import javax.swing.*;
 
-/*
- * Frame for the entire program including the grid and the buttons
- */
-public class Frame extends JPanel{
-	private GamePanel panel; //holds the actual grid
-	private int panelSize;
-	private int cellWidth;
-	private int numCells;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
+public class ButtonPanel extends JPanel{
 	private String[] notes = {"- ", "C ", "C#", "D ", "D#", "E ", "F ", "F#", "G ", "G#", "A ", "A#", "B "};
 	private String[] octaves = {"-", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
 	private String[] colors = {"-", "Red", "Blue", "Green", "Yellow", "Orange", "Magenta", "Random"};
@@ -38,23 +41,19 @@ public class Frame extends JPanel{
 	private JComboBox<String> octaveSelect = new JComboBox<String>(octaves);
 	private JComboBox<String> colorSelect = new JComboBox<String>(colors);
 	
-	public Frame(int newNumCells) {
-		cellWidth = 50;
-		numCells = newNumCells;
-		panelSize = cellWidth*numCells;
+	public ButtonPanel() {
 		controlSetup(); //Set action commands for buttons
 		
 		setLayout(new GridBagLayout());
 		gbc = new GridBagConstraints();
-		panel = new GamePanel(panelSize, numCells);
 		JPanel filler = new JPanel();
-		filler.setPreferredSize(new Dimension(cellWidth,cellWidth));
+		filler.setPreferredSize(new Dimension(50,50));
 		
 		gbc.gridx = 0;
 		gbc.gridy = 0;
 		gbc.gridwidth = 9;
 		gbc.gridheight = 9;
-		add(panel, gbc);
+		//add(gamePanel, gbc);
 		
 		gbc.insets = new Insets(5, 5, 5, 5);
 		
@@ -157,14 +156,6 @@ public class Frame extends JPanel{
 		reset.setActionCommand("reset");
 	}
 	
-	public GamePanel getPanel() {
-		return panel;
-	}
-	
-	public int getPanelSize() {
-		return panelSize;
-	}
-	
 	public String getPitch(){
 		return (String) noteSelect.getSelectedItem();
 	}
@@ -212,4 +203,5 @@ public class Frame extends JPanel{
 		OSC.addActionListener(listener);
 		reset.addActionListener(listener);
 	}
+
 }

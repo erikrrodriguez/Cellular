@@ -141,4 +141,8 @@ public class GamePanel extends JPanel{
 		repaint();
 	}
 
+	public int getPanelSize() {
+		return panelSize;
+	}
+
 }

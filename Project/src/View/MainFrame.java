@@ -4,10 +4,10 @@ import javax.swing.JTabbedPane;
 
 public class MainFrame extends JFrame{
 	
-	private Frame firstTab;
+	private FirstTabPanel firstTab;
 	private OSCPanel secondTab;
 
-	public MainFrame(Frame mainScreen, OSCPanel osc) {
+	public MainFrame(FirstTabPanel mainScreen, OSCPanel osc) {
 		JTabbedPane tabs=new JTabbedPane();
 		
 		firstTab = mainScreen;
@@ -25,7 +25,7 @@ public class MainFrame extends JFrame{
 		setLocationRelativeTo(null);
 	}
 	
-	public Frame getFrame() {
+	public FirstTabPanel getFrame() {
 		return firstTab;
 	}
 
