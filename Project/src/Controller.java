@@ -199,6 +199,7 @@ public class Controller {
 				}
 				if (mainScreen.getFrame().getPath() == "Drawn") {
 					NoteCell noteCell = new NoteCell(note+octave, color, drawnPath);
+					System.out.println(note+octave);
 					grid.addNoteCell(noteCell);
 					drawnPath.clear();
 				}

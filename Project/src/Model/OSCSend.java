@@ -18,27 +18,41 @@ public class OSCSend {
 	}
 	
 	public void sendMsg(int[] array) throws UnknownHostException, SocketException {
-		OSCPortOut sender = new OSCPortOut(ip, port);		
-		OSCMessage coorMsg = new OSCMessage("/coor/");
-		coorMsg.addArgument(array[0]);
-		coorMsg.addArgument(array[1]);
+		OSCPortOut sender = new OSCPortOut(ip, port);
+		OSCMessage toMax = new OSCMessage("/coornotes/");
+		
+		for(int i = 0; i < array.length; i++) {
+			toMax.addArgument(array[i]);
+		}
 		try {
-			sender.send(coorMsg);
+			sender.send(toMax);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		OSCMessage noteMsg = new OSCMessage("/notes/");
-		for(int i=2; i < array.length; i++) {
-			noteMsg.addArgument(array[i]);
-		}
-		try {
-			sender.send(noteMsg);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
+		
+//		OSCMessage coorMsg = new OSCMessage("/coor/");
+//		coorMsg.addArgument(array[0]);
+//		coorMsg.addArgument(array[1]);
+//		try {
+//			sender.send(coorMsg);
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		
+//		OSCMessage noteMsg = new OSCMessage("/notes/");
+//		for(int i=2; i < array.length; i++) {
+//			noteMsg.addArgument(array[i]);
+//		}
+//		try {
+//			sender.send(noteMsg);
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 	}
 	
 	public int getPort() {

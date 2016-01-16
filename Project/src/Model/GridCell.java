@@ -108,10 +108,11 @@ public class GridCell{
 		int count = 2;
 		int midiNote;
 		for(NoteCell cell : occupyingCells) {
-			midiNote = "C C#D D#E F F#G G#A A#B ".indexOf(cell.getPitch())/2 + 12*cell.getOctave();
-			System.out.println(midiNote);
-			array[count] = midiNote;
-			count++;
+			if (!cell.getPitch().equals("- ")) {
+				midiNote = "C C#D D#E F F#G G#A A#B ".indexOf(cell.getPitch())/2 + 12*cell.getOctave();
+				array[count] = midiNote;
+				count++;
+			}
 		}
 		try {
 			oscSend.sendMsg(array);
