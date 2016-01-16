@@ -7,6 +7,8 @@ import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
+import javax.swing.SwingUtilities;
+
 import Model.BirthCell;
 import Model.Coordinates;
 import Model.Grid;
@@ -272,11 +274,17 @@ public class Controller {
 		
 		@Override
 		public void mousePressed(MouseEvent click) {
-			clickedCellX = (int)(click.getX()/50); //Determine which grid cell is clicked
-			clickedCellY = (int)(click.getY()/50);
-			drawnPathAddRemove(clickedCellX, clickedCellY);
-			drag = true;
-			updateView();
+			if(SwingUtilities.isRightMouseButton(click)){ //right click delete grid cell
+				grid.clearCell((int)(click.getX()/50), (int)(click.getY()/50));
+				updateView();
+			}
+			else {
+				clickedCellX = (int)(click.getX()/50); //Determine which grid cell is clicked
+				clickedCellY = (int)(click.getY()/50);
+				drawnPathAddRemove(clickedCellX, clickedCellY);
+				drag = true;
+				updateView();
+			}
 		}
 		
 		@Override
@@ -288,14 +296,16 @@ public class Controller {
 		
 		@Override
 		public void mouseDragged(MouseEvent mouseDrag) {
-			int mouseDragCellX = (int)(mouseDrag.getX()/50);
-			int mouseDragCellY = (int)(mouseDrag.getY()/50);
-			if (mouseDragCellX != lastDragCellX || mouseDragCellY != lastDragCellY && 
-					mouseDrag.getX() < 450 && mouseDrag.getY() < 450) {
-				clickedCellX = mouseDragCellX;
-				clickedCellY = mouseDragCellY;
-				drawnPathAddRemove(mouseDragCellX, mouseDragCellY);
-				updateView();
+			if (drag) {
+				int mouseDragCellX = (int)(mouseDrag.getX()/50);
+				int mouseDragCellY = (int)(mouseDrag.getY()/50);
+				if (mouseDragCellX != lastDragCellX || mouseDragCellY != lastDragCellY && 
+						mouseDrag.getX() < 450 && mouseDrag.getY() < 450) {
+					clickedCellX = mouseDragCellX;
+					clickedCellY = mouseDragCellY;
+					drawnPathAddRemove(mouseDragCellX, mouseDragCellY);
+					updateView();
+				}
 			}
 		}
 
