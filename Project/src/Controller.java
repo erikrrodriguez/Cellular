@@ -14,11 +14,12 @@ import Model.Coordinates;
 import Model.Grid;
 import Model.GridCell;
 import Model.NoteCell;
+import NewView.View;
 import View.MainFrame;
 
 public class Controller {
 
-	private MainFrame mainScreen;	
+	private View mainScreen; //MainFrame
 	private Grid grid;
 	private boolean running;
 	private boolean pause;
@@ -26,7 +27,7 @@ public class Controller {
 	private int clickedCellY;
 	private ArrayList<Coordinates> drawnPath; //To hold the path that the user draws.
 
-	public Controller(MainFrame frame, Grid grid) {
+	public Controller(View frame, Grid grid) { //MainFrame
 		drawnPath = new ArrayList<Coordinates>();
 		this.mainScreen = frame;
 		this.grid = grid;
@@ -275,12 +276,12 @@ public class Controller {
 		@Override
 		public void mousePressed(MouseEvent click) {
 			if(SwingUtilities.isRightMouseButton(click)){ //right click delete grid cell
-				grid.clearCell((int)(click.getX()/50), (int)(click.getY()/50));
+				grid.clearCell((int)(click.getX()/mainScreen.getCellSize()), (int)(click.getY()/mainScreen.getCellSize()));
 				updateView();
 			}
 			else {
-				clickedCellX = (int)(click.getX()/50); //Determine which grid cell is clicked
-				clickedCellY = (int)(click.getY()/50);
+				clickedCellX = (int)(click.getX()/mainScreen.getCellSize()); //Determine which grid cell is clicked
+				clickedCellY = (int)(click.getY()/mainScreen.getCellSize());
 				drawnPathAddRemove(clickedCellX, clickedCellY);
 				drag = true;
 				updateView();
@@ -297,10 +298,10 @@ public class Controller {
 		@Override
 		public void mouseDragged(MouseEvent mouseDrag) {
 			if (drag) {
-				int mouseDragCellX = (int)(mouseDrag.getX()/50);
-				int mouseDragCellY = (int)(mouseDrag.getY()/50);
+				int mouseDragCellX = (int)(mouseDrag.getX()/mainScreen.getCellSize());
+				int mouseDragCellY = (int)(mouseDrag.getY()/mainScreen.getCellSize());
 				if (mouseDragCellX != lastDragCellX || mouseDragCellY != lastDragCellY && 
-						mouseDrag.getX() < 450 && mouseDrag.getY() < 450) {
+						mouseDrag.getX() < mainScreen.getGamePanelSize() && mouseDrag.getY() < mainScreen.getGamePanelSize()) {
 					clickedCellX = mouseDragCellX;
 					clickedCellY = mouseDragCellY;
 					drawnPathAddRemove(mouseDragCellX, mouseDragCellY);

@@ -4,6 +4,7 @@ import java.net.UnknownHostException;
 import Model.Audio;
 import Model.Grid;
 import Model.OSCSend;
+import NewView.View;
 import View.FirstTabPanel;
 import View.MainFrame;
 import View.OSCPanel;
@@ -22,12 +23,15 @@ public class Main {
 		Audio sound = new Audio();
 		OSCSend oscSend = new OSCSend();
 		Grid grid = new Grid(9, sound, oscSend);		
-		FirstTabPanel frame = new FirstTabPanel(9);
+		//FirstTabPanel frame = new FirstTabPanel(9);
 		
-		OSCPanel oscPanel = new OSCPanel();
-		MainFrame mainScreen = new MainFrame(frame, oscPanel);
+		//OSCPanel oscPanel = new OSCPanel();
+		//MainFrame mainScreen = new MainFrame(frame, oscPanel);
+		//Controller controller = new Controller(mainScreen, grid);
 		
-		Controller controller = new Controller(mainScreen, grid);
+		View newFrame = new View(9);
+		
+		Controller controller = new Controller(newFrame, grid);
 		
 		controller.start(); //Run the program
 

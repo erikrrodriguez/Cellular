@@ -8,7 +8,6 @@ import javax.swing.*;
  */
 public class FirstTabPanel extends JPanel{
 	private GamePanel gamePanel; //holds the actual grid
-	private ButtonPanel buttonPanel;
 	
 	private int cellWidth;
 	private int numCells;
@@ -43,7 +42,6 @@ public class FirstTabPanel extends JPanel{
 		cellWidth = 50;
 		numCells = newNumCells;
 		gamePanel = new GamePanel(cellWidth*numCells, numCells);
-		buttonPanel = new ButtonPanel();
 		
 		controlSetup(); //Set action commands for buttons
 		

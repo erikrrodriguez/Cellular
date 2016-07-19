@@ -24,18 +24,19 @@ public class GamePanel extends JPanel{
 	private int halfCellSize;
 	private int cellSize;
 	private int numCells;
+	private int minSize;
 	public String note;
 	public int spacing;
 
 	public GamePanel(int newPanelSize, int newNumCells){
 		panelSize = newPanelSize;
-		cellSize = 50;
-		halfCellSize = cellSize/2;
 		numCells = newNumCells;
-		Dimension size = getPreferredSize();
-		size.width = panelSize;
-		size.height = panelSize;
-		this.setPreferredSize(size);
+		cellSize = panelSize / numCells;
+		halfCellSize = cellSize/2;
+		//Dimension size = getPreferredSize();
+		//size.width = panelSize;
+		//size.height = panelSize;
+		//this.setPreferredSize(size);
 		
 		note = "";
 		spacing = 0;
@@ -126,7 +127,7 @@ public class GamePanel extends JPanel{
 		
 
 		//Draw Grid lines
-		for (int i = 0; i < panelSize; i += cellSize) {
+		for (int i = 0; i < panelSize-1; i += cellSize) {
 			g2.setColor(Color.WHITE);
 			g2.drawLine(i, 0, i, cellSize*numCells);
 			g2.drawLine(0, i, cellSize*numCells, i);
@@ -143,6 +144,17 @@ public class GamePanel extends JPanel{
 
 	public int getPanelSize() {
 		return panelSize;
+	}
+
+	public void resize() {
+		minSize = (int) Math.min(getSize().getHeight(), getSize().getWidth());
+		cellSize = minSize / numCells;
+		halfCellSize = cellSize/2;
+		panelSize = minSize;
+	}
+	
+	public int getCellSize() {
+		return cellSize;
 	}
 
 }

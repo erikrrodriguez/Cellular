@@ -65,9 +65,9 @@ public class GridCell{
 	/*
 	 * Play the notes of each note cell in the grid cell.
 	 */
-	public void playNotes(boolean osc) {
+	public void playNotes(boolean osc, int totalCells) {
 		if (osc) {
-			sendOSC();
+			sendOSC(totalCells);
 		}
 		else{
 			playNotes();
@@ -101,11 +101,12 @@ public class GridCell{
 		}
 	}
 	
-	private void sendOSC() {
-		int[] array = new int[occupyingCells.size()+2];
-		array[0] = getX();
-		array[1] = getY();
-		int count = 2;
+	private void sendOSC(int totalCells) {
+		int[] array = new int[occupyingCells.size()+3];
+		array[0] = totalCells;
+		array[1] = getX();
+		array[2] = getY();
+		int count = 3;
 		int midiNote;
 		for(NoteCell cell : occupyingCells) {
 			if (!cell.getPitch().equals("- ")) {

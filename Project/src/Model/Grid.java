@@ -67,10 +67,15 @@ public class Grid {
 	}
 	private void checkCollisions() {
 		if (collisions.size() > 0) {
+			int totalCells = 0;
+			//get total number of cells across all collisions for OSC output.
+			for(int i = 0; i < collisions.size(); i++) {
+				totalCells += grid[collisions.get(i).getX()][collisions.get(i).getY()].getNumNoteCells();
+			}
 			for(int i = 0; i < collisions.size(); i++) {
 				int x = collisions.get(i).getX();
 				int y = collisions.get(i).getY();
-				grid[x][y].playNotes(osc);
+				grid[x][y].playNotes(osc, totalCells);
 
 				if (birth) { //The birth option can be toggled
 					if (grid[x][y].getNumNoteCells() == 2 
