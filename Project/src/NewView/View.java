@@ -90,7 +90,7 @@ public class View extends JFrame {
 		this.setForeground(Color.WHITE);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{220, 60, 50, 60, 92, 0};
-		gridBagLayout.rowHeights = new int[]{34, 47, 54, 20, 23, 34, 44, 31, 0};
+		gridBagLayout.rowHeights = new int[]{34, 47, 21, 20, 23, 34, 44, 31, 0};
 		gridBagLayout.columnWeights = new double[]{1.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		getContentPane().setLayout(gridBagLayout);
@@ -186,6 +186,30 @@ public class View extends JFrame {
 		gbc_colorSelect.gridx = 4;
 		gbc_colorSelect.gridy = 3;
 		getContentPane().add(colorSelect, gbc_colorSelect);
+		
+		GridBagConstraints gbc_lblNote = new GridBagConstraints();
+		gbc_lblNote.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNote.gridx = 1;
+		gbc_lblNote.gridy = 2;
+		getContentPane().add(note, gbc_lblNote);
+		
+		GridBagConstraints gbc_lblOctave = new GridBagConstraints();
+		gbc_lblOctave.insets = new Insets(0, 0, 5, 5);
+		gbc_lblOctave.gridx = 2;
+		gbc_lblOctave.gridy = 2;
+		getContentPane().add(octave, gbc_lblOctave);
+		
+		GridBagConstraints gbc_lblColor = new GridBagConstraints();
+		gbc_lblColor.insets = new Insets(0, 0, 5, 5);
+		gbc_lblColor.gridx = 3;
+		gbc_lblColor.gridy = 2;
+		getContentPane().add(color, gbc_lblColor);
+		
+		GridBagConstraints gbc_lblPath = new GridBagConstraints();
+		gbc_lblPath.insets = new Insets(0, 0, 5, 0);
+		gbc_lblPath.gridx = 4;
+		gbc_lblPath.gridy = 2;
+		getContentPane().add(path, gbc_lblPath);
 		
 		//JButton insert = new JButton("Insert");
 		GridBagConstraints gbc_insert = new GridBagConstraints();
