@@ -1,27 +1,18 @@
 package NewView;
 
 import java.awt.EventQueue;
-
 import javax.swing.JFrame;
-
 import java.awt.GridBagLayout;
-
 import javax.swing.JPanel;
-
 import java.awt.GridBagConstraints;
-
 import javax.swing.JButton;
-
 import java.awt.Color;
 import java.awt.Insets;
-
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
-
 import View.GamePanel;
-
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ComponentAdapter;
@@ -29,7 +20,6 @@ import java.awt.event.ComponentEvent;
 
 public class View extends JFrame {
 
-	private JFrame frame;
 	private JTextField txtIpAddress;
 	private JTextField txtPort;
 	
@@ -74,6 +64,7 @@ public class View extends JFrame {
 			public void componentResized(ComponentEvent evt) {
 //				System.out.println(getSize().getWidth());
 //				System.out.println(gamePanel.getSize().getWidth());
+//				setSize((int)getSize().getWidth(), (int)Math.floor((int) getSize().getWidth() / numCells)*numCells);
 				gamePanel.resize();
 	        }
 		});
@@ -89,10 +80,10 @@ public class View extends JFrame {
 		this.setBackground(Color.LIGHT_GRAY); //frame.getContentPane()
 		this.setForeground(Color.WHITE);
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[]{220, 60, 50, 60, 92, 0};
-		gridBagLayout.rowHeights = new int[]{34, 47, 21, 20, 23, 34, 44, 31, 0};
-		gridBagLayout.columnWeights = new double[]{1.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.columnWidths = new int[]{220, 0, 60, 50, 60, 92, 0};
+		gridBagLayout.rowHeights = new int[]{34, 47, 21, 20, 23, 34, 0, 31, 0};
+		gridBagLayout.columnWeights = new double[]{1.0, 1.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
 		getContentPane().setLayout(gridBagLayout);
 		
 //		JPanel panel = new JPanel();
@@ -112,42 +103,42 @@ public class View extends JFrame {
 //		});
 		GridBagConstraints gbc_startStop = new GridBagConstraints();
 		gbc_startStop.insets = new Insets(0, 0, 5, 5);
-		gbc_startStop.gridx = 1;
+		gbc_startStop.gridx = 2;
 		gbc_startStop.gridy = 0;
 		getContentPane().add(startStop, gbc_startStop);
 		
 		//JButton clear = new JButton("Clear");
 		GridBagConstraints gbc_clear = new GridBagConstraints();
 		gbc_clear.insets = new Insets(0, 0, 5, 5);
-		gbc_clear.gridx = 2;
+		gbc_clear.gridx = 3;
 		gbc_clear.gridy = 0;
 		getContentPane().add(clear, gbc_clear);
 		
 		//JButton reset = new JButton("Reset");
 		GridBagConstraints gbc_reset = new GridBagConstraints();
 		gbc_reset.insets = new Insets(0, 0, 5, 5);
-		gbc_reset.gridx = 3;
+		gbc_reset.gridx = 4;
 		gbc_reset.gridy = 0;
 		getContentPane().add(reset, gbc_reset);
 		
 		//JButton generate = new JButton("Generate");
 		GridBagConstraints gbc_generate = new GridBagConstraints();
 		gbc_generate.insets = new Insets(0, 0, 5, 0);
-		gbc_generate.gridx = 4;
+		gbc_generate.gridx = 5;
 		gbc_generate.gridy = 0;
 		getContentPane().add(generate, gbc_generate);
 		
 		//JCheckBox chckbxBirth = new JCheckBox("Birth");
 		GridBagConstraints gbc_chckbxBirth = new GridBagConstraints();
 		gbc_chckbxBirth.insets = new Insets(0, 0, 5, 5);
-		gbc_chckbxBirth.gridx = 1;
+		gbc_chckbxBirth.gridx = 2;
 		gbc_chckbxBirth.gridy = 1;
 		getContentPane().add(birth, gbc_chckbxBirth);
 		
 		//JCheckBox chckbxOsc = new JCheckBox("OSC");
 		GridBagConstraints gbc_chckbxOsc = new GridBagConstraints();
 		gbc_chckbxOsc.insets = new Insets(0, 0, 5, 5);
-		gbc_chckbxOsc.gridx = 3;
+		gbc_chckbxOsc.gridx = 4;
 		gbc_chckbxOsc.gridy = 1;
 		getContentPane().add(OSC, gbc_chckbxOsc);
 		
@@ -156,7 +147,7 @@ public class View extends JFrame {
 		gbc_pathSelect.anchor = GridBagConstraints.NORTH;
 		gbc_pathSelect.fill = GridBagConstraints.HORIZONTAL;
 		gbc_pathSelect.insets = new Insets(0, 0, 5, 5);
-		gbc_pathSelect.gridx = 1;
+		gbc_pathSelect.gridx = 5;
 		gbc_pathSelect.gridy = 3;
 		getContentPane().add(pathSelect, gbc_pathSelect);
 		
@@ -189,25 +180,25 @@ public class View extends JFrame {
 		
 		GridBagConstraints gbc_lblNote = new GridBagConstraints();
 		gbc_lblNote.insets = new Insets(0, 0, 5, 5);
-		gbc_lblNote.gridx = 1;
+		gbc_lblNote.gridx = 2;
 		gbc_lblNote.gridy = 2;
 		getContentPane().add(note, gbc_lblNote);
 		
 		GridBagConstraints gbc_lblOctave = new GridBagConstraints();
 		gbc_lblOctave.insets = new Insets(0, 0, 5, 5);
-		gbc_lblOctave.gridx = 2;
+		gbc_lblOctave.gridx = 3;
 		gbc_lblOctave.gridy = 2;
 		getContentPane().add(octave, gbc_lblOctave);
 		
 		GridBagConstraints gbc_lblColor = new GridBagConstraints();
 		gbc_lblColor.insets = new Insets(0, 0, 5, 5);
-		gbc_lblColor.gridx = 3;
+		gbc_lblColor.gridx = 4;
 		gbc_lblColor.gridy = 2;
 		getContentPane().add(color, gbc_lblColor);
 		
 		GridBagConstraints gbc_lblPath = new GridBagConstraints();
 		gbc_lblPath.insets = new Insets(0, 0, 5, 0);
-		gbc_lblPath.gridx = 4;
+		gbc_lblPath.gridx = 5;
 		gbc_lblPath.gridy = 2;
 		getContentPane().add(path, gbc_lblPath);
 		
@@ -215,7 +206,7 @@ public class View extends JFrame {
 		GridBagConstraints gbc_insert = new GridBagConstraints();
 		gbc_insert.anchor = GridBagConstraints.NORTH;
 		gbc_insert.insets = new Insets(0, 0, 5, 5);
-		gbc_insert.gridx = 1;
+		gbc_insert.gridx = 2;
 		gbc_insert.gridy = 4;
 		getContentPane().add(insert, gbc_insert);
 		
@@ -224,7 +215,7 @@ public class View extends JFrame {
 		gbc_delete.anchor = GridBagConstraints.NORTH;
 		gbc_delete.fill = GridBagConstraints.HORIZONTAL;
 		gbc_delete.insets = new Insets(0, 0, 5, 5);
-		gbc_delete.gridx = 2;
+		gbc_delete.gridx = 3;
 		gbc_delete.gridy = 4;
 		getContentPane().add(delete, gbc_delete);
 		
@@ -232,10 +223,9 @@ public class View extends JFrame {
 		txtIpAddress.setText("IP Address");
 		GridBagConstraints gbc_txtIpAddress = new GridBagConstraints();
 		gbc_txtIpAddress.fill = GridBagConstraints.HORIZONTAL;
-		gbc_txtIpAddress.anchor = GridBagConstraints.NORTH;
 		gbc_txtIpAddress.insets = new Insets(0, 0, 5, 0);
 		gbc_txtIpAddress.gridwidth = 4;
-		gbc_txtIpAddress.gridx = 1;
+		gbc_txtIpAddress.gridx = 2;
 		gbc_txtIpAddress.gridy = 6;
 		getContentPane().add(txtIpAddress, gbc_txtIpAddress);
 		txtIpAddress.setColumns(10);
@@ -246,11 +236,13 @@ public class View extends JFrame {
 		gbc_txtPort.anchor = GridBagConstraints.NORTH;
 		gbc_txtPort.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtPort.gridwidth = 4;
-		gbc_txtPort.gridx = 1;
+		gbc_txtPort.gridx = 2;
 		gbc_txtPort.gridy = 7;
 		getContentPane().add(txtPort, gbc_txtPort);
 		txtPort.setColumns(10);
 		setBounds(100, 100, 514, 367);
+		
+		controlSetup();
 		
 		pack();
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -323,6 +315,15 @@ public class View extends JFrame {
 	public int getCellSize() {
 		return gamePanel.getCellSize();
 	}
+	
+	public int getHoffset() {
+		return gamePanel.getHoffset();
+	}
+	
+	public int getVoffset() {
+		return gamePanel.getVoffset();
+	}
+	
 	
 	public void addListener(ActionListener listener) {
 		startStop.addActionListener(listener);

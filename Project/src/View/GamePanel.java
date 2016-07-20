@@ -25,6 +25,9 @@ public class GamePanel extends JPanel{
 	private int cellSize;
 	private int numCells;
 	private int minSize;
+	private int hoffset;
+	private int voffset;
+	private int fontSize;
 	public String note;
 	public int spacing;
 
@@ -33,13 +36,12 @@ public class GamePanel extends JPanel{
 		numCells = newNumCells;
 		cellSize = panelSize / numCells;
 		halfCellSize = cellSize/2;
-		//Dimension size = getPreferredSize();
-		//size.width = panelSize;
-		//size.height = panelSize;
-		//this.setPreferredSize(size);
 		
 		note = "";
 		spacing = 0;
+		hoffset = 0;
+		voffset = 0;
+		fontSize = 20;
 	}
 	
 	public void addMouse(MouseListener m) {
@@ -57,17 +59,17 @@ public class GamePanel extends JPanel{
 		Graphics2D g2 = (Graphics2D) g;
 		
 		g2.setColor(Color.BLACK);
-		g2.fillRect(0, 0, panelSize, panelSize);
+		g2.fillRect(hoffset, voffset, panelSize, panelSize);
 
 		//Draw Paths
 		for(NoteCell noteCell : noteCells) {
 			g2.setColor(noteCell.getColor());
 			ArrayList<Coordinates> path = noteCell.getPath();
 			for(int i = 0; i < path.size()-1; i++) {
-				g2.drawLine(cellSize*path.get(i).getX()+halfCellSize, cellSize*path.get(i).getY()+halfCellSize, cellSize*path.get(i+1).getX()+halfCellSize, cellSize*path.get(i+1).getY()+halfCellSize);
+				g2.drawLine(cellSize*path.get(i).getX()+halfCellSize+hoffset, cellSize*path.get(i).getY()+halfCellSize+voffset, cellSize*path.get(i+1).getX()+halfCellSize+hoffset, cellSize*path.get(i+1).getY()+halfCellSize+voffset);
 			}
 			if (noteCell.isLoop()) {
-				g2.drawLine(cellSize*path.get(0).getX()+halfCellSize, cellSize*path.get(0).getY()+halfCellSize, cellSize*path.get(path.size()-1).getX()+halfCellSize, cellSize*path.get(path.size()-1).getY()+halfCellSize);
+				g2.drawLine(cellSize*path.get(0).getX()+halfCellSize+hoffset, cellSize*path.get(0).getY()+halfCellSize+voffset, cellSize*path.get(path.size()-1).getX()+halfCellSize+hoffset, cellSize*path.get(path.size()-1).getY()+halfCellSize+voffset);
 			}
 		}
 
@@ -75,19 +77,19 @@ public class GamePanel extends JPanel{
 		for (GridCell gridCell : occupiedCells) {
 			if (gridCell.getNumNoteCells() > 1) {
 				g2.setColor(Color.WHITE);
-				g2.fillRect(cellSize*gridCell.getX(), cellSize*gridCell.getY(), cellSize, cellSize);
+				g2.fillRect(cellSize*gridCell.getX()+hoffset, cellSize*gridCell.getY()+voffset, cellSize, cellSize);
 				
 				g2.setColor(Color.black);
-				g2.setFont(new Font("default", Font.BOLD, 20));
+				g2.setFont(new Font("default", Font.BOLD, fontSize));
 				String exclaim = "!!";
 				for(int i = 2; i < gridCell.getNumNoteCells(); i++) {
 					exclaim += "!";
 				}
-				g2.drawString(exclaim, cellSize*gridCell.getX()+16, cellSize*gridCell.getY()+32);
+				//g2.drawString(exclaim, cellSize*gridCell.getX()+16+hoffset, cellSize*gridCell.getY()+32+voffset);
 			}
 			else { //If only one note cell in the grid cell
 				g2.setColor(gridCell.getNoteCell().getColor());
-				g2.fillRect(cellSize*gridCell.getX(), cellSize*gridCell.getY(), cellSize, cellSize);
+				g2.fillRect(cellSize*gridCell.getX()+hoffset, cellSize*gridCell.getY()+voffset, cellSize, cellSize);
 				
 				if (gridCell.getNoteCell() instanceof BirthCell) {
 					g2.setColor(Color.white);
@@ -95,7 +97,7 @@ public class GamePanel extends JPanel{
 				else {
 					g2.setColor(Color.black);
 				}
-				g2.setFont(new Font("default", Font.BOLD, 18));
+				g2.setFont(new Font("default", Font.BOLD, fontSize-2));
 				if (gridCell.getNoteCell().getPitch().equals("- ")) {
 					note = "";
 				}
@@ -108,7 +110,7 @@ public class GamePanel extends JPanel{
 					case 3: spacing -= 4;
 					default: break;
 				}
-				g2.drawString(note, cellSize*gridCell.getX()+spacing, cellSize*gridCell.getY()+32);
+				//g2.drawString(note, cellSize*gridCell.getX()+spacing+hoffset, cellSize*gridCell.getY()+32+voffset);
 			}
 
 		}
@@ -121,16 +123,16 @@ public class GamePanel extends JPanel{
 			else {
 				g2.setColor(Color.WHITE);
 			}
-			g2.fillRect(cellSize*drawnPath.get(i).getX(), cellSize*drawnPath.get(i).getY(), cellSize, cellSize);
+			g2.fillRect(cellSize*drawnPath.get(i).getX()+hoffset, cellSize*drawnPath.get(i).getY()+voffset, cellSize, cellSize);
 			
 		}
 		
 
 		//Draw Grid lines
-		for (int i = 0; i < panelSize-1; i += cellSize) {
+		for (int i = 0; i < panelSize; i += cellSize) {
 			g2.setColor(Color.WHITE);
-			g2.drawLine(i, 0, i, cellSize*numCells);
-			g2.drawLine(0, i, cellSize*numCells, i);
+			g2.drawLine(i+hoffset, voffset, i+hoffset, cellSize*numCells+voffset);
+			g2.drawLine(hoffset, i+voffset, cellSize*numCells+hoffset, i+voffset);
 		}
 
 	}
@@ -151,10 +153,22 @@ public class GamePanel extends JPanel{
 		cellSize = minSize / numCells;
 		halfCellSize = cellSize/2;
 		panelSize = minSize;
+		hoffset = (int)(getSize().getWidth() - panelSize) / 2;
+		voffset = (int)(getSize().getHeight() - panelSize) / 2;
+		fontSize = (int)(0.095*panelSize-22.568);
+//		System.out.println(panelSize);
 	}
 	
 	public int getCellSize() {
 		return cellSize;
+	}
+	
+	public int getHoffset() {
+		return hoffset;
+	}
+	
+	public int getVoffset() {
+		return voffset;
 	}
 
 }

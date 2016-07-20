@@ -276,12 +276,12 @@ public class Controller {
 		@Override
 		public void mousePressed(MouseEvent click) {
 			if(SwingUtilities.isRightMouseButton(click)){ //right click delete grid cell
-				grid.clearCell((int)(click.getX()/mainScreen.getCellSize()), (int)(click.getY()/mainScreen.getCellSize()));
+				grid.clearCell((int)((click.getX()-mainScreen.getHoffset())/mainScreen.getCellSize()), (int)((click.getY()-mainScreen.getVoffset())/mainScreen.getCellSize()));
 				updateView();
 			}
 			else {
-				clickedCellX = (int)(click.getX()/mainScreen.getCellSize()); //Determine which grid cell is clicked
-				clickedCellY = (int)(click.getY()/mainScreen.getCellSize());
+				clickedCellX = (int)((click.getX()-mainScreen.getHoffset())/mainScreen.getCellSize()); //Determine which grid cell is clicked
+				clickedCellY = (int)((click.getY()-mainScreen.getVoffset())/mainScreen.getCellSize());
 				drawnPathAddRemove(clickedCellX, clickedCellY);
 				drag = true;
 				updateView();
@@ -298,8 +298,8 @@ public class Controller {
 		@Override
 		public void mouseDragged(MouseEvent mouseDrag) {
 			if (drag) {
-				int mouseDragCellX = (int)(mouseDrag.getX()/mainScreen.getCellSize());
-				int mouseDragCellY = (int)(mouseDrag.getY()/mainScreen.getCellSize());
+				int mouseDragCellX = (int)((mouseDrag.getX()-mainScreen.getHoffset())/mainScreen.getCellSize());
+				int mouseDragCellY = (int)((mouseDrag.getY()-mainScreen.getVoffset())/mainScreen.getCellSize());
 				if (mouseDragCellX != lastDragCellX || mouseDragCellY != lastDragCellY && 
 						mouseDrag.getX() < mainScreen.getGamePanelSize() && mouseDrag.getY() < mainScreen.getGamePanelSize()) {
 					clickedCellX = mouseDragCellX;
