@@ -25,12 +25,15 @@ public class Controller {
 	private boolean pause;
 	private int clickedCellX; //(x,y) position of the cell the user clicks
 	private int clickedCellY;
+	private int gridSize;
 	private ArrayList<Coordinates> drawnPath; //To hold the path that the user draws.
 
 	public Controller(View frame, Grid grid) { //MainFrame
 		drawnPath = new ArrayList<Coordinates>();
 		this.mainScreen = frame;
 		this.grid = grid;
+		
+		gridSize = grid.getNumCells();
 
 		mainScreen.getFrame().addListener(new Listener()); //Listener for all buttons
 		mainScreen.getFrame().getPanel().addMouse(new Mouse());
@@ -109,6 +112,7 @@ public class Controller {
 	 * Listener for all buttons on the frame.
 	 */
 	private class Listener implements ActionListener {
+		
 		@Override
 		public void actionPerformed(ActionEvent button) {
 			String b = button.getActionCommand(); //Determine which button was pressed
@@ -132,9 +136,7 @@ public class Controller {
 			grid.resetCells();
 		}
 		public void startStop() {
-			if (drawnPath.size() == 0) {
-				pause = !pause;
-			}
+			pause = !pause;
 		}
 		public void clear() {
 			drawnPath.clear();
@@ -163,7 +165,7 @@ public class Controller {
 				String note = mainScreen.getFrame().getPitch();
 				String octave = mainScreen.getFrame().getOctave();
 				Color color = mainScreen.getFrame().getColor();
-				BirthCell birthCell = new BirthCell(drawnPath.get(0).getX(), drawnPath.get(0).getY(), note+octave, color, color, true);
+				BirthCell birthCell = new BirthCell(drawnPath.get(0).getX(), drawnPath.get(0).getY(), note+octave, color, color, true, gridSize);
 				grid.addNoteCell(birthCell);
 				drawnPath.clear();
 			}
@@ -174,7 +176,7 @@ public class Controller {
 				String note = mainScreen.getFrame().getPitch();
 				String octave = mainScreen.getFrame().getOctave();
 				Color color = mainScreen.getFrame().getColor();
-				NoteCell noteCell = new NoteCell(note+octave, color, drawnPath);
+				NoteCell noteCell = new NoteCell(note+octave, color, drawnPath, gridSize);
 				grid.addNoteCell(noteCell);
 				drawnPath.clear();
 			}
@@ -184,30 +186,31 @@ public class Controller {
 				String note = mainScreen.getFrame().getPitch();
 				String octave = mainScreen.getFrame().getOctave();
 				Color color = mainScreen.getFrame().getColor();
-				NoteCell noteCell = new NoteCell(drawnPath.get(0).getX(), drawnPath.get(0).getY(), note+octave, color);
+				System.out.println(drawnPath.get(0).getX());
+				System.out.println(drawnPath.get(0).getY());
+				NoteCell noteCell = new NoteCell(drawnPath.get(0).getX(), drawnPath.get(0).getY(), note+octave, color, gridSize);
 				noteCell.generateRandomPath();
 				grid.addNoteCell(noteCell);
 				drawnPath.clear();
 			}
 			if (mainScreen.getFrame().getPitch() == "- " && //Insertion of Player cells with various paths
-					mainScreen.getFrame().getOctave() != "-") {
+					mainScreen.getFrame().getOctave() == "-") {
 				String note = mainScreen.getFrame().getPitch();
-				String octave = mainScreen.getFrame().getOctave();
+				String octave = "0"; //mainScreen.getFrame().getOctave();
 				Color color = mainScreen.getFrame().getColor();
 				if (mainScreen.getFrame().getPath() == "Random") {
-					NoteCell noteCell = new NoteCell(drawnPath.get(0).getX(), drawnPath.get(0).getY(), note+octave, color);
+					NoteCell noteCell = new NoteCell(drawnPath.get(0).getX(), drawnPath.get(0).getY(), note+octave, color, gridSize);
 					noteCell.generateRandomPath();
 					grid.addNoteCell(noteCell);
 					drawnPath.clear();
 				}
 				if (mainScreen.getFrame().getPath() == "Drawn") {
-					NoteCell noteCell = new NoteCell(note+octave, color, drawnPath);
-					System.out.println(note+octave);
+					NoteCell noteCell = new NoteCell(note+octave, color, drawnPath, gridSize);
 					grid.addNoteCell(noteCell);
 					drawnPath.clear();
 				}
 				if (mainScreen.getFrame().getPath() == "Birth") {
-					BirthCell birthCell = new BirthCell(drawnPath.get(0).getX(), drawnPath.get(0).getY(), note+octave, color, color, true);
+					BirthCell birthCell = new BirthCell(drawnPath.get(0).getX(), drawnPath.get(0).getY(), note+octave, color, color, true, gridSize);
 					grid.addNoteCell(birthCell);
 					drawnPath.clear();
 				}
@@ -225,7 +228,7 @@ public class Controller {
 		
 		private void drawnPathAddRemove(int x, int y) {
 			if (drawnPath.size() == 0) {
-				drawnPath.add(new Coordinates(x, y));
+				drawnPath.add(new Coordinates(x, y, gridSize));
 				lastDragCellX = clickedCellX;
 				lastDragCellY = clickedCellY;
 			}
@@ -244,7 +247,7 @@ public class Controller {
 					lastDragCellY = y;
 				}
 				else if (size > 2 && x == start.getX() && y == start.getY() && isNeighbor(last.getX(), last.getY(), x, y)) {
-					drawnPath.add(new Coordinates(x, y));
+					drawnPath.add(new Coordinates(x, y, gridSize));
 					lastDragCellX = clickedCellX;
 					lastDragCellY = clickedCellY;
 				}
@@ -258,7 +261,7 @@ public class Controller {
 						}
 					}
 					if (!found && isNeighbor(last.getX(), last.getY(), x, y) && !(last.equals(start) && size > 2)) {
-						drawnPath.add(new Coordinates(x,y));
+						drawnPath.add(new Coordinates(x,y, gridSize));
 						lastDragCellX = clickedCellX;
 						lastDragCellY = clickedCellY;
 					}
@@ -300,8 +303,9 @@ public class Controller {
 			if (drag) {
 				int mouseDragCellX = (int)((mouseDrag.getX()-mainScreen.getHoffset())/mainScreen.getCellSize());
 				int mouseDragCellY = (int)((mouseDrag.getY()-mainScreen.getVoffset())/mainScreen.getCellSize());
-				if (mouseDragCellX != lastDragCellX || mouseDragCellY != lastDragCellY && 
-						mouseDrag.getX() < mainScreen.getGamePanelSize() && mouseDrag.getY() < mainScreen.getGamePanelSize()) {
+				if ((mouseDragCellX != lastDragCellX || mouseDragCellY != lastDragCellY) && 
+						mouseDrag.getX() < mainScreen.getGamePanelSize() 
+							&& mouseDrag.getY() < mainScreen.getGamePanelSize()) {
 					clickedCellX = mouseDragCellX;
 					clickedCellY = mouseDragCellY;
 					drawnPathAddRemove(mouseDragCellX, mouseDragCellY);

@@ -1,4 +1,3 @@
-/B6.wav
 /C4.wav
 /C5.wav
 /C6.wav
@@ -34,7 +33,9 @@
 /AS6.wav
 /B4.wav
 /B5.wav
+/B6.wav
 /Model/
+/NewView/
 /View/
 /com/
 /kuusisto/
@@ -42,4 +43,3 @@
 /Controller$Mouse.class
 /Controller.class
 /Main.class
-/NewView/

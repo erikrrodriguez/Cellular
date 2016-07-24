@@ -8,9 +8,11 @@ public class BirthCell extends NoteCell {
 	private boolean reset;
 	private int xStart;
 	private int yStart;
+	private int gridSize;
 
-	public BirthCell(int x, int y, String newNote, Color parColor1, Color parColor2, boolean placed) {
-		super(x, y, newNote);
+	public BirthCell(int x, int y, String newNote, Color parColor1, Color parColor2, boolean placed, int newGridSize) {
+		super(x, y, newNote, newGridSize);
+		gridSize = newGridSize;
 		this.xStart = x;
 		this.yStart = y;
 		reset = false;
@@ -45,7 +47,7 @@ public class BirthCell extends NoteCell {
 	}
 
 	private boolean isNeighbor(int nx, int ny) {
-		if (nx < 0 || nx > 8 || ny < 0 || ny > 8) {
+		if (nx < 0 || nx > gridSize-1 || ny < 0 || ny > gridSize-1) {
 			return false;
 		}
 		if ((nx < curPos.getX() && ny < curPos.getY()) || (nx > curPos.getX() && ny > curPos.getY())

@@ -6,10 +6,12 @@ package Model;
 public class Coordinates {
 	private int x;
 	private int y;
+	private int gridSize;
 	
-	public Coordinates(int newX, int newY){
+	public Coordinates(int newX, int newY, int newGridSize){
 		x = newX;
 		y = newY;
+		gridSize = newGridSize;
 	}
 	
 	/*
@@ -25,10 +27,10 @@ public class Coordinates {
 	/*
 	 * Tests if a given coordinate is a neighboring coordinate of this one, vertically or horizontally. 
 	 */
-	public Boolean isNeighbor(int nx, int ny) {
+	public Boolean isNeighbor(int nx, int ny, int gridSize) {
 		int d1 = Math.abs(nx - x);
 		int d2 = Math.abs(ny - y);
-		return nx >= 0 && ny >= 0 && nx <= 8 && ny <= 8 && d1 + d2 == 1;
+		return nx >= 0 && ny >= 0 && nx <= gridSize - 1 && ny <= gridSize - 1 && d1 + d2 == 1;
 	}
 	
 	public void set(int newX, int newY){

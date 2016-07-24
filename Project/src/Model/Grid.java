@@ -113,7 +113,7 @@ public class Grid {
 				chldNote = "A A#B C C#D D#E F F#G G#".substring(index, index+2);
 				chldNote += (parOctave1 + parOctave2)/2;
 			}
-			BirthCell birthCell = new BirthCell(x, y, chldNote, parNote1.getColor(), parNote2.getColor(), false);
+			BirthCell birthCell = new BirthCell(x, y, chldNote, parNote1.getColor(), parNote2.getColor(), false, numCells);
 			delayedNoteCells.add(birthCell);
 		}
 	}
@@ -206,19 +206,19 @@ public class Grid {
 
 	public void generate() {
 		clear = false;
-		NoteCell cell1 = new NoteCell(4, 3, "C 4");
+		NoteCell cell1 = new NoteCell(4, 3, "C 4", numCells);
 		cell1.generateRandomPath();
 		addNoteCell(cell1);
 
-		NoteCell cell2 = new NoteCell(4, 5, "E 4");
+		NoteCell cell2 = new NoteCell(4, 5, "E 4", numCells);
 		cell2.generateRandomPath();
 		addNoteCell(cell2);
 
-		NoteCell cell3 = new NoteCell(3,4, "G 4");
+		NoteCell cell3 = new NoteCell(3,4, "G 4", numCells);
 		cell3.generateRandomPath();
 		addNoteCell(cell3);
 
-		NoteCell cell4 = new NoteCell(5,4, "B 4");
+		NoteCell cell4 = new NoteCell(5,4, "B 4", numCells);
 		cell4.generateRandomPath();
 		addNoteCell(cell4);
 

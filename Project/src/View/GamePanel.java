@@ -89,14 +89,17 @@ public class GamePanel extends JPanel{
 			}
 			else { //If only one note cell in the grid cell
 				g2.setColor(gridCell.getNoteCell().getColor());
-				g2.fillRect(cellSize*gridCell.getX()+hoffset, cellSize*gridCell.getY()+voffset, cellSize, cellSize);
+				//g2.fillRect(cellSize*gridCell.getX()+hoffset, cellSize*gridCell.getY()+voffset, cellSize, cellSize);
 				
 				if (gridCell.getNoteCell() instanceof BirthCell) {
+					g2.fillOval(cellSize*gridCell.getX()+hoffset, cellSize*gridCell.getY()+voffset, cellSize, cellSize);
 					g2.setColor(Color.white);
 				}
 				else {
+					g2.fillRect(cellSize*gridCell.getX()+hoffset, cellSize*gridCell.getY()+voffset, cellSize, cellSize);
 					g2.setColor(Color.black);
 				}
+				
 				g2.setFont(new Font("default", Font.BOLD, fontSize-2));
 				if (gridCell.getNoteCell().getPitch().equals("- ")) {
 					note = "";
@@ -129,7 +132,7 @@ public class GamePanel extends JPanel{
 		
 
 		//Draw Grid lines
-		for (int i = 0; i < panelSize; i += cellSize) {
+		for (int i = 0; i <= panelSize; i += cellSize) {
 			g2.setColor(Color.WHITE);
 			g2.drawLine(i+hoffset, voffset, i+hoffset, cellSize*numCells+voffset);
 			g2.drawLine(hoffset, i+voffset, cellSize*numCells+hoffset, i+voffset);

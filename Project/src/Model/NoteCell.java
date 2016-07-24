@@ -10,6 +10,7 @@ import java.util.Random;
  */
 public class NoteCell{
 	protected Coordinates curPos;
+	private int gridSize;
 	private String note; //Holds Pitch and Octave
 	private String pitch;
 	private int octave;
@@ -21,8 +22,9 @@ public class NoteCell{
 	protected Color color;
 
 	//Constructor for Generated Cells
-	public NoteCell(int x, int y, String newNote) {
-		curPos = new Coordinates(x, y);
+	public NoteCell(int x, int y, String newNote, int newGridSize) {
+		gridSize = newGridSize;
+		curPos = new Coordinates(x, y, gridSize);
 		note = newNote;
 		pitch = note.substring(0, 2);
 		octave = Integer.parseInt(note.substring(2));
@@ -35,8 +37,9 @@ public class NoteCell{
 		setRandomColor();
 	}
 
-	public NoteCell(int x, int y, String newNote, Color color) {
-		curPos = new Coordinates(x, y);
+	public NoteCell(int x, int y, String newNote, Color color, int newGridSize) {
+		gridSize = newGridSize;
+		curPos = new Coordinates(x, y, gridSize);
 		note = newNote;
 		pitch = note.substring(0, 2);
 		octave = Integer.parseInt(note.substring(2));
@@ -51,7 +54,8 @@ public class NoteCell{
 	/*
 	 * Constructor for Drawn Cell Paths
 	 */
-	public NoteCell(String newNote, Color newColor, ArrayList<Coordinates> newPath){		
+	public NoteCell(String newNote, Color newColor, ArrayList<Coordinates> newPath, int newGridSize){
+		gridSize = newGridSize;
 		path = new ArrayList<Coordinates>(newPath);
 		curPos = path.get(0);
 		pathPos = -1;
@@ -75,23 +79,54 @@ public class NoteCell{
 		int newX, newY;
 		outerloop:
 			for(int i = 0; i < pathLength; i++) {
-				do {
-					newX = randInt(path.get(i).getX()-1, path.get(i).getX()+1);
-					newY = randInt(path.get(i).getY()-1, path.get(i).getY()+1);
-				} while (!path.get(i).isNeighbor(newX, newY) || pathContains(newX, newY));
-				addToPath(newX, newY);
-				if (loop || !openNeighbor(newX, newY)) 	break outerloop;
-			}
-	}
-	private boolean openNeighbor(int x, int y) {
-		for(int i = -1; i < 2; i+=2) {
-			for(int j = -1; j < 2; j+=2) {
-				if (x+i >= 0 && x+i <= 8 && y+j >= 0 && y+j <= 8 && !pathContains(x+i, y+j)) {
-					return true;
+				if (openNeighbor(path.get(i).getX(),path.get(i).getY())) {
+					do {
+						newX = randInt(path.get(i).getX()-1, path.get(i).getX()+1);
+						newY = randInt(path.get(i).getY()-1, path.get(i).getY()+1);
+					} while (!path.get(i).isNeighbor(newX, newY, gridSize) || pathContains(newX, newY));
+					addToPath(newX, newY);
+					if (loop || !openNeighbor(newX, newY)) 	break outerloop;
 				}
 			}
+		
+//		outerloop:
+//			for(int i = 0; i < pathLength; i++) {
+//				do {
+//					newX = randInt(path.get(i).getX()-1, path.get(i).getX()+1);
+//					newY = randInt(path.get(i).getY()-1, path.get(i).getY()+1);
+//				} while (openNeighbor(path.get(i).getX(), path.get(i).getX())
+//						&& !path.get(i).isNeighbor(newX, newY) 
+//						|| pathContains(newX, newY));
+//				addToPath(newX, newY);
+//				if (loop || !openNeighbor(newX, newY)) 	break outerloop;
+//			}
+	}
+	private boolean openNeighbor(int x, int y) {
+		int openCount = 4;
+		if (pathContains(x-1,y) || x-1 < 0) {
+			openCount--;
+		}
+		if (pathContains(x+1,y) || x+1 > gridSize -1) {
+			openCount--;
+		}
+		if (pathContains(x,y+1) || y+1 > gridSize - 1) {
+			openCount--;
+		}
+		if (pathContains(x,y-1) || y-1 < 0) {
+			openCount--;
+		}
+		if (openCount > 0) {
+			return true;
 		}
 		return false;
+//		for(int i = -1; i < 2; i+=2) {
+//			for(int j = -1; j < 2; j+=2) {
+//				if (x+i >= 0 && x+i <= gridSize-1 && y+j >= 0 && y+j <= gridSize-1 && !pathContains(x+i, y+j)) {
+//					return true;
+//				}
+//			}
+//		}
+//		return false;
 	}
 
 	private boolean pathContains(int x, int y) {
@@ -120,7 +155,7 @@ public class NoteCell{
 	}
 
 	public void addToPath(int x, int y){
-		Coordinates coor = new Coordinates(x, y);
+		Coordinates coor = new Coordinates(x, y, gridSize);
 		if (path.get(0).equals(coor)) {
 			loop = true;
 			reverse = false;
