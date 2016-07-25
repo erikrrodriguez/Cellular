@@ -88,18 +88,6 @@ public class NoteCell{
 					if (loop || !openNeighbor(newX, newY)) 	break outerloop;
 				}
 			}
-		
-//		outerloop:
-//			for(int i = 0; i < pathLength; i++) {
-//				do {
-//					newX = randInt(path.get(i).getX()-1, path.get(i).getX()+1);
-//					newY = randInt(path.get(i).getY()-1, path.get(i).getY()+1);
-//				} while (openNeighbor(path.get(i).getX(), path.get(i).getX())
-//						&& !path.get(i).isNeighbor(newX, newY) 
-//						|| pathContains(newX, newY));
-//				addToPath(newX, newY);
-//				if (loop || !openNeighbor(newX, newY)) 	break outerloop;
-//			}
 	}
 	private boolean openNeighbor(int x, int y) {
 		int openCount = 4;
@@ -119,14 +107,6 @@ public class NoteCell{
 			return true;
 		}
 		return false;
-//		for(int i = -1; i < 2; i+=2) {
-//			for(int j = -1; j < 2; j+=2) {
-//				if (x+i >= 0 && x+i <= gridSize-1 && y+j >= 0 && y+j <= gridSize-1 && !pathContains(x+i, y+j)) {
-//					return true;
-//				}
-//			}
-//		}
-//		return false;
 	}
 
 	private boolean pathContains(int x, int y) {
