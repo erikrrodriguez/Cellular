@@ -15,7 +15,6 @@ import Model.Grid;
 import Model.GridCell;
 import Model.NoteCell;
 import NewView.View;
-import View.MainFrame;
 
 public class Controller {
 
@@ -125,6 +124,7 @@ public class Controller {
 			case "birth": grid.changeBirth(); break;
 			case "reset": reset(); break;
 			case "OSC": setOSC(); break;
+			case "score": exportScore(); break;
 			default: break;
 			}
 			updateView();
@@ -157,6 +157,10 @@ public class Controller {
 				grid.clearCell(clickedCellX, clickedCellY);
 				drawnPath.clear();
 			}
+		}
+		public void exportScore() {
+			grid.exportScore();
+			
 		}
 		public void insert() {
 			if (mainScreen.getFrame().getPitch() != "- "	&& 

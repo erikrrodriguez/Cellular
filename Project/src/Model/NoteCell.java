@@ -18,6 +18,7 @@ public class NoteCell{
 	private Boolean reverse; //Whether the note is currently moving backwards along it's path.
 	private ArrayList<Coordinates> path;
 	private int pathPos;
+	private int pathLength;
 	private Random rand = new Random();
 	protected Color color;
 
@@ -34,6 +35,7 @@ public class NoteCell{
 		path = new ArrayList<Coordinates>();
 		path.add(curPos);
 		pathPos = -1;
+		pathLength = 1;
 		setRandomColor();
 	}
 
@@ -48,6 +50,7 @@ public class NoteCell{
 		path = new ArrayList<Coordinates>();
 		path.add(curPos);
 		pathPos = -1;
+		pathLength = 1;
 		setColor(color);
 	}
 
@@ -67,6 +70,11 @@ public class NoteCell{
 		if (path.size() > 1 && path.get(0).equals(path.get(path.size() - 1))){
 			path.remove(path.size()-1);
 			loop = true;
+		}
+		if (loop) {
+			pathLength = path.size();
+		} else {
+			pathLength = 2 * path.size() - 2;
 		}
 		setColor(newColor);
 	}
@@ -88,6 +96,14 @@ public class NoteCell{
 					if (loop || !openNeighbor(newX, newY)) 	break outerloop;
 				}
 			}
+	}
+	
+	public void setPathLength() {
+		if (loop) {
+			pathLength = path.size();
+		} else {
+			pathLength = 2 * path.size() - 2;
+		}
 	}
 	private boolean openNeighbor(int x, int y) {
 		int openCount = 4;
@@ -252,6 +268,10 @@ public class NoteCell{
 
 	public ArrayList<Coordinates> getPath() {
 		return path;
+	}
+	
+	public int getPathLength() {
+		return pathLength;
 	}
 
 	public Color getColor() {

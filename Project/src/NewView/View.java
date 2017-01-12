@@ -34,6 +34,8 @@ public class View extends JFrame {
 	private JButton insert = new JButton("Insert");
 	private JButton delete = new JButton("Delete");
 	private JButton reset = new JButton("Reset");
+	//private JButton score = new JButton("Export Score");
+	private JButton score = new JButton("Export Score");
 	
 	private JCheckBox birth = new JCheckBox("Birth", false);
 	private JCheckBox OSC = new JCheckBox("OSC", false);
@@ -213,6 +215,13 @@ public class View extends JFrame {
 		gbc_delete.gridy = 4;
 		getContentPane().add(delete, gbc_delete);
 		
+		//JButton score = new JButton("Export Score");
+		GridBagConstraints gbc_score = new GridBagConstraints();
+		gbc_score.insets = new Insets(0, 0, 5, 5);
+		gbc_score.gridx = 2;
+		gbc_score.gridy = 5;
+		getContentPane().add(score, gbc_score);
+		
 		txtIpAddress = new JTextField();
 		txtIpAddress.setText("IP Address");
 		GridBagConstraints gbc_txtIpAddress = new GridBagConstraints();
@@ -258,6 +267,7 @@ public class View extends JFrame {
 		birth.setActionCommand("birth");
 		OSC.setActionCommand("OSC");
 		reset.setActionCommand("reset");
+		score.setActionCommand("score");
 	}
 	
 	public GamePanel getPanel() {
@@ -327,5 +337,6 @@ public class View extends JFrame {
 		birth.addActionListener(listener);
 		OSC.addActionListener(listener);
 		reset.addActionListener(listener);
+		score.addActionListener(listener);
 	}
 }

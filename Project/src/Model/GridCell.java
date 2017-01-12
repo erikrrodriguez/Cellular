@@ -62,6 +62,14 @@ public class GridCell{
 		return occupyingCells;
 	}
 	
+	public String getOccupyingCellNotes() {
+		String notes = "";
+		for(NoteCell cell : occupyingCells) {
+			notes = notes + cell.getNote() + "_";
+		}
+		return notes;
+	}
+	
 	/*
 	 * Play the notes of each note cell in the grid cell.
 	 */

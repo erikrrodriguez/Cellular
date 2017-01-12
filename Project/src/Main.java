@@ -5,9 +5,6 @@ import Model.Audio;
 import Model.Grid;
 import Model.OSCSend;
 import NewView.View;
-import View.FirstTabPanel;
-import View.MainFrame;
-import View.OSCPanel;
 
 /*
  * Initiate and run the program.

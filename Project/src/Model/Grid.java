@@ -1,15 +1,20 @@
 package Model;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Random;
+import java.util.Set;
 
 public class Grid {
 	private ArrayList<NoteCell> noteCells;
 	private ArrayList<NoteCell> delayedNoteCells; //Birthed cells are added to the grid 1 iteration after collision 
-	private ArrayList<Coordinates> collisions;
+	private Set<GridCell> collisions;
+	//private ArrayList<Coordinates> collisions;
 	private ArrayList<GridCell> occupiedCells;
 	private GridCell[][] grid;
-	private int numCells;
+	private int numCells; //number of cells in the grid
 	private Random rand;
 	private Audio sound;
 	private OSCSend oscSend;
@@ -21,7 +26,8 @@ public class Grid {
 	public Grid(int newNumCells, Audio sound, OSCSend oscSend) {
 		noteCells = new ArrayList<NoteCell>();
 		delayedNoteCells = new ArrayList<NoteCell>();
-		collisions = new ArrayList<Coordinates>();
+		collisions = new HashSet<GridCell>();
+		//collisions = new ArrayList<Coordinates>();
 		occupiedCells = new ArrayList<GridCell>();
 
 		numCells = newNumCells;
@@ -48,7 +54,7 @@ public class Grid {
 		resetGrid();
 		advanceCells();
 		checkCollisions();
-		addDelayedCells(); //From births from previous collision round
+		addDelayedCells(); //Births from previous collision round
 	}
 	
 	private void advanceCells() {
@@ -60,8 +66,8 @@ public class Grid {
 			grid[x][y].addNoteCell(noteCell);
 			addOccupied(grid[x][y]);
 
-			if (grid[x][y].getNumNoteCells() > 1 && !collisions.contains(noteCell.getPos())) {
-				collisions.add(noteCell.getPos());
+			if (grid[x][y].getNumNoteCells() > 1) {
+				collisions.add(grid[x][y]);
 			}
 		}
 	}
@@ -69,18 +75,16 @@ public class Grid {
 		if (collisions.size() > 0) {
 			int totalCells = 0;
 			//get total number of cells across all collisions for OSC output.
-			for(int i = 0; i < collisions.size(); i++) {
-				totalCells += grid[collisions.get(i).getX()][collisions.get(i).getY()].getNumNoteCells();
+			for(GridCell gridCell : collisions) {
+				totalCells += gridCell.getNumNoteCells();
 			}
-			for(int i = 0; i < collisions.size(); i++) {
-				int x = collisions.get(i).getX();
-				int y = collisions.get(i).getY();
-				grid[x][y].playNotes(osc, totalCells);
+			for(GridCell gridCell : collisions) {
+				gridCell.playNotes(osc, totalCells);
 
 				if (birth) { //The birth option can be toggled
-					if (grid[x][y].getNumNoteCells() == 2 
-							&& !containsBirthCell(x, y) && !containsPlayerCell(x, y)) birthNewCell(x, y);
-					if (grid[x][y].getNumNoteCells() >= 4) clearCell(x, y);
+					if (gridCell.getNumNoteCells() == 2 && !containsBirthCell(gridCell.getX(),gridCell.getY()) 
+							&& !containsPlayerCell(gridCell.getX(), gridCell.getY())) birthNewCell(gridCell.getX(), gridCell.getY());
+					if (gridCell.getNumNoteCells() >= 4) clearCell(gridCell.getX(), gridCell.getY());
 				}
 			}
 			collisions.clear();
@@ -152,7 +156,7 @@ public class Grid {
 		addOccupied(grid[newCell.getPos().getX()][newCell.getPos().getY()]);
 		if (grid[newCell.getPos().getX()][newCell.getPos().getY()].getNumNoteCells() > 1 
 				&& !collisions.contains(newCell.getPos())) {
-			collisions.add(newCell.getPos());
+			collisions.add(grid[newCell.getPos().getX()][newCell.getPos().getY()]);
 		}
 
 	}
@@ -208,18 +212,22 @@ public class Grid {
 		clear = false;
 		NoteCell cell1 = new NoteCell(4, 3, "C 4", numCells);
 		cell1.generateRandomPath();
+		cell1.setPathLength();
 		addNoteCell(cell1);
 
 		NoteCell cell2 = new NoteCell(4, 5, "E 4", numCells);
 		cell2.generateRandomPath();
+		cell2.setPathLength();
 		addNoteCell(cell2);
 
 		NoteCell cell3 = new NoteCell(3,4, "G 4", numCells);
 		cell3.generateRandomPath();
+		cell3.setPathLength();
 		addNoteCell(cell3);
 
 		NoteCell cell4 = new NoteCell(5,4, "B 4", numCells);
 		cell4.generateRandomPath();
+		cell4.setPathLength();
 		addNoteCell(cell4);
 
 	}
@@ -267,5 +275,106 @@ public class Grid {
 			}
 		}
 	}
+
+	public void exportScore() {
+		//Find LCM for cycle length
+		int index = 0;
+		int[] LCMcalc = new int[noteCells.size()];
+		for(NoteCell cell : noteCells) {
+			LCMcalc[index] = cell.getPathLength();
+			System.out.println("LCM " + index + ": " + LCMcalc[index]);
+			index++;
+		}
+		int cycleLength = lcm(LCMcalc);
+		System.out.println("Cycle Length: " + cycleLength);
+		//Advance Cells and write to file
+		resetCells();
+		try (BufferedWriter file = new BufferedWriter(new FileWriter("score.txt",false))) { //change to true to over write
+			file.write("\\version \"2.18.2\"");
+			file.newLine();
+			file.write("\\language \"english\"");
+			file.newLine();
+			file.write("\\repeat volta 2");
+			file.newLine();
+			file.write("{");
+			file.newLine();
+			file.write("#(set-accidental-style 'forget)");
+			file.newLine();
+			for(int i = 0; i < cycleLength; i++) {
+				resetGrid();
+				advanceCells();
+				String notes = checkCollisionsExportScore(); //This version does not play notes
+				if (notes.equals("<>")) notes = "r";
+				file.write(notes);
+				file.newLine();
+			}
+			file.write("}");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		resetCells();
+	}
+	
+	private String checkCollisionsExportScore() {
+		String notes = "";
+		if (collisions.size() > 0) {
+			for(GridCell gridCell : collisions) {
+				notes = notes + gridCell.getOccupyingCellNotes()+ "_";
+			}
+			collisions.clear();
+			//notes is now the full string of notes played this step
+		}
+		notes = cleanFormat(notes);
+		return notes;
+	}
+	
+	/*
+	 * Transform notes list into LilyPond syntax
+	 */
+	private String cleanFormat(String notes) {
+		notes = "<" + notes;
+		notes = notes.replaceAll(" ", "");
+		notes = notes.toLowerCase();
+		notes = notes.replaceAll("#", "s");
+		notes = notes.replaceAll("0", ",,,");
+		notes = notes.replaceAll("1", ",,");
+		notes = notes.replaceAll("2", ",");
+		notes = notes.replaceAll("3", "");
+		notes = notes.replaceAll("4", "'");
+		notes = notes.replaceAll("5", "''");
+		notes = notes.replaceAll("6", "'''");
+		notes = notes.replaceAll("7", "''''");
+		notes = notes.replaceAll("8", "'''''");
+		notes = notes.replaceAll("9", "''''''");
+		notes = notes.replaceAll("_", " ");
+		notes = notes + ">";
+		return notes;
+	}
+	
+	/*
+	 * All to find the LCM of an array
+	 */
+	private static int gcd(int a, int b)
+	{
+	    while (b > 0)
+	    {
+	        int temp = b;
+	        b = a % b; // % is remainder
+	        a = temp;
+	    }
+	    return a;
+	}	
+	private int lcm(int a, int b)
+	{
+	    return a * (b / gcd(a, b));
+	}
+	private int lcm(int[] input)
+	{
+	    int result = input[0];
+	    for(int i = 1; i < input.length; i++) result = lcm(result, input[i]);
+	    return result;
+	}
+
 
 }
