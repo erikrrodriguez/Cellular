@@ -18,8 +18,9 @@ import java.awt.event.ActionEvent;
 
 public class View extends JFrame {
 
-	private JTextField txtIpAddress;
-	private JTextField txtPort;
+	private JTextField txtIpAddress = new JTextField();
+	private JTextField txtPort = new JTextField();
+	private JTextField bpm = new JTextField();
 	
 	private GamePanel gamePanel; //holds the actual grid
 	private int cellSize;
@@ -46,8 +47,9 @@ public class View extends JFrame {
 	private JLabel octave = new JLabel("Octave:");
 	private JLabel color = new JLabel("Color:");
 	private JLabel path = new JLabel("Path:");
-	private final JLabel lblIpAddress = new JLabel("IP Address:");
-	private final JLabel lblPort = new JLabel("Port:");
+	private JLabel lblIpAddress = new JLabel("IP Address:");
+	private JLabel lblPort = new JLabel("Port:");
+	private JLabel lblBpm = new JLabel("BPM:");
 	
 	private JComboBox<String> pathSelect = new JComboBox<String>(pathOptions);
 	private JComboBox<String> noteSelect = new JComboBox<String>(notes);
@@ -85,7 +87,7 @@ public class View extends JFrame {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{220, 0, 60, 50, 60, 90, 0, 0};
 		gridBagLayout.rowHeights = new int[]{53, 40, 19, 20, 45, 34, 0, 31, 0};
-		gridBagLayout.columnWeights = new double[]{1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
+		gridBagLayout.columnWeights = new double[]{1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
 		getContentPane().setLayout(gridBagLayout);
 		
@@ -231,13 +233,39 @@ public class View extends JFrame {
 		gbc_delete.gridy = 4;
 		getContentPane().add(delete, gbc_delete);
 		
+		//JButton score = new JButton("Export Score");
+		GridBagConstraints gbc_score = new GridBagConstraints();
+		gbc_score.insets = new Insets(0, 0, 5, 5);
+		gbc_score.gridx = 5;
+		gbc_score.gridy = 4;
+//		score.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent arg0) {
+//			}
+//		});
+		getContentPane().add(score, gbc_score);
+		
+		GridBagConstraints gbc_lblBpm = new GridBagConstraints();
+		gbc_lblBpm.insets = new Insets(0, 0, 5, 5);
+		gbc_lblBpm.gridx = 2;
+		gbc_lblBpm.gridy = 5;
+		getContentPane().add(lblBpm, gbc_lblBpm);
+		
+		bpm.setText("240");
+		GridBagConstraints gbc_textField = new GridBagConstraints();
+		gbc_textField.anchor = GridBagConstraints.WEST;
+		gbc_textField.gridwidth = 2;
+		gbc_textField.insets = new Insets(0, 0, 5, 5);
+		gbc_textField.gridx = 3;
+		gbc_textField.gridy = 5;
+		bpm.setColumns(10);
+		getContentPane().add(bpm, gbc_textField);
+		
 		GridBagConstraints gbc_lblIpAddress = new GridBagConstraints();
 		gbc_lblIpAddress.insets = new Insets(0, 0, 5, 5);
 		gbc_lblIpAddress.gridx = 2;
 		gbc_lblIpAddress.gridy = 6;
 		getContentPane().add(lblIpAddress, gbc_lblIpAddress);
 		
-		txtIpAddress = new JTextField();
 		txtIpAddress.setText("localhost");
 		GridBagConstraints gbc_txtIpAddress = new GridBagConstraints();
 		gbc_txtIpAddress.gridwidth = 2;
@@ -248,17 +276,6 @@ public class View extends JFrame {
 		getContentPane().add(txtIpAddress, gbc_txtIpAddress);
 		txtIpAddress.setColumns(10);
 		
-		//JButton score = new JButton("Export Score");
-		GridBagConstraints gbc_score = new GridBagConstraints();
-		gbc_score.insets = new Insets(0, 0, 5, 5);
-		gbc_score.gridx = 5;
-		gbc_score.gridy = 6;
-		score.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-			}
-		});
-		getContentPane().add(score, gbc_score);
-		
 		GridBagConstraints gbc_lblPort = new GridBagConstraints();
 		gbc_lblPort.anchor = GridBagConstraints.NORTH;
 		gbc_lblPort.insets = new Insets(0, 0, 0, 5);
@@ -266,7 +283,6 @@ public class View extends JFrame {
 		gbc_lblPort.gridy = 7;
 		getContentPane().add(lblPort, gbc_lblPort);
 		
-		txtPort = new JTextField();
 		txtPort.setText("57110");
 		GridBagConstraints gbc_txtPort = new GridBagConstraints();
 		gbc_txtPort.gridwidth = 2;
@@ -340,6 +356,10 @@ public class View extends JFrame {
 	
 	public String getPort() {
 		return txtPort.getText();
+	}
+	
+	public String getBpm() {
+		return bpm.getText();
 	}
 	
 	public Color getColor() {

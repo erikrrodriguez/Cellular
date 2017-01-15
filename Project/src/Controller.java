@@ -26,6 +26,7 @@ public class Controller {
 	private int clickedCellX; //(x,y) position of the cell the user clicks
 	private int clickedCellY;
 	private int gridSize;
+	private int bpm;
 	private ArrayList<Coordinates> drawnPath; //To hold the path that the user draws.
 
 	public Controller(View frame, Grid grid) { //MainFrame
@@ -37,6 +38,7 @@ public class Controller {
 
 		mainScreen.getFrame().addListener(new Listener()); //Listener for all buttons
 		mainScreen.getFrame().getPanel().addMouse(new Mouse());
+		bpm = 250; //240 bpm in milliseconds
 
 		running = true;
 		pause = true;
@@ -54,10 +56,10 @@ public class Controller {
 				grid.setIpandPort(mainScreen.getIP(), mainScreen.getPort());
 				grid.update();
 				updateView(); //Update panel with new cell info
+				setBPM();
 			}
-
 			try { //Delay before next grid update
-				TimeUnit.MILLISECONDS.sleep(250);
+				TimeUnit.MILLISECONDS.sleep(bpm);
 			} catch(InterruptedException ex) {
 				Thread.currentThread().interrupt();
 			}
@@ -91,6 +93,13 @@ public class Controller {
 
 	public boolean isPause() {
 		return pause;
+	}
+	
+	public void setBPM() {
+		//converting from bpm to milliseconds
+		if (Integer.parseInt(mainScreen.getBpm()) > 0 ) {
+			bpm = 60000 / Integer.parseInt(mainScreen.getBpm());
+		}
 	}
 
 	/*
