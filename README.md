@@ -32,7 +32,7 @@ Its color will be a mix of its two parent's colors and represented with an oval 
 
 The **Death** toggle enforces that if any grid cell holds 4 or more cells at one time, then all of those cells will be removed from the game. This can prevent the grid from being overrun with too many cells.
 
-The **OSC** toggle diables the in-game audio playback and instead uses the OSC protocol to send the MIDI notes in each collisions to other programs such as MAX, SuperCollider, Processing, ect. You can use Cellular to play your favorite VST. By default it sends to your local host on port 57110. You can specify another IP Address or port in the text boxes.
+The **OSC** toggle disables the in-game audio playback and instead uses the OSC protocol to send the MIDI notes in each collisions to other programs such as MAX, SuperCollider, Processing, ect. You can use Cellular to play your favorite VST. By default it sends to your local host on port 57110. You can specify another IP Address or port in the text boxes.
 
 The **Show Notes** toggle prints each note cell's text note for easy note identification.
 
