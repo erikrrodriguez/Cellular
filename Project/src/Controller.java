@@ -5,6 +5,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import javax.swing.SwingUtilities;
@@ -72,15 +73,19 @@ public class Controller {
 	/*
 	 * Get the occupied grid cells
 	 */
-	public ArrayList<GridCell> getOccupiedCells() {
+	public Set<GridCell> getOccupiedCells() {
 		return grid.getOccupiedCells();
+	}
+	
+	public Set<GridCell> getGridCellsWithPaths() {
+		return grid.getGridCellsWithPaths();
 	}
 
 	/*
 	 * Send the note cells, occupied grid cells, and the drawn path array list to the frame
 	 */
 	private void updateView() {
-		mainScreen.getFrame().getPanel().setCells(getCells(), getOccupiedCells(), drawnPath);
+		mainScreen.getFrame().getPanel().setCells(getCells(), getOccupiedCells(), getGridCellsWithPaths(), drawnPath);
 	}
 
 	public boolean isPause() {
@@ -125,6 +130,7 @@ public class Controller {
 			case "reset": reset(); break;
 			case "OSC": setOSC(); break;
 			case "score": exportScore(); break;
+			case "showNotes": mainScreen.changeShowNotes(); break;
 			default: break;
 			}
 			updateView();
@@ -256,14 +262,14 @@ public class Controller {
 					lastDragCellY = clickedCellY;
 				}
 				else {
-					boolean found = false;
-					for (int i = 1; i < drawnPath.size(); i++){
-						if (drawnPath.get(i).getX() == x && drawnPath.get(i).getY() == y) {
-							//drawnPath.remove(i); //uncommenting this allows for looped triangle paths and skipped squares
-							found = true;
-							break;
-						}
-					}
+					boolean found = false; //uncommenting below restricts drawn paths from overlapping
+//					for (int i = 1; i < drawnPath.size(); i++){
+//						if (drawnPath.get(i).getX() == x && drawnPath.get(i).getY() == y) {
+//							//drawnPath.remove(i); //uncommenting this allows for looped triangle paths and skipped squares
+//							found = true;
+//							break;
+//						}
+//					}
 					if (!found && isNeighbor(last.getX(), last.getY(), x, y) && !(last.equals(start) && size > 2)) {
 						drawnPath.add(new Coordinates(x,y, gridSize));
 						lastDragCellX = clickedCellX;

@@ -11,8 +11,9 @@ public class Grid {
 	private ArrayList<NoteCell> noteCells;
 	private ArrayList<NoteCell> delayedNoteCells; //Birthed cells are added to the grid 1 iteration after collision 
 	private Set<GridCell> collisions;
+	private Set<GridCell> gridCellsWithPaths;
 	//private ArrayList<Coordinates> collisions;
-	private ArrayList<GridCell> occupiedCells;
+	private Set<GridCell> occupiedCells;
 	private GridCell[][] grid;
 	private int numCells; //number of cells in the grid
 	private Random rand;
@@ -27,13 +28,13 @@ public class Grid {
 		noteCells = new ArrayList<NoteCell>();
 		delayedNoteCells = new ArrayList<NoteCell>();
 		collisions = new HashSet<GridCell>();
-		//collisions = new ArrayList<Coordinates>();
-		occupiedCells = new ArrayList<GridCell>();
+		gridCellsWithPaths = new HashSet<GridCell>();
+		occupiedCells = new HashSet<GridCell>();
 
 		numCells = newNumCells;
 		rand = new Random();
 		grid = new GridCell[numCells][numCells];
-		
+
 		this.sound = sound;
 		this.oscSend = oscSend;
 		clear = true;
@@ -41,7 +42,7 @@ public class Grid {
 		osc = false;
 		setGrid();
 	}
-	
+
 	public void setGrid() {
 		for (int i = 0; i < numCells; i++) {
 			for (int j = 0; j < numCells; j++) {
@@ -56,7 +57,7 @@ public class Grid {
 		checkCollisions();
 		addDelayedCells(); //Births from previous collision round
 	}
-	
+
 	private void advanceCells() {
 		for(NoteCell noteCell : noteCells) {
 			noteCell.advance();
@@ -128,7 +129,7 @@ public class Grid {
 			return true;
 		return false;
 	}
-	
+
 	private boolean containsPlayerCell(int x, int y) {
 		if (grid[x][y].getNoteCell(0).getPitch().equals("- ") || 
 				grid[x][y].getNoteCell(1).getPitch().equals("- "))
@@ -137,9 +138,7 @@ public class Grid {
 	}
 
 	private void addOccupied(GridCell gridCell) {
-		if (!occupiedCells.contains(gridCell)) {
-			occupiedCells.add(gridCell);
-		}
+		occupiedCells.add(gridCell);
 	}
 
 	private void addDelayedCells() {
@@ -152,15 +151,92 @@ public class Grid {
 
 	public void addNoteCell(NoteCell newCell){
 		noteCells.add(newCell);
-		grid[newCell.getPos().getX()][newCell.getPos().getY()].addNoteCell(newCell);
-		addOccupied(grid[newCell.getPos().getX()][newCell.getPos().getY()]);
-		if (grid[newCell.getPos().getX()][newCell.getPos().getY()].getNumNoteCells() > 1 
-				&& !collisions.contains(newCell.getPos())) {
-			collisions.add(grid[newCell.getPos().getX()][newCell.getPos().getY()]);
+		int x = newCell.getPos().getX();
+		int y = newCell.getPos().getY();
+		grid[x][y].addNoteCell(newCell);
+		addOccupied(grid[x][y]);
+		fillPathInfo(newCell);
+		if (grid[x][y].getNumNoteCells() > 1) {
+			collisions.add(grid[x][y]);
 		}
-
 	}
 
+	public void fillPathInfo(NoteCell cell) {
+		//fill grid cells with this note cell's path
+		int size = cell.getPath().size();
+		if (size > 1) {
+			String[] path = new String[size];
+			String[] node1 = new String[5];
+			String[] node2 = new String[5];
+			path = cell.getPathColorString().split(" "); //array of ["x:y:r:g:b", "x:y:r:g:b"]
+			int bound;
+			if (path.length % 2 == 0) {
+				bound = path.length;
+			} else {
+				bound = path.length - 1;
+			}
+			for(int i = 0; i < bound - 1; i++) {
+				if (i==0) {
+					node1 = path[i].split(":"); //array [x, y, r, g, b]
+				} else {
+					node1 = node2;
+				}
+				node2 = path[i+1].split(":");
+				findDirection(node1, node2);
+			}
+			if (path.length % 2 != 0 && size >= 3) {
+				node1 = path[cell.getPath().size()-2].split(":"); //Penultimate node
+				node2 = path[cell.getPath().size()-1].split(":"); //Last node
+				findDirection(node1, node2);
+			}
+			if (cell.isLoop()) {
+				node1 = path[cell.getPath().size()-1].split(":"); //last node
+				node2 = path[0].split(":"); //first node
+				findDirection(node1, node2);
+			}
+		}
+	}
+	
+	public void refillPathInfo() {
+		for(NoteCell cell : noteCells) {
+			fillPathInfo(cell);
+		}
+	}
+	
+	public void findDirection(String[] node1, String[] node2) {
+		String direction1;
+		String direction2;
+		int x1 = Integer.parseInt(node1[0]);
+		int x2 = Integer.parseInt(node2[0]);
+		int y1 = Integer.parseInt(node1[1]);
+		int y2 = Integer.parseInt(node2[1]);
+		//Find Direction
+		if(x1 < x2) {
+			direction1 = "right"+":"+node1[2]+":"+node1[3]+":"+node1[4];
+			direction2 = "left"+":"+node1[2]+":"+node1[3]+":"+node1[4];
+			grid[x1][y1].incrementRightCount();
+			grid[x2][y2].incrementLeftCount();
+		} else if(x1 > x2) {
+			direction1 = "left"+":"+node1[2]+":"+node1[3]+":"+node1[4];
+			direction2 = "right"+":"+node1[2]+":"+node1[3]+":"+node1[4];
+			grid[x1][y1].incrementLeftCount();
+			grid[x2][y2].incrementRightCount();
+		} else if(y1 > y2) {
+			direction1 = "up"+":"+node1[2]+":"+node1[3]+":"+node1[4];
+			direction2 = "down"+":"+node1[2]+":"+node1[3]+":"+node1[4];
+			grid[x1][y1].incrementUpCount();
+			grid[x2][y2].incrementDownCount();
+		} else {
+			direction1 = "down"+":"+node1[2]+":"+node1[3]+":"+node1[4];
+			direction2 = "up"+":"+node1[2]+":"+node1[3]+":"+node1[4];
+			grid[x1][y1].incrementDownCount();
+			grid[x2][y2].incrementUpCount();
+		}				
+		grid[x1][y1].addContainedPath(direction1);
+		grid[x2][y2].addContainedPath(direction2);
+		gridCellsWithPaths.add(grid[x1][y1]);
+		gridCellsWithPaths.add(grid[x2][y2]);
+	}
 	public void resetGrid() {
 		for (NoteCell cell : noteCells) {
 			grid[cell.getPos().getX()][cell.getPos().getY()].removeNoteCells();
@@ -170,12 +246,16 @@ public class Grid {
 
 	@SuppressWarnings("unused")
 	public void clearGrid() {
+		for(GridCell cell : gridCellsWithPaths) {
+			cell.clearContainedPaths();
+		}
 		for (GridCell cell : occupiedCells) {
 			cell.removeNoteCells();
 		}
 		for (NoteCell notecell : noteCells) {
 			notecell = null;
 		}
+		gridCellsWithPaths.clear();
 		occupiedCells.clear();
 		noteCells.clear();
 		clear = true;
@@ -186,16 +266,25 @@ public class Grid {
 			noteCells.remove(cell);
 			cell = null;
 		}
+		for(GridCell cell : gridCellsWithPaths) {
+			cell.clearContainedPaths();
+		}
+		gridCellsWithPaths.clear();
 		grid[x][y].removeNoteCells();
 		occupiedCells.remove(grid[x][y]);
+		refillPathInfo();
 	}
 
 	public ArrayList<NoteCell> getCells(){
 		return noteCells;
 	}
 
-	public ArrayList<GridCell> getOccupiedCells() {
+	public Set<GridCell> getOccupiedCells() {
 		return occupiedCells;
+	}
+
+	public Set<GridCell> getGridCellsWithPaths() {
+		return gridCellsWithPaths;
 	}
 
 	public int randInt(int min, int max) {
@@ -239,19 +328,19 @@ public class Grid {
 	public boolean isClear() {
 		return clear;
 	}
-	
+
 	public void changeBirth() {
 		birth = !birth;
 	}
-	
+
 	public void changeOSC() {
 		osc = !osc;
 	}
-	
+
 	public boolean isOSC() {
 		return osc;
 	}
-	
+
 	public void resetCells() {
 		deleteChildCells();
 		resetGrid();
@@ -259,19 +348,19 @@ public class Grid {
 			cell.setPos(0);
 		}
 	}
-	
+
 	private void deleteChildCells() {
 		Iterator<NoteCell> iter = noteCells.iterator();
 		while (iter.hasNext()) {
-		    NoteCell cell = iter.next();
-		    if (cell instanceof BirthCell && !((BirthCell) cell).isPlaced()) {
+			NoteCell cell = iter.next();
+			if (cell instanceof BirthCell && !((BirthCell) cell).isPlaced()) {
 				iter.remove();
 				grid[cell.getPos().getX()][cell.getPos().getY()].removeCell(cell);
 				if (grid[cell.getPos().getX()][cell.getPos().getY()].getNumNoteCells() == 0) {
 					occupiedCells.remove(grid[cell.getPos().getX()][cell.getPos().getY()]);
 				}
 				cell = null;
-				
+
 			}
 		}
 	}
@@ -315,7 +404,7 @@ public class Grid {
 		}
 		resetCells();
 	}
-	
+
 	private String checkCollisionsExportScore() {
 		String notes = "";
 		if (collisions.size() > 0) {
@@ -328,7 +417,7 @@ public class Grid {
 		notes = cleanFormat(notes);
 		return notes;
 	}
-	
+
 	/*
 	 * Transform notes list into LilyPond syntax
 	 */
@@ -351,29 +440,29 @@ public class Grid {
 		notes = notes + ">";
 		return notes;
 	}
-	
+
 	/*
 	 * All to find the LCM of an array
 	 */
 	private static int gcd(int a, int b)
 	{
-	    while (b > 0)
-	    {
-	        int temp = b;
-	        b = a % b; // % is remainder
-	        a = temp;
-	    }
-	    return a;
+		while (b > 0)
+		{
+			int temp = b;
+			b = a % b; // % is remainder
+			a = temp;
+		}
+		return a;
 	}	
 	private int lcm(int a, int b)
 	{
-	    return a * (b / gcd(a, b));
+		return a * (b / gcd(a, b));
 	}
 	private int lcm(int[] input)
 	{
-	    int result = input[0];
-	    for(int i = 1; i < input.length; i++) result = lcm(result, input[i]);
-	    return result;
+		int result = input[0];
+		for(int i = 1; i < input.length; i++) result = lcm(result, input[i]);
+		return result;
 	}
 
 

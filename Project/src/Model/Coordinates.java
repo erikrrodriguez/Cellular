@@ -6,6 +6,7 @@ package Model;
 public class Coordinates {
 	private int x;
 	private int y;
+	@SuppressWarnings("unused")
 	private int gridSize;
 	
 	public Coordinates(int newX, int newY, int newGridSize){

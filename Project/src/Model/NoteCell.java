@@ -142,12 +142,13 @@ public class NoteCell{
 		return false;
 	}
 
-	public void printPath(ArrayList<Coordinates> pathToPrint) {
+	public String getPathColorString() {
 		String pathstring = "";
-		for(int i = 0; i < pathToPrint.size(); i++) {
-			pathstring = pathstring + "(" + path.get(i).getX() + "," + path.get(i).getY() + ")  ";
+		for(int i = 0; i < path.size(); i++) {
+			pathstring = pathstring + path.get(i).getX() + ":" + path.get(i).getY() + ":" 
+					+ color.getRed() + ":" + color.getGreen() + ":" + color.getBlue() + " ";
 		}
-		System.out.println(pathstring);
+		return pathstring;
 	}
 
 	public void addToPath(int x, int y){
@@ -268,6 +269,10 @@ public class NoteCell{
 
 	public ArrayList<Coordinates> getPath() {
 		return path;
+	}
+	
+	public Coordinates getPath(int index) {
+		return path.get(index);
 	}
 	
 	public int getPathLength() {

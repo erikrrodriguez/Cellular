@@ -39,6 +39,7 @@ public class View extends JFrame {
 	
 	private JCheckBox birth = new JCheckBox("Birth", false);
 	private JCheckBox OSC = new JCheckBox("OSC", false);
+	private JCheckBox showNotes = new JCheckBox("Show Notes", false);
 	
 	private JLabel note = new JLabel("Note:");
 	private JLabel octave = new JLabel("Octave:");
@@ -177,6 +178,12 @@ public class View extends JFrame {
 		gbc_chckbxOsc.gridy = 1;
 		getContentPane().add(OSC, gbc_chckbxOsc);
 		
+		GridBagConstraints gbc_chckbxShowNotes = new GridBagConstraints();
+		gbc_chckbxShowNotes.insets = new Insets(0, 0, 5, 5);
+		gbc_chckbxShowNotes.gridx = 4;
+		gbc_chckbxShowNotes.gridy = 1;
+		getContentPane().add(showNotes, gbc_chckbxShowNotes);
+		
 		GridBagConstraints gbc_lblNote = new GridBagConstraints();
 		gbc_lblNote.insets = new Insets(0, 0, 5, 5);
 		gbc_lblNote.gridx = 2;
@@ -268,6 +275,7 @@ public class View extends JFrame {
 		OSC.setActionCommand("OSC");
 		reset.setActionCommand("reset");
 		score.setActionCommand("score");
+		showNotes.setActionCommand("showNotes");
 	}
 	
 	public GamePanel getPanel() {
@@ -327,6 +335,10 @@ public class View extends JFrame {
 		return gamePanel.getVoffset();
 	}
 	
+	public void changeShowNotes() {
+		gamePanel.changeShowNotes();
+	}
+	
 	
 	public void addListener(ActionListener listener) {
 		startStop.addActionListener(listener);
@@ -338,5 +350,6 @@ public class View extends JFrame {
 		OSC.addActionListener(listener);
 		reset.addActionListener(listener);
 		score.addActionListener(listener);
+		showNotes.addActionListener(listener);
 	}
 }

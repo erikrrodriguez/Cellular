@@ -9,13 +9,16 @@ import java.util.ArrayList;
  */
 public class GridCell{
 	private ArrayList<NoteCell> occupyingCells;
+	private ArrayList<String> containedPaths;
 	private int numNoteCells;
 	private int x;
 	private int y;
+	private int upCount, downCount, leftCount, rightCount;
 	private Audio sound;
 	private OSCSend oscSend;
 	
 	public GridCell(int newx, int newy, Audio sound, OSCSend oscSend) {
+		containedPaths = new ArrayList<String>();
 		occupyingCells = new ArrayList<NoteCell>();
 		numNoteCells = 0;
 		x = newx;
@@ -132,6 +135,65 @@ public class GridCell{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	public void addContainedPath(String dirColor) {
+		containedPaths.add(dirColor);
+	}
+	
+	public ArrayList<String> getContainedPaths() {
+		return containedPaths;
+	}
+	
+	public String getContainedPath(int index) {
+		return containedPaths.get(index);
+	}
+	
+	public void clearContainedPaths() {
+		containedPaths.clear();
+		setUpCount(0);
+		setDownCount(0);
+		setLeftCount(0);
+		setRightCount(0);
+	}
+	
+	public void setUpCount(int c) {
+		upCount = c;
+	}
+	public void setDownCount(int c) {
+		downCount = c;
+	}
+	public void setLeftCount(int c) {
+		leftCount = c;
+	}
+	public void setRightCount(int c) {
+		rightCount = c;
+	}
+	
+	public int getUpCount() {
+		return upCount;
+	}
+	public int getDownCount() {
+		return downCount;
+	}
+	public int getLeftCount() {
+		return leftCount;
+	}
+	public int getRightCount() {
+		return rightCount;
+	}
+	
+	public void incrementUpCount() {
+		upCount += 1;
+	}
+	public void incrementDownCount() {
+		downCount += 1;
+	}
+	public void incrementLeftCount() {
+		leftCount += 1;
+	}
+	public void incrementRightCount() {
+		rightCount += 1;
 	}
 
 }
