@@ -10,7 +10,7 @@ A musical cellular automation application. Written in Java using Eclipse. Utiliz
 
 ![Cellular](http://i.imgur.com/Qie6w4Z.jpg)
 
-To quickly see what the game in action press the **Generate** button. Generate creates C4, E4, G4, and B4 notes (CM7 chord) with random paths each starting on a grid square adjacent to the center grid square.
+To quickly see the game in action press the **Generate** button. Generate creates C4, E4, G4, and B4 notes (CM7 chord) with random paths each starting on a grid square adjacent to the center grid square.
 
 You can also draw your own notes and paths. Simply click the squares in the path order you would like. Once you have your path, note, octave, and color defined press the **Insert** button. You may also specify a starting square and insert a note with a random path, or insert a cell that wanders randomly. A cell with no specified note acts as a "player" cell and will still trigger other note cells when colliding.
 
