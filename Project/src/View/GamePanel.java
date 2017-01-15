@@ -11,7 +11,6 @@ import javax.swing.JPanel;
 import Model.BirthCell;
 import Model.Coordinates;
 import Model.GridCell;
-import Model.NoteCell;
 
 /*
  * This is the representation of the grid within the frame.

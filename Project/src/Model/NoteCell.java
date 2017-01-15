@@ -251,6 +251,10 @@ public class NoteCell{
 	public String getNote() {
 		return note;
 	}
+	
+	public String getScoreNote() {
+		return note;
+	}
 
 	/**
 	 * returns the pitch. C, CS, ect.

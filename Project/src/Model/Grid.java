@@ -86,7 +86,7 @@ public class Grid {
 				if (birth) { //The birth option can be toggled
 					if (gridCell.getNumNoteCells() == 2 && !containsBirthCell(gridCell.getX(),gridCell.getY()) 
 							&& !containsPlayerCell(gridCell.getX(), gridCell.getY())) birthNewCell(gridCell.getX(), gridCell.getY());
-					if (gridCell.getNumNoteCells() >= 4) clearCell(gridCell.getX(), gridCell.getY());
+					if (gridCell.getNumNoteCells() >= 10) clearCell(gridCell.getX(), gridCell.getY());
 				}
 			}
 			collisions.clear();
@@ -125,17 +125,21 @@ public class Grid {
 	}
 
 	private boolean containsBirthCell(int x, int y) {
-		if (grid[x][y].getNoteCell(0) instanceof BirthCell || 
-				grid[x][y].getNoteCell(1) instanceof BirthCell)
-			return true;
+		for(NoteCell cell : grid[x][y].getOccupyingCells()) {
+			if (cell instanceof BirthCell) return true;
+		}
 		return false;
 	}
 
 	private boolean containsPlayerCell(int x, int y) {
-		if (grid[x][y].getNoteCell(0).getPitch().equals("- ") || 
-				grid[x][y].getNoteCell(1).getPitch().equals("- "))
-			return true;
+		for(NoteCell cell : grid[x][y].getOccupyingCells()) {
+			if (cell.getPitch().equals("- ")) return true;
+		}
 		return false;
+//		if (grid[x][y].getNoteCell(0).getPitch().equals("- ") || 
+//				grid[x][y].getNoteCell(1).getPitch().equals("- "))
+//			return true;
+//		return false;
 	}
 
 	private void addOccupied(GridCell gridCell) {
@@ -185,25 +189,25 @@ public class Grid {
 				node2 = path[i+1].split(":");
 				findDirection(node1, node2);
 			}
-			if (path.length % 2 != 0 && size >= 3) {
+			if (path.length % 2 != 0 && size >= 3) { //For odd length paths
 				node1 = path[cell.getPath().size()-2].split(":"); //Penultimate node
 				node2 = path[cell.getPath().size()-1].split(":"); //Last node
 				findDirection(node1, node2);
 			}
-			if (cell.isLoop()) {
+			if (cell.isLoop()) { //For loops
 				node1 = path[cell.getPath().size()-1].split(":"); //last node
 				node2 = path[0].split(":"); //first node
 				findDirection(node1, node2);
 			}
 		}
 	}
-	
+
 	public void refillPathInfo() {
 		for(NoteCell cell : noteCells) {
 			fillPathInfo(cell);
 		}
 	}
-	
+
 	public void findDirection(String[] node1, String[] node2) {
 		String direction1;
 		String direction2;
@@ -238,9 +242,10 @@ public class Grid {
 		gridCellsWithPaths.add(grid[x1][y1]);
 		gridCellsWithPaths.add(grid[x2][y2]);
 	}
+	
 	public void resetGrid() {
-		for (NoteCell cell : noteCells) {
-			grid[cell.getPos().getX()][cell.getPos().getY()].removeNoteCells();
+		for (GridCell cell : occupiedCells) {
+			cell.removeNoteCells();
 		}
 		occupiedCells.clear();
 	}
@@ -365,7 +370,7 @@ public class Grid {
 			}
 		}
 	}
-	
+
 	public void setIpandPort(String Ip, String port) {
 		try {
 			oscSend.setIP(Ip);
@@ -377,43 +382,45 @@ public class Grid {
 	}
 
 	public void exportScore() {
-		//Find LCM for cycle length
-		int index = 0;
-		int[] LCMcalc = new int[noteCells.size()];
-		for(NoteCell cell : noteCells) {
-			LCMcalc[index] = cell.getPathLength();
-			System.out.println("LCM " + index + ": " + LCMcalc[index]);
-			index++;
-		}
-		int cycleLength = lcm(LCMcalc);
-		System.out.println("Cycle Length: " + cycleLength);
-		//Advance Cells and write to file
-		resetCells();
-		try (BufferedWriter file = new BufferedWriter(new FileWriter("score.txt",false))) { //change to true to over write
-			file.write("\\version \"2.18.2\"");
-			file.newLine();
-			file.write("\\language \"english\"");
-			file.newLine();
-			file.write("\\repeat volta 2");
-			file.newLine();
-			file.write("{");
-			file.newLine();
-			file.write("#(set-accidental-style 'forget)");
-			file.newLine();
-			for(int i = 0; i < cycleLength; i++) {
-				resetGrid();
-				advanceCells();
-				String notes = checkCollisionsExportScore(); //This version does not play notes
-				if (notes.equals("<>")) notes = "r";
-				file.write(notes);
-				file.newLine();
+		if (noteCells.size() > 0) {
+			//Find LCM for cycle length
+			int index = 0;
+			int[] LCMcalc = new int[noteCells.size()];
+			for(NoteCell cell : noteCells) {
+				LCMcalc[index] = cell.getPathLength();
+				System.out.println("LCM " + index + ": " + LCMcalc[index]);
+				index++;
 			}
-			file.write("}");
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			int cycleLength = lcm(LCMcalc);
+			System.out.println("Cycle Length: " + cycleLength);
+			//Advance Cells and write to file
+			//resetCells();
+			try (BufferedWriter file = new BufferedWriter(new FileWriter("score.txt",false))) { //change to true to over write
+				file.write("\\version \"2.18.2\"");
+				file.newLine();
+				file.write("\\language \"english\"");
+				file.newLine();
+				file.write("\\repeat volta 2");
+				file.newLine();
+				file.write("{");
+				file.newLine();
+				file.write("#(set-accidental-style 'forget)");
+				file.newLine();
+				for(int i = 0; i < cycleLength; i++) {
+					resetGrid();
+					advanceCells();
+					String notes = checkCollisionsExportScore(); //This version does not play notes
+					if (notes.equals("<>")) notes = "r";
+					file.write(notes);
+					file.newLine();
+				}
+				file.write("}");
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			resetCells();
 		}
-		resetCells();
 	}
 
 	private String checkCollisionsExportScore() {
@@ -433,7 +440,6 @@ public class Grid {
 	 * Transform notes list into LilyPond syntax
 	 */
 	private String cleanFormat(String notes) {
-		notes = "<" + notes;
 		notes = notes.replaceAll(" ", "");
 		notes = notes.toLowerCase();
 		notes = notes.replaceAll("#", "s");
@@ -448,7 +454,7 @@ public class Grid {
 		notes = notes.replaceAll("8", "'''''");
 		notes = notes.replaceAll("9", "''''''");
 		notes = notes.replaceAll("_", " ");
-		notes = notes + ">";
+		notes = "<" + notes + ">";
 		return notes;
 	}
 

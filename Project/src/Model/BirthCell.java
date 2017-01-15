@@ -9,10 +9,12 @@ public class BirthCell extends NoteCell {
 	private int xStart;
 	private int yStart;
 	private int gridSize;
+	private String note;
 
 	public BirthCell(int x, int y, String newNote, Color parColor1, Color parColor2, boolean placed, int newGridSize) {
 		super(x, y, newNote, newGridSize);
 		gridSize = newGridSize;
+		note = newNote;
 		this.xStart = x;
 		this.yStart = y;
 		reset = false;
@@ -44,6 +46,11 @@ public class BirthCell extends NoteCell {
 
 	public boolean isPlaced() {
 		return placed;
+	}
+	
+	@Override
+	public String getScoreNote() {
+		return "\\parenthesize_" + note;
 	}
 
 	private boolean isNeighbor(int nx, int ny) {

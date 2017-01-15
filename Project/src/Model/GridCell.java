@@ -59,6 +59,7 @@ public class GridCell{
 	
 	public void removeCell(NoteCell cell) {
 		occupyingCells.remove(cell);
+		numNoteCells--;
 	}
 	
 	public ArrayList<NoteCell> getOccupyingCells() {
@@ -68,7 +69,7 @@ public class GridCell{
 	public String getOccupyingCellNotes() {
 		String notes = "";
 		for(NoteCell cell : occupyingCells) {
-			notes = notes + cell.getNote() + "_";
+			notes = notes + cell.getScoreNote() + "_";
 		}
 		return notes;
 	}
