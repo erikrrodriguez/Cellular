@@ -13,7 +13,6 @@ public class Grid {
 	private ArrayList<NoteCell> delayedNoteCells; //Birthed cells are added to the grid 1 iteration after collision 
 	private Set<GridCell> collisions;
 	private Set<GridCell> gridCellsWithPaths;
-	//private ArrayList<Coordinates> collisions;
 	private Set<GridCell> occupiedCells;
 	private GridCell[][] grid;
 	private int numCells; //number of cells in the grid
@@ -22,6 +21,7 @@ public class Grid {
 	private OSCSend oscSend;
 	private boolean clear;
 	private boolean birth;
+	private boolean death;
 	private boolean osc;
 
 	//constructor
@@ -40,6 +40,7 @@ public class Grid {
 		this.oscSend = oscSend;
 		clear = true;
 		birth = false;
+		death = false;
 		osc = false;
 		setGrid();
 	}
@@ -86,7 +87,9 @@ public class Grid {
 				if (birth) { //The birth option can be toggled
 					if (gridCell.getNumNoteCells() == 2 && !containsBirthCell(gridCell.getX(),gridCell.getY()) 
 							&& !containsPlayerCell(gridCell.getX(), gridCell.getY())) birthNewCell(gridCell.getX(), gridCell.getY());
-					if (gridCell.getNumNoteCells() >= 10) clearCell(gridCell.getX(), gridCell.getY());
+				}
+				if (death) {
+					if (gridCell.getNumNoteCells() >= 4) clearCell(gridCell.getX(), gridCell.getY());
 				}
 			}
 			collisions.clear();
@@ -136,10 +139,6 @@ public class Grid {
 			if (cell.getPitch().equals("- ")) return true;
 		}
 		return false;
-//		if (grid[x][y].getNoteCell(0).getPitch().equals("- ") || 
-//				grid[x][y].getNoteCell(1).getPitch().equals("- "))
-//			return true;
-//		return false;
 	}
 
 	private void addOccupied(GridCell gridCell) {
@@ -337,6 +336,10 @@ public class Grid {
 
 	public void changeBirth() {
 		birth = !birth;
+	}
+	
+	public void changeDeath() {
+		death = !death;
 	}
 
 	public void changeOSC() {

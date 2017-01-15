@@ -35,12 +35,12 @@ public class View extends JFrame {
 	private JButton insert = new JButton("Insert");
 	private JButton delete = new JButton("Delete");
 	private JButton reset = new JButton("Reset");
-	//private JButton score = new JButton("Export Score");
 	private JButton score = new JButton("Export");
 	
 	private JCheckBox birth = new JCheckBox("Birth", false);
 	private JCheckBox OSC = new JCheckBox("OSC", false);
 	private JCheckBox showNotes = new JCheckBox("Show Notes", false);
+	private JCheckBox death = new JCheckBox("Death");
 	
 	private JLabel note = new JLabel("Note:");
 	private JLabel octave = new JLabel("Octave:");
@@ -174,16 +174,22 @@ public class View extends JFrame {
 		gbc_colorSelect.gridy = 3;
 		getContentPane().add(colorSelect, gbc_colorSelect);
 		
+		GridBagConstraints gbc_chckbxDeath = new GridBagConstraints();
+		gbc_chckbxDeath.insets = new Insets(0, 0, 5, 5);
+		gbc_chckbxDeath.gridx = 3;
+		gbc_chckbxDeath.gridy = 1;
+		getContentPane().add(death, gbc_chckbxDeath);
+		
 		//JCheckBox chckbxOsc = new JCheckBox("OSC");
 		GridBagConstraints gbc_chckbxOsc = new GridBagConstraints();
 		gbc_chckbxOsc.insets = new Insets(0, 0, 5, 5);
-		gbc_chckbxOsc.gridx = 3;
+		gbc_chckbxOsc.gridx = 4;
 		gbc_chckbxOsc.gridy = 1;
 		getContentPane().add(OSC, gbc_chckbxOsc);
 		
 		GridBagConstraints gbc_chckbxShowNotes = new GridBagConstraints();
 		gbc_chckbxShowNotes.insets = new Insets(0, 0, 5, 5);
-		gbc_chckbxShowNotes.gridx = 4;
+		gbc_chckbxShowNotes.gridx = 5;
 		gbc_chckbxShowNotes.gridy = 1;
 		getContentPane().add(showNotes, gbc_chckbxShowNotes);
 		
@@ -293,6 +299,7 @@ public class View extends JFrame {
 		clear.setActionCommand("clear");
 		generate.setActionCommand("generate");
 		birth.setActionCommand("birth");
+		death.setActionCommand("death");
 		OSC.setActionCommand("OSC");
 		reset.setActionCommand("reset");
 		score.setActionCommand("score");
@@ -376,6 +383,7 @@ public class View extends JFrame {
 		insert.addActionListener(listener);
 		delete.addActionListener(listener);
 		birth.addActionListener(listener);
+		death.addActionListener(listener);
 		OSC.addActionListener(listener);
 		reset.addActionListener(listener);
 		score.addActionListener(listener);

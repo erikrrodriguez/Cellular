@@ -128,6 +128,7 @@ public class Controller {
 			case "delete": delete(); break;
 			case "insert": insert(); break;
 			case "birth": grid.changeBirth(); break;
+			case "death": grid.changeDeath(); break;
 			case "reset": reset(); break;
 			case "OSC": setOSC(); break;
 			case "score": exportScore(); break;
