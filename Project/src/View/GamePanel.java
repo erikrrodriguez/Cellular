@@ -17,8 +17,6 @@ import Model.NoteCell;
  * This is the representation of the grid within the frame.
  */
 public class GamePanel extends JPanel{
-	
-	private ArrayList<NoteCell> noteCells;
 	private Set<GridCell> occupiedCells;
 	private Set<GridCell> gridCellsWithPaths;
 	private ArrayList<Coordinates> drawnPath;
@@ -163,7 +161,6 @@ public class GamePanel extends JPanel{
 				if (showNotes) { //Draw exclamation points on cells
 					g2.setColor(Color.black);
 					g2.setFont(new Font("default", Font.BOLD, fontSize));
-					@SuppressWarnings("unused")
 					String exclaim = "!!";
 					for(int i = 2; i < gridCell.getNumNoteCells(); i++) {
 						exclaim += "!";
@@ -172,9 +169,7 @@ public class GamePanel extends JPanel{
 				}
 			}
 			else { //If only one note cell in the grid cell
-				g2.setColor(gridCell.getNoteCell().getColor());
-				//g2.fillRect(cellSize*gridCell.getX()+hoffset, cellSize*gridCell.getY()+voffset, cellSize, cellSize);
-				
+				g2.setColor(gridCell.getNoteCell().getColor());				
 				if (gridCell.getNoteCell() instanceof BirthCell) {
 					g2.fillOval(cellSize*gridCell.getX()+hoffset, cellSize*gridCell.getY()+voffset, cellSize, cellSize);
 					g2.setColor(Color.white);
@@ -183,7 +178,6 @@ public class GamePanel extends JPanel{
 					g2.fillRect(cellSize*gridCell.getX()+hoffset, cellSize*gridCell.getY()+voffset, cellSize, cellSize);
 					g2.setColor(Color.black);
 				}
-				
 				if (showNotes) { //Draw Notes on cells
 					g2.setFont(new Font("default", Font.BOLD, fontSize-2));
 					if (gridCell.getNoteCell().getPitch().equals("- ")) {
@@ -223,8 +217,7 @@ public class GamePanel extends JPanel{
 		}
 	}
 	
-	public void setCells(ArrayList<NoteCell> noteCells, Set<GridCell> occupiedCells, Set<GridCell> gridCellsWithPaths, ArrayList<Coordinates> drawnPath) {
-		this.noteCells = noteCells;
+	public void setCells(Set<GridCell> occupiedCells, Set<GridCell> gridCellsWithPaths, ArrayList<Coordinates> drawnPath) {
 		this.occupiedCells = occupiedCells;
 		this.drawnPath = drawnPath;
 		this.gridCellsWithPaths = gridCellsWithPaths;

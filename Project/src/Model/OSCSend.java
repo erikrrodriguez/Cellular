@@ -36,20 +36,22 @@ public class OSCSend {
 		return port;
 	}
 	
-	public void setPort(int newPort) {
-		port = newPort;
-	}
-	
 	public InetAddress getIP() {
 		return ip;
 	}
 	
-	public void setIP(String newIP) throws UnknownHostException {
-		ip = InetAddress.getByName(newIP);
+	public void setIP(String newIp) throws UnknownHostException {
+		if (newIp.equals("localhost")) {
+			this.ip = InetAddress.getLocalHost();
+		} else if ((newIp.length() - newIp.replace(".", "").length()) == 3) {
+			ip = InetAddress.getByName(newIp);
+		}
 	}
 	
-	public void setIP(InetAddress newIP) {
-		ip = newIP;
+	public void setPort(String newPort) {
+		if (newPort.length() >= 5) {
+			port = Integer.parseInt(newPort);
+		}
 	}
 }
 

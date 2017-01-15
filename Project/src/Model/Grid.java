@@ -1,6 +1,7 @@
 package Model;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -363,6 +364,16 @@ public class Grid {
 
 			}
 		}
+	}
+	
+	public void setIpandPort(String Ip, String port) {
+		try {
+			oscSend.setIP(Ip);
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		oscSend.setPort(port);
 	}
 
 	public void exportScore() {

@@ -51,6 +51,7 @@ public class Controller {
 	public void start() {
 		while (running) {
 			if (!pause) {
+				grid.setIpandPort(mainScreen.getIP(), mainScreen.getPort());
 				grid.update();
 				updateView(); //Update panel with new cell info
 			}
@@ -85,7 +86,7 @@ public class Controller {
 	 * Send the note cells, occupied grid cells, and the drawn path array list to the frame
 	 */
 	private void updateView() {
-		mainScreen.getFrame().getPanel().setCells(getCells(), getOccupiedCells(), getGridCellsWithPaths(), drawnPath);
+		mainScreen.getFrame().getPanel().setCells(getOccupiedCells(), getGridCellsWithPaths(), drawnPath);
 	}
 
 	public boolean isPause() {

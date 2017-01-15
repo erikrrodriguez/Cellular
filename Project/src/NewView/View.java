@@ -14,6 +14,7 @@ import View.GamePanel;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.ActionEvent;
 
 public class View extends JFrame {
 
@@ -35,7 +36,7 @@ public class View extends JFrame {
 	private JButton delete = new JButton("Delete");
 	private JButton reset = new JButton("Reset");
 	//private JButton score = new JButton("Export Score");
-	private JButton score = new JButton("Export Score");
+	private JButton score = new JButton("Export");
 	
 	private JCheckBox birth = new JCheckBox("Birth", false);
 	private JCheckBox OSC = new JCheckBox("OSC", false);
@@ -45,6 +46,8 @@ public class View extends JFrame {
 	private JLabel octave = new JLabel("Octave:");
 	private JLabel color = new JLabel("Color:");
 	private JLabel path = new JLabel("Path:");
+	private final JLabel lblIpAddress = new JLabel("IP Address:");
+	private final JLabel lblPort = new JLabel("Port:");
 	
 	private JComboBox<String> pathSelect = new JComboBox<String>(pathOptions);
 	private JComboBox<String> noteSelect = new JComboBox<String>(notes);
@@ -222,30 +225,48 @@ public class View extends JFrame {
 		gbc_delete.gridy = 4;
 		getContentPane().add(delete, gbc_delete);
 		
-		//JButton score = new JButton("Export Score");
-		GridBagConstraints gbc_score = new GridBagConstraints();
-		gbc_score.insets = new Insets(0, 0, 5, 5);
-		gbc_score.gridx = 2;
-		gbc_score.gridy = 5;
-		getContentPane().add(score, gbc_score);
+		GridBagConstraints gbc_lblIpAddress = new GridBagConstraints();
+		gbc_lblIpAddress.insets = new Insets(0, 0, 5, 5);
+		gbc_lblIpAddress.gridx = 2;
+		gbc_lblIpAddress.gridy = 6;
+		getContentPane().add(lblIpAddress, gbc_lblIpAddress);
 		
 		txtIpAddress = new JTextField();
-		txtIpAddress.setText("IP Address");
+		txtIpAddress.setText("localhost");
 		GridBagConstraints gbc_txtIpAddress = new GridBagConstraints();
+		gbc_txtIpAddress.gridwidth = 2;
+		gbc_txtIpAddress.anchor = GridBagConstraints.WEST;
 		gbc_txtIpAddress.insets = new Insets(0, 0, 5, 5);
-		gbc_txtIpAddress.gridwidth = 4;
-		gbc_txtIpAddress.gridx = 2;
+		gbc_txtIpAddress.gridx = 3;
 		gbc_txtIpAddress.gridy = 6;
 		getContentPane().add(txtIpAddress, gbc_txtIpAddress);
 		txtIpAddress.setColumns(10);
 		
+		//JButton score = new JButton("Export Score");
+		GridBagConstraints gbc_score = new GridBagConstraints();
+		gbc_score.insets = new Insets(0, 0, 5, 5);
+		gbc_score.gridx = 5;
+		gbc_score.gridy = 6;
+		score.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
+		getContentPane().add(score, gbc_score);
+		
+		GridBagConstraints gbc_lblPort = new GridBagConstraints();
+		gbc_lblPort.anchor = GridBagConstraints.NORTH;
+		gbc_lblPort.insets = new Insets(0, 0, 0, 5);
+		gbc_lblPort.gridx = 2;
+		gbc_lblPort.gridy = 7;
+		getContentPane().add(lblPort, gbc_lblPort);
+		
 		txtPort = new JTextField();
-		txtPort.setText("Port");
+		txtPort.setText("57110");
 		GridBagConstraints gbc_txtPort = new GridBagConstraints();
+		gbc_txtPort.gridwidth = 2;
 		gbc_txtPort.insets = new Insets(0, 0, 0, 5);
-		gbc_txtPort.anchor = GridBagConstraints.NORTH;
-		gbc_txtPort.gridwidth = 4;
-		gbc_txtPort.gridx = 2;
+		gbc_txtPort.anchor = GridBagConstraints.NORTHWEST;
+		gbc_txtPort.gridx = 3;
 		gbc_txtPort.gridy = 7;
 		getContentPane().add(txtPort, gbc_txtPort);
 		txtPort.setColumns(10);
@@ -304,6 +325,14 @@ public class View extends JFrame {
 	
 	public String getPath() {
 		return (String) pathSelect.getSelectedItem();
+	}
+	
+	public String getIP() {
+		return txtIpAddress.getText();
+	}
+	
+	public String getPort() {
+		return txtPort.getText();
 	}
 	
 	public Color getColor() {

@@ -22,12 +22,6 @@ public class Main {
 		Audio sound = new Audio();
 		OSCSend oscSend = new OSCSend();
 		Grid grid = new Grid(gridSize, sound, oscSend);		
-		//FirstTabPanel frame = new FirstTabPanel(9);
-		
-		//OSCPanel oscPanel = new OSCPanel();
-		//MainFrame mainScreen = new MainFrame(frame, oscPanel);
-		//Controller controller = new Controller(mainScreen, grid);
-		
 		View newFrame = new View(gridSize);
 		
 		Controller controller = new Controller(newFrame, grid);
