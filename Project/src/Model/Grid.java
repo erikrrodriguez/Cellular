@@ -5,8 +5,8 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.Random;
 import java.util.Set;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class Grid {
 	private ArrayList<NoteCell> noteCells;
@@ -16,7 +16,6 @@ public class Grid {
 	private Set<GridCell> occupiedCells;
 	private GridCell[][] grid;
 	private int numCells; //number of cells in the grid
-	private Random rand;
 	private Audio sound;
 	private OSCSend oscSend;
 	private boolean clear;
@@ -33,7 +32,6 @@ public class Grid {
 		occupiedCells = new HashSet<GridCell>();
 
 		numCells = newNumCells;
-		rand = new Random();
 		grid = new GridCell[numCells][numCells];
 
 		this.sound = sound;
@@ -293,9 +291,7 @@ public class Grid {
 	}
 
 	public int randInt(int min, int max) {
-		int randomNum = rand.nextInt((max - min) + 1) + min;
-
-		return randomNum;
+		return ThreadLocalRandom.current().nextInt(min, max + 1);
 	}
 
 	public int getNumCells() {

@@ -45,13 +45,14 @@ public class GamePanel extends JPanel{
 		vspacing = 0;
 		hoffset = 0;
 		voffset = 0;
-		fontSize = 20;
+		fontSize = halfCellSize;
 	}
 	
 	public void addMouse(MouseListener m) {
 		this.addMouseListener(m);
 		this.addMouseMotionListener((MouseMotionListener) m);
 	}
+	
 	public Dimension getPreferredSize() {
         return new Dimension(panelSize,panelSize);
     }
@@ -230,10 +231,10 @@ public class GamePanel extends JPanel{
 		minSize = (int) Math.min(getSize().getHeight(), getSize().getWidth());
 		cellSize = (int) Math.floor(minSize / numCells);
 		halfCellSize = (int) Math.floor(cellSize/2);
-		panelSize = minSize;
+		panelSize = (int) Math.floor(cellSize*numCells);
 		hoffset = (int)Math.floor((getSize().getWidth() - panelSize) / 2);
 		voffset = (int)Math.floor((getSize().getHeight() - panelSize) / 2);
-		fontSize = (int)Math.floor(halfCellSize);
+		fontSize = halfCellSize;
 //		System.out.println(panelSize);
 	}
 	
