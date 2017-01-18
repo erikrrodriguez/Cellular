@@ -5,6 +5,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Set;
 
 import javax.swing.JPanel;
@@ -152,7 +153,9 @@ public class GamePanel extends JPanel{
 	}
 
 	public void drawCells(Graphics g2) {
-		for (GridCell gridCell : occupiedCells) {
+		Iterator<GridCell> iter = occupiedCells.iterator(); //Iterator to avoid concurrent modification exception...maybe?
+		while (iter.hasNext()) {
+			GridCell gridCell = iter.next();
 			if (gridCell.getNumNoteCells() > 1) {
 				g2.setColor(Color.WHITE);
 				g2.fillRect(cellSize*gridCell.getX()+hoffset, cellSize*gridCell.getY()+voffset, cellSize, cellSize);
@@ -168,7 +171,7 @@ public class GamePanel extends JPanel{
 					vspacing = (int) Math.floor((cellSize + .7*getStringHeight(g2,exclaim)) / 2);
 					g2.drawString(exclaim, cellSize*gridCell.getX()+hspacing+hoffset, cellSize*gridCell.getY()+vspacing+voffset);
 				}
-			}
+			} 
 			else { //If only one note cell in the grid cell
 				g2.setColor(gridCell.getNoteCell().getColor());				
 				if (gridCell.getNoteCell() instanceof BirthCell) {
