@@ -59,7 +59,6 @@ public class Grid {
 	}
 
 	private void advanceCells() {
-		System.out.println(noteCells.size());
 		for(NoteCell noteCell : noteCells) {
 			noteCell.advance();
 			int x = noteCell.getPos().getX();
