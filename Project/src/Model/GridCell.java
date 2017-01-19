@@ -11,6 +11,7 @@ public class GridCell{
 	private ArrayList<NoteCell> occupyingCells;
 	private ArrayList<String> containedPaths;
 	private int numNoteCells;
+	private int numUnplacedBirthCells;
 	private int x;
 	private int y;
 	private int upCount, downCount, leftCount, rightCount;
@@ -21,6 +22,7 @@ public class GridCell{
 		containedPaths = new ArrayList<String>();
 		occupyingCells = new ArrayList<NoteCell>();
 		numNoteCells = 0;
+		numUnplacedBirthCells = 0;
 		x = newx;
 		y = newy;
 		this.sound = sound;
@@ -38,6 +40,7 @@ public class GridCell{
 	public void addNoteCell(NoteCell cell) {
 			occupyingCells.add(cell);
 			numNoteCells++;
+			if (cell instanceof BirthCell && !((BirthCell) cell).isPlaced()) numUnplacedBirthCells++;
 	}
 	
 	public NoteCell getNoteCell() {
@@ -51,19 +54,33 @@ public class GridCell{
 	public int getNumNoteCells() {
 		return numNoteCells;
 	}
+	
+	public int getNumUnplacedBirthCells() {
+		return numUnplacedBirthCells;
+	}
+	
+	public void setNumUnplacedBirthCells(int num) {
+		numUnplacedBirthCells = num;
+	}
 
 	public void removeNoteCells() {
 			occupyingCells.clear();
 			numNoteCells = 0;
+			numUnplacedBirthCells = 0;
 	}
 	
 	public void removeCell(NoteCell cell) {
 		occupyingCells.remove(cell);
 		numNoteCells--;
+		if (cell instanceof BirthCell && !((BirthCell) cell).isPlaced()) numUnplacedBirthCells--;
 	}
 	
 	public ArrayList<NoteCell> getOccupyingCells() {
 		return occupyingCells;
+	}
+	
+	public void setOccupyingCells(ArrayList<NoteCell> array) {
+		occupyingCells = array;
 	}
 	
 	public String getOccupyingCellNotes() {

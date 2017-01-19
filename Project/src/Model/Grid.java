@@ -59,6 +59,7 @@ public class Grid {
 	}
 
 	private void advanceCells() {
+		System.out.println(noteCells.size());
 		for(NoteCell noteCell : noteCells) {
 			noteCell.advance();
 			int x = noteCell.getPos().getX();
@@ -81,17 +82,32 @@ public class Grid {
 			}
 			for(GridCell gridCell : collisions) {
 				gridCell.playNotes(osc, totalCells);
-
 				if (birth) { //The birth option can be toggled
 					if (gridCell.getNumNoteCells() == 2 && !containsBirthCell(gridCell.getX(),gridCell.getY()) 
 							&& !containsPlayerCell(gridCell.getX(), gridCell.getY())) birthNewCell(gridCell.getX(), gridCell.getY());
 				}
 				if (death) {
-					if (gridCell.getNumNoteCells() >= 4) clearCell(gridCell.getX(), gridCell.getY());
+					if (gridCell.getNumUnplacedBirthCells() >= 4) deleteChildCells(gridCell);
 				}
 			}
 			collisions.clear();
 		}
+	}
+	
+	private void deleteChildCells(GridCell gridCell) {
+		ArrayList<NoteCell> noteCellsFromGrid = gridCell.getOccupyingCells();
+		Iterator<NoteCell> iter = noteCellsFromGrid.iterator();
+		while(iter.hasNext()) {
+			NoteCell cell = iter.next();
+			if (cell instanceof BirthCell && !((BirthCell) cell).isPlaced()) {
+				noteCells.remove(cell);
+				iter.remove();
+				cell = null;
+			}
+			
+		}
+		gridCell.setOccupyingCells(noteCellsFromGrid);
+		gridCell.setNumUnplacedBirthCells(0);
 	}
 
 	private void birthNewCell(int x, int y) {
