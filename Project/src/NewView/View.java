@@ -90,9 +90,9 @@ public class View extends JFrame {
 		this.setBackground(Color.LIGHT_GRAY); //frame.getContentPane()
 		this.setForeground(Color.WHITE);
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[]{220, 0, 90, 90, 90, 90, 0, 0, 0};
+		gridBagLayout.columnWidths = new int[]{220, 0, 90, 90, 90, 90, 0, 0};
 		gridBagLayout.rowHeights = new int[]{50, 30, 30, 35, 50, 30, 30, 30, 15, 0, 0};
-		gridBagLayout.columnWeights = new double[]{1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.columnWeights = new double[]{1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		getContentPane().setLayout(gridBagLayout);
 		
@@ -116,6 +116,7 @@ public class View extends JFrame {
 		gbc_startStop.insets = new Insets(0, 0, 5, 5);
 		gbc_startStop.gridx = 2;
 		gbc_startStop.gridy = 0;
+		startStop.setFocusable(false);
 		getContentPane().add(startStop, gbc_startStop);
 		
 		//JButton clear = new JButton("Clear");
@@ -124,6 +125,7 @@ public class View extends JFrame {
 		gbc_clear.insets = new Insets(0, 0, 5, 5);
 		gbc_clear.gridx = 3;
 		gbc_clear.gridy = 0;
+		clear.setFocusable(false);
 		getContentPane().add(clear, gbc_clear);
 		
 		//JButton reset = new JButton("Reset");
@@ -132,6 +134,7 @@ public class View extends JFrame {
 		gbc_reset.insets = new Insets(0, 0, 5, 5);
 		gbc_reset.gridx = 4;
 		gbc_reset.gridy = 0;
+		reset.setFocusable(false);
 		getContentPane().add(reset, gbc_reset);
 		
 		//JButton generate = new JButton("Generate");
@@ -140,6 +143,7 @@ public class View extends JFrame {
 		gbc_generate.insets = new Insets(0, 0, 5, 5);
 		gbc_generate.gridx = 5;
 		gbc_generate.gridy = 0;
+		generate.setFocusable(false);
 		getContentPane().add(generate, gbc_generate);
 		
 		//JCheckBox chckbxBirth = new JCheckBox("Birth");
@@ -147,6 +151,7 @@ public class View extends JFrame {
 		gbc_chckbxBirth.insets = new Insets(0, 0, 5, 5);
 		gbc_chckbxBirth.gridx = 2;
 		gbc_chckbxBirth.gridy = 1;
+		birth.setFocusable(false);
 		getContentPane().add(birth, gbc_chckbxBirth);
 		
 		//JComboBox pathSelect = new JComboBox();
@@ -157,6 +162,7 @@ public class View extends JFrame {
 		gbc_pathSelect.gridx = 5;
 		gbc_pathSelect.gridy = 3;
 		pathSelect.setMaximumRowCount(pathOptions.length);
+		pathSelect.setFocusable(false);
 		getContentPane().add(pathSelect, gbc_pathSelect);
 		
 		//JComboBox noteSelect = new JComboBox();
@@ -167,6 +173,7 @@ public class View extends JFrame {
 		gbc_noteSelect.gridx = 2;
 		gbc_noteSelect.gridy = 3;
 		noteSelect.setMaximumRowCount(notes.length);
+		noteSelect.setFocusable(false);
 		getContentPane().add(noteSelect, gbc_noteSelect);
 		
 		//JComboBox octaveSelect = new JComboBox();
@@ -177,6 +184,7 @@ public class View extends JFrame {
 		gbc_octaveSelect.gridx = 3;
 		gbc_octaveSelect.gridy = 3;
 		octaveSelect.setMaximumRowCount(octaves.length);
+		octaveSelect.setFocusable(false);
 		getContentPane().add(octaveSelect, gbc_octaveSelect);
 		
 		//JComboBox colorSelect = new JComboBox();
@@ -187,12 +195,14 @@ public class View extends JFrame {
 		gbc_colorSelect.gridx = 4;
 		gbc_colorSelect.gridy = 3;
 		colorSelect.setMaximumRowCount(colors.length);
+		colorSelect.setFocusable(false);
 		getContentPane().add(colorSelect, gbc_colorSelect);
 		
 		GridBagConstraints gbc_chckbxDeath = new GridBagConstraints();
 		gbc_chckbxDeath.insets = new Insets(0, 0, 5, 5);
 		gbc_chckbxDeath.gridx = 3;
 		gbc_chckbxDeath.gridy = 1;
+		death.setFocusable(false);
 		getContentPane().add(death, gbc_chckbxDeath);
 		
 		//JCheckBox chckbxOsc = new JCheckBox("OSC");
@@ -200,12 +210,14 @@ public class View extends JFrame {
 		gbc_chckbxOsc.insets = new Insets(0, 0, 5, 5);
 		gbc_chckbxOsc.gridx = 4;
 		gbc_chckbxOsc.gridy = 1;
+		OSC.setFocusable(false);
 		getContentPane().add(OSC, gbc_chckbxOsc);
 		
 		GridBagConstraints gbc_chckbxShowNotes = new GridBagConstraints();
 		gbc_chckbxShowNotes.insets = new Insets(0, 0, 5, 5);
 		gbc_chckbxShowNotes.gridx = 5;
 		gbc_chckbxShowNotes.gridy = 1;
+		showNotes.setFocusable(false);
 		getContentPane().add(showNotes, gbc_chckbxShowNotes);
 		
 		GridBagConstraints gbc_lblNote = new GridBagConstraints();
@@ -242,6 +254,7 @@ public class View extends JFrame {
 		gbc_insert.insets = new Insets(0, 0, 5, 5);
 		gbc_insert.gridx = 2;
 		gbc_insert.gridy = 4;
+		insert.setFocusable(false);
 		getContentPane().add(insert, gbc_insert);
 		
 		//JButton delete = new JButton("Delete");
@@ -250,6 +263,7 @@ public class View extends JFrame {
 		gbc_delete.insets = new Insets(0, 0, 5, 5);
 		gbc_delete.gridx = 3;
 		gbc_delete.gridy = 4;
+		delete.setFocusable(false);
 		getContentPane().add(delete, gbc_delete);
 		
 		GridBagConstraints gbc_lblBpm = new GridBagConstraints();
@@ -305,6 +319,7 @@ public class View extends JFrame {
 		gbc_btnImport.insets = new Insets(0, 0, 5, 5);
 		gbc_btnImport.gridx = 2;
 		gbc_btnImport.gridy = 9;
+		importPreset.setFocusable(false);
 		getContentPane().add(importPreset, gbc_btnImport);
 		
 		GridBagConstraints gbc_btnExport = new GridBagConstraints();
@@ -312,6 +327,7 @@ public class View extends JFrame {
 		gbc_btnExport.insets = new Insets(0, 0, 5, 5);
 		gbc_btnExport.gridx = 3;
 		gbc_btnExport.gridy = 9;
+		exportPreset.setFocusable(false);
 		getContentPane().add(exportPreset, gbc_btnExport);
 		
 		//JButton score = new JButton("Export Score");
@@ -320,6 +336,7 @@ public class View extends JFrame {
 		gbc_score.insets = new Insets(0, 0, 5, 5);
 		gbc_score.gridx = 5;
 		gbc_score.gridy = 9;
+		score.setFocusable(false);
 		getContentPane().add(score, gbc_score);
 		setBounds(100, 100, 514, 367);
 		
