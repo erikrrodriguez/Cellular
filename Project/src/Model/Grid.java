@@ -327,10 +327,15 @@ public class Grid {
 			rand = randInt(0,11);
 			randPitch = "C C#D D#E F F#G G#A A#B ".substring(rand*2, rand*2+2);
 			randPitch = randPitch + randInt(3,7);
-			cell = new NoteCell(randInt(0,numCells-1), randInt(0, numCells-1), randPitch, numCells);
-			cell.generateRandomPath();
-			cell.setPathLength();
-			addNoteCell(cell);
+			if(randInt(0,1) == 0) {
+				cell = new NoteCell(randInt(0,numCells-1), randInt(0, numCells-1), randPitch, numCells);
+				cell.generateRandomPath();
+				cell.setPathLength();
+				addNoteCell(cell);
+			} else {
+				cell = new BirthCell(randInt(0,numCells-1), randInt(0, numCells-1), randPitch, true, numCells);
+				addNoteCell(cell);
+			}
 		}
 	}
 

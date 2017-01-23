@@ -32,6 +32,17 @@ public class BirthCell extends NoteCell {
 		this.placed = placed;
 		this.color = color;
 	}
+	
+	public BirthCell(int x, int y, String newNote, boolean placed, int newGridSize) {
+		super(x, y, newNote, newGridSize);
+		gridSize = newGridSize;
+		note = newNote;
+		this.xStart = x;
+		this.yStart = y;
+		reset = false;
+		this.placed = placed;
+		setRandomColor();
+	}
 
 	@Override
 	public void advance() {
