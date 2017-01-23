@@ -318,26 +318,20 @@ public class Grid {
 
 	public void generate() {
 		clear = false;
-		NoteCell cell1 = new NoteCell(4, 3, "C 4", numCells);
-		cell1.generateRandomPath();
-		cell1.setPathLength();
-		addNoteCell(cell1);
-
-		NoteCell cell2 = new NoteCell(4, 5, "E 4", numCells);
-		cell2.generateRandomPath();
-		cell2.setPathLength();
-		addNoteCell(cell2);
-
-		NoteCell cell3 = new NoteCell(3,4, "G 4", numCells);
-		cell3.generateRandomPath();
-		cell3.setPathLength();
-		addNoteCell(cell3);
-
-		NoteCell cell4 = new NoteCell(5,4, "B 4", numCells);
-		cell4.generateRandomPath();
-		cell4.setPathLength();
-		addNoteCell(cell4);
-
+		NoteCell cell;
+		String randPitch;
+		int rand, total;
+		total = randInt(4,7);
+		
+		for(int i = 0; i < total; i++) {
+			rand = randInt(0,11);
+			randPitch = "C C#D D#E F F#G G#A A#B ".substring(rand*2, rand*2+2);
+			randPitch = randPitch + randInt(3,7);
+			cell = new NoteCell(randInt(0,numCells-1), randInt(0, numCells-1), randPitch, numCells);
+			cell.generateRandomPath();
+			cell.setPathLength();
+			addNoteCell(cell);
+		}
 	}
 
 	public GridCell getGridCell(int x, int y) {

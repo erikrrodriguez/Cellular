@@ -210,6 +210,7 @@ public class Controller {
 			if(filename != null) {
 				if(!filename.endsWith(".txt")) filename = filename + ".txt";
 				File file = new File(dir+filename);
+				pause = true;
 				grid.exportScore(file);
 			}
 		}
@@ -288,11 +289,6 @@ public class Controller {
 				File file = new File(dir+filename);
 				grid.exportPreset(file, bpm, mainScreen.getIP(), mainScreen.getPort());
 			}
-
-			//			int returnVal = presetFileChooser.showSaveDialog(null);
-			//			if(returnVal == JFileChooser.APPROVE_OPTION) {
-			//				grid.exportPreset(presetFileChooser.getSelectedFile(), bpm, mainScreen.getIP(), mainScreen.getPort());
-			//			}
 
 		}
 		public void insert() {

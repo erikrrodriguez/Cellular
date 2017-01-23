@@ -90,9 +90,9 @@ public class View extends JFrame {
 		this.setBackground(Color.LIGHT_GRAY); //frame.getContentPane()
 		this.setForeground(Color.WHITE);
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[]{220, 0, 90, 90, 90, 90, 0, 0};
+		gridBagLayout.columnWidths = new int[]{220, 0, 90, 90, 90, 90, 0, 0, 0};
 		gridBagLayout.rowHeights = new int[]{50, 30, 30, 35, 50, 30, 30, 30, 15, 0, 0};
-		gridBagLayout.columnWeights = new double[]{1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.columnWeights = new double[]{1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		getContentPane().setLayout(gridBagLayout);
 		
@@ -318,7 +318,7 @@ public class View extends JFrame {
 		GridBagConstraints gbc_score = new GridBagConstraints();
 		gbc_score.fill = GridBagConstraints.HORIZONTAL;
 		gbc_score.insets = new Insets(0, 0, 5, 5);
-		gbc_score.gridx = 4;
+		gbc_score.gridx = 5;
 		gbc_score.gridy = 9;
 		getContentPane().add(score, gbc_score);
 		setBounds(100, 100, 514, 367);
