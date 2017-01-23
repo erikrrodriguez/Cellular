@@ -14,6 +14,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 import View.GamePanel;
 
@@ -30,7 +31,7 @@ public class View extends JFrame {
 	
 	private GamePanel gamePanel; //holds the actual grid
 	private int cellSize;
-	private int numCells;
+	private int gridSize;
 	private String[] notes = {"- ", "C ", "C#", "D ", "D#", "E ", "F ", "F#", "G ", "G#", "A ", "A#", "B ","Random"};
 	private String[] octaves = {"-", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "Random"};
 	private String[] colors = {"-", "Red", "Blue", "Green", "Yellow", "Orange", "Magenta", "Random"};
@@ -45,6 +46,8 @@ public class View extends JFrame {
 	private JButton score = new JButton("Score");
 	private JButton importPreset = new JButton("Import");
 	private JButton exportPreset = new JButton("Export");
+	private JButton gridSizeSet = new JButton("Set");
+	private JButton setBpm = new JButton("Set");
 	
 	private JCheckBox birth = new JCheckBox("Birth", false);
 	private JCheckBox OSC = new JCheckBox("OSC", false);
@@ -58,6 +61,8 @@ public class View extends JFrame {
 	private JLabel lblIpAddress = new JLabel("IP Address:");
 	private JLabel lblPort = new JLabel("Port:");
 	private JLabel lblBpm = new JLabel("BPM:");
+	private JLabel lblGridSize = new JLabel("Grid Size:");
+	private JTextField txtGridSize = new JTextField();
 	
 	private JComboBox<String> pathSelect = new JComboBox<String>(pathOptions);
 	private JComboBox<String> noteSelect = new JComboBox<String>(notes);
@@ -69,8 +74,8 @@ public class View extends JFrame {
 	 */
 	public View(int newNumCells) {
 		cellSize = 50;
-		numCells = newNumCells;
-		gamePanel = new GamePanel(cellSize*numCells, numCells);
+		gridSize = newNumCells;
+		gamePanel = new GamePanel(cellSize*gridSize, gridSize);
 		
 		
 		this.addComponentListener(new ComponentAdapter() {
@@ -91,9 +96,9 @@ public class View extends JFrame {
 		this.setForeground(Color.WHITE);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{220, 0, 90, 90, 90, 90, 0, 0};
-		gridBagLayout.rowHeights = new int[]{50, 30, 30, 35, 50, 30, 30, 30, 15, 0, 0};
+		gridBagLayout.rowHeights = new int[]{50, 30, 30, 35, 50, 30, 30, 30, 15, 30, 0, 0};
 		gridBagLayout.columnWeights = new double[]{1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		getContentPane().setLayout(gridBagLayout);
 		
 //		JPanel panel = new JPanel();
@@ -101,7 +106,7 @@ public class View extends JFrame {
 		GridBagConstraints gbc_panel = new GridBagConstraints();
 		gbc_panel.fill = GridBagConstraints.BOTH;
 		gbc_panel.insets = new Insets(0, 0, 0, 5);
-		gbc_panel.gridheight = 11;
+		gbc_panel.gridheight = 12;
 		gbc_panel.gridx = 0;
 		gbc_panel.gridy = 0;
 		getContentPane().add(gamePanel, gbc_panel);
@@ -266,26 +271,10 @@ public class View extends JFrame {
 		delete.setFocusable(false);
 		getContentPane().add(delete, gbc_delete);
 		
-		GridBagConstraints gbc_lblBpm = new GridBagConstraints();
-		gbc_lblBpm.insets = new Insets(0, 0, 5, 5);
-		gbc_lblBpm.gridx = 2;
-		gbc_lblBpm.gridy = 5;
-		getContentPane().add(lblBpm, gbc_lblBpm);
-		
-		bpm.setText("240");
-		GridBagConstraints gbc_textField = new GridBagConstraints();
-		gbc_textField.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField.gridwidth = 2;
-		gbc_textField.insets = new Insets(0, 0, 5, 5);
-		gbc_textField.gridx = 3;
-		gbc_textField.gridy = 5;
-		bpm.setColumns(10);
-		getContentPane().add(bpm, gbc_textField);
-		
 		GridBagConstraints gbc_lblIpAddress = new GridBagConstraints();
 		gbc_lblIpAddress.insets = new Insets(0, 0, 5, 5);
 		gbc_lblIpAddress.gridx = 2;
-		gbc_lblIpAddress.gridy = 6;
+		gbc_lblIpAddress.gridy = 5;
 		getContentPane().add(lblIpAddress, gbc_lblIpAddress);
 		
 		txtIpAddress.setText("localhost");
@@ -294,14 +283,14 @@ public class View extends JFrame {
 		gbc_txtIpAddress.gridwidth = 2;
 		gbc_txtIpAddress.insets = new Insets(0, 0, 5, 5);
 		gbc_txtIpAddress.gridx = 3;
-		gbc_txtIpAddress.gridy = 6;
+		gbc_txtIpAddress.gridy = 5;
 		getContentPane().add(txtIpAddress, gbc_txtIpAddress);
 		txtIpAddress.setColumns(10);
 		
 		GridBagConstraints gbc_lblPort = new GridBagConstraints();
 		gbc_lblPort.insets = new Insets(0, 0, 5, 5);
 		gbc_lblPort.gridx = 2;
-		gbc_lblPort.gridy = 7;
+		gbc_lblPort.gridy = 6;
 		getContentPane().add(lblPort, gbc_lblPort);
 		
 		txtPort.setText("57110");
@@ -310,15 +299,67 @@ public class View extends JFrame {
 		gbc_txtPort.gridwidth = 2;
 		gbc_txtPort.insets = new Insets(0, 0, 5, 5);
 		gbc_txtPort.gridx = 3;
-		gbc_txtPort.gridy = 7;
+		gbc_txtPort.gridy = 6;
 		getContentPane().add(txtPort, gbc_txtPort);
 		txtPort.setColumns(10);
+		
+		GridBagConstraints gbc_lblBpm = new GridBagConstraints();
+		gbc_lblBpm.insets = new Insets(0, 0, 5, 5);
+		gbc_lblBpm.gridx = 2;
+		gbc_lblBpm.gridy = 7;
+		getContentPane().add(lblBpm, gbc_lblBpm);
+		
+		bpm.setText("240");
+		GridBagConstraints gbc_textField = new GridBagConstraints();
+		gbc_textField.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textField.insets = new Insets(0, 0, 5, 5);
+		gbc_textField.gridx = 3;
+		gbc_textField.gridy = 7;
+		bpm.setColumns(5);
+		bpm.setHorizontalAlignment(SwingConstants.CENTER);
+		getContentPane().add(bpm, gbc_textField);
+		gbc_textField.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textField.insets = new Insets(0, 0, 5, 5);
+		gbc_textField.gridx = 3;
+		gbc_textField.gridy = 10;
+		
+		GridBagConstraints gbc_btnSetBpm = new GridBagConstraints();
+		gbc_btnSetBpm.fill = GridBagConstraints.HORIZONTAL;
+		gbc_btnSetBpm.insets = new Insets(0, 0, 5, 5);
+		gbc_btnSetBpm.gridx = 4;
+		gbc_btnSetBpm.gridy = 7;
+		setBpm.setFocusable(false);
+		getContentPane().add(setBpm, gbc_btnSetBpm);
+		
+		GridBagConstraints gbc_lblGridSize = new GridBagConstraints();
+		gbc_lblGridSize.insets = new Insets(0, 0, 5, 5);
+		gbc_lblGridSize.gridx = 2;
+		gbc_lblGridSize.gridy = 8;
+		getContentPane().add(lblGridSize, gbc_lblGridSize);
+		
+		GridBagConstraints gbc_txtGridSize = new GridBagConstraints();
+		gbc_txtGridSize.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtGridSize.insets = new Insets(0, 0, 5, 5);
+		gbc_txtGridSize.gridx = 3;
+		gbc_txtGridSize.gridy = 8;
+		txtGridSize.setText("9");
+		txtGridSize.setColumns(5);
+		txtGridSize.setHorizontalAlignment(SwingConstants.CENTER);
+		getContentPane().add(txtGridSize, gbc_txtGridSize);
+		
+		GridBagConstraints gbc_btnSet = new GridBagConstraints();
+		gbc_btnSet.fill = GridBagConstraints.HORIZONTAL;
+		gbc_btnSet.insets = new Insets(0, 0, 5, 5);
+		gbc_btnSet.gridx = 4;
+		gbc_btnSet.gridy = 8;
+		gridSizeSet.setFocusable(false);
+		getContentPane().add(gridSizeSet, gbc_btnSet);
 		
 		GridBagConstraints gbc_btnImport = new GridBagConstraints();
 		gbc_btnImport.fill = GridBagConstraints.HORIZONTAL;
 		gbc_btnImport.insets = new Insets(0, 0, 5, 5);
 		gbc_btnImport.gridx = 2;
-		gbc_btnImport.gridy = 9;
+		gbc_btnImport.gridy = 10;
 		importPreset.setFocusable(false);
 		getContentPane().add(importPreset, gbc_btnImport);
 		
@@ -326,7 +367,7 @@ public class View extends JFrame {
 		gbc_btnExport.fill = GridBagConstraints.HORIZONTAL;
 		gbc_btnExport.insets = new Insets(0, 0, 5, 5);
 		gbc_btnExport.gridx = 3;
-		gbc_btnExport.gridy = 9;
+		gbc_btnExport.gridy = 10;
 		exportPreset.setFocusable(false);
 		getContentPane().add(exportPreset, gbc_btnExport);
 		
@@ -335,7 +376,7 @@ public class View extends JFrame {
 		gbc_score.fill = GridBagConstraints.HORIZONTAL;
 		gbc_score.insets = new Insets(0, 0, 5, 5);
 		gbc_score.gridx = 5;
-		gbc_score.gridy = 9;
+		gbc_score.gridy = 10;
 		score.setFocusable(false);
 		getContentPane().add(score, gbc_score);
 		setBounds(100, 100, 514, 367);
@@ -368,6 +409,8 @@ public class View extends JFrame {
 		importPreset.setActionCommand("import");
 		exportPreset.setActionCommand("export");
 		showNotes.setActionCommand("showNotes");
+		gridSizeSet.setActionCommand("changeGridSize");
+		setBpm.setActionCommand("setBpm");
 	}
 	
 	public GamePanel getPanel() {
@@ -415,8 +458,12 @@ public class View extends JFrame {
 		return txtPort.getText();
 	}
 	
-	public String getBpm() {
-		return bpm.getText();
+	public int getTxtGridSize() {
+		return Integer.parseInt(txtGridSize.getText());
+	}
+	
+	public int getBpm() {
+		return Integer.parseInt(bpm.getText());
 	}
 	
 	public Color getColor() {
@@ -482,6 +529,11 @@ public class View extends JFrame {
 		return ThreadLocalRandom.current().nextInt(min, max + 1);
 	}
 	
+	public void changeGridSize(int gridSize) {
+		this.gridSize = gridSize;
+		gamePanel.changeGridSize(gridSize);
+	}
+	
 	public void addListener(ActionListener listener) {
 		startStop.addActionListener(listener);
 		clear.addActionListener(listener);
@@ -496,5 +548,7 @@ public class View extends JFrame {
 		showNotes.addActionListener(listener);
 		importPreset.addActionListener(listener);
 		exportPreset.addActionListener(listener);
+		gridSizeSet.addActionListener(listener);
+		setBpm.addActionListener(listener);
 	}
 }

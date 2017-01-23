@@ -24,7 +24,7 @@ public class GamePanel extends JPanel{
 	private int panelSize;
 	private int halfCellSize;
 	private int cellSize;
-	private int numCells;
+	private int gridSize;
 	private int minSize;
 	private int hoffset;
 	private int voffset;
@@ -37,8 +37,8 @@ public class GamePanel extends JPanel{
 
 	public GamePanel(int newPanelSize, int newNumCells){
 		panelSize = newPanelSize;
-		numCells = newNumCells;
-		cellSize = (int) Math.floor(panelSize / numCells);
+		gridSize = newNumCells;
+		cellSize = (int) Math.floor(panelSize / gridSize);
 		halfCellSize = (int) Math.floor(cellSize/2);
 		
 		note = "";
@@ -47,6 +47,11 @@ public class GamePanel extends JPanel{
 		hoffset = 0;
 		voffset = 0;
 		fontSize = halfCellSize;
+	}
+	
+	public void changeGridSize(int gridSize) {
+		this.gridSize = gridSize;
+		resize();
 	}
 	
 	public void addMouse(MouseListener m) {
@@ -214,8 +219,8 @@ public class GamePanel extends JPanel{
 	public void drawGridLines(Graphics g2) {
 		for (int i = 0; i <= panelSize; i += cellSize) {
 			g2.setColor(Color.WHITE);
-			g2.drawLine(i+hoffset, voffset, i+hoffset, cellSize*numCells+voffset);
-			g2.drawLine(hoffset, i+voffset, cellSize*numCells+hoffset, i+voffset);
+			g2.drawLine(i+hoffset, voffset, i+hoffset, cellSize*gridSize+voffset);
+			g2.drawLine(hoffset, i+voffset, cellSize*gridSize+hoffset, i+voffset);
 		}
 	}
 	
@@ -232,9 +237,9 @@ public class GamePanel extends JPanel{
 
 	public void resize() {
 		minSize = (int) Math.min(getSize().getHeight(), getSize().getWidth());
-		cellSize = (int) Math.floor(minSize / numCells);
+		cellSize = (int) Math.floor(minSize / gridSize);
 		halfCellSize = (int) Math.floor(cellSize/2);
-		panelSize = (int) Math.floor(cellSize*numCells);
+		panelSize = (int) Math.floor(cellSize*gridSize);
 		hoffset = (int)Math.floor((getSize().getWidth() - panelSize) / 2);
 		voffset = (int)Math.floor((getSize().getHeight() - panelSize) / 2);
 		fontSize = halfCellSize;

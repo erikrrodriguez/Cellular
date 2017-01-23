@@ -76,7 +76,6 @@ public class Controller {
 				grid.setIpandPort(mainScreen.getIP(), mainScreen.getPort());
 				grid.update();
 				updateView(); //Update panel with new cell info
-				setBPM(Integer.parseInt(mainScreen.getBpm()));
 			}
 			try { //Delay before next grid update
 				TimeUnit.MILLISECONDS.sleep(bpm);
@@ -164,6 +163,8 @@ public class Controller {
 			case "import": importPreset(); break;
 			case "export": exportPreset(); break;
 			case "showNotes": showNotes(); break;
+			case "changeGridSize": changeGridSize(); break;
+			case "setBpm": setBPM(mainScreen.getBpm());
 			default: break;
 			}
 			updateView();
@@ -199,6 +200,13 @@ public class Controller {
 		public void showNotes() {
 			mainScreen.changeShowNotes();
 			grid.changeShowNotes();
+		}
+		
+		public void changeGridSize() {
+			if(gridSize > mainScreen.getTxtGridSize()) clear();
+			gridSize = mainScreen.getTxtGridSize();
+			grid.changeGridSize(gridSize);
+			mainScreen.changeGridSize(gridSize);
 		}
 
 		public void exportScore() {

@@ -16,7 +16,7 @@ public class Grid {
 	private Set<GridCell> gridCellsWithPaths;
 	private Set<GridCell> occupiedCells;
 	private GridCell[][] grid;
-	private int numCells; //number of cells in the grid
+	private int gridSize; //number of cells in the grid
 	private Audio sound;
 	private OSCSend oscSend;
 	private boolean clear;
@@ -33,8 +33,8 @@ public class Grid {
 		gridCellsWithPaths = new HashSet<GridCell>();
 		occupiedCells = new HashSet<GridCell>();
 
-		numCells = newNumCells;
-		grid = new GridCell[numCells][numCells];
+		gridSize = newNumCells;
+		grid = new GridCell[gridSize][gridSize];
 
 		this.sound = sound;
 		this.oscSend = oscSend;
@@ -45,10 +45,16 @@ public class Grid {
 		showNotes = false;
 		setGrid();
 	}
+	
+	public void changeGridSize(int gridSize) {
+		this.gridSize = gridSize;
+		grid = new GridCell[gridSize][gridSize];
+		setGrid();
+	}
 
 	public void setGrid() {
-		for (int i = 0; i < numCells; i++) {
-			for (int j = 0; j < numCells; j++) {
+		for (int i = 0; i < gridSize; i++) {
+			for (int j = 0; j < gridSize; j++) {
 				grid[i][j] = new GridCell(i, j, sound, oscSend);
 			}
 		}
@@ -138,7 +144,7 @@ public class Grid {
 				chldNote = "A A#B C C#D D#E F F#G G#".substring(index, index+2);
 				chldNote += (parOctave1 + parOctave2)/2;
 			}
-			BirthCell birthCell = new BirthCell(x, y, chldNote, parNote1.getColor(), parNote2.getColor(), false, numCells);
+			BirthCell birthCell = new BirthCell(x, y, chldNote, parNote1.getColor(), parNote2.getColor(), false, gridSize);
 			delayedNoteCells.add(birthCell);
 		}
 	}
@@ -313,7 +319,7 @@ public class Grid {
 	}
 
 	public int getNumCells() {
-		return numCells;
+		return gridSize;
 	}
 
 	public void generate() {
@@ -328,12 +334,12 @@ public class Grid {
 			randPitch = "C C#D D#E F F#G G#A A#B ".substring(rand*2, rand*2+2);
 			randPitch = randPitch + randInt(3,7);
 			if(randInt(0,1) == 0) {
-				cell = new NoteCell(randInt(0,numCells-1), randInt(0, numCells-1), randPitch, numCells);
+				cell = new NoteCell(randInt(0,gridSize-1), randInt(0, gridSize-1), randPitch, gridSize);
 				cell.generateRandomPath();
 				cell.setPathLength();
 				addNoteCell(cell);
 			} else {
-				cell = new BirthCell(randInt(0,numCells-1), randInt(0, numCells-1), randPitch, true, numCells);
+				cell = new BirthCell(randInt(0,gridSize-1), randInt(0, gridSize-1), randPitch, true, gridSize);
 				addNoteCell(cell);
 			}
 		}
