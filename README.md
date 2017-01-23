@@ -42,7 +42,7 @@ The **BPM** text box allows the user to define a new tempo for the game.
 
 **Export** allows the user to export the current game state to a text file for storage.
 
-**Score** will create a text file called "score.txt" encoding one full cycle of the entire board state: starting from its original position and iterating until it returns to that original position. The text file is formatted to be imported directly into the Lily Pond notation software: http://lilypond.org/. Birth Cells will be represented with parenthesis within the notation.
+**Score** will create a text file encoding one full cycle of the entire board state: starting from its original position and iterating until it returns to that original position. The text file is formatted to be imported directly into the Lily Pond notation software: http://lilypond.org/. Birth Cells will be represented with parenthesis within the notation.
 
 ## TO DO
 * Allow Generate to create birth cells.
