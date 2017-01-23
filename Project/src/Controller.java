@@ -21,7 +21,7 @@ import Model.Coordinates;
 import Model.Grid;
 import Model.GridCell;
 import Model.NoteCell;
-import NewView.View;
+import View.View;
 
 public class Controller {
 

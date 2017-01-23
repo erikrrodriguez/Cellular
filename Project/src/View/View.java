@@ -1,4 +1,4 @@
-package NewView;
+package View;
 
 import javax.swing.JFrame;
 
