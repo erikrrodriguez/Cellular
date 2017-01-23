@@ -257,6 +257,10 @@ public class GamePanel extends JPanel{
 		showNotes = !showNotes;
 	}
 	
+	public void setShowNotes(boolean showNotes) {
+		this.showNotes = showNotes;
+	}
+	
 	public int getStringWidth(Graphics g, String str) {
 		FontMetrics fm = g.getFontMetrics();
 		Rectangle2D bounds = fm.getStringBounds(str, g);

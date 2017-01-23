@@ -1,5 +1,6 @@
 package Model;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
@@ -22,6 +23,7 @@ public class Grid {
 	private boolean birth;
 	private boolean death;
 	private boolean osc;
+	private boolean showNotes;
 
 	//constructor
 	public Grid(int newNumCells, Audio sound, OSCSend oscSend) {
@@ -40,6 +42,7 @@ public class Grid {
 		birth = false;
 		death = false;
 		osc = false;
+		showNotes = false;
 		setGrid();
 	}
 
@@ -356,6 +359,26 @@ public class Grid {
 	public void changeOSC() {
 		osc = !osc;
 	}
+	
+	public void changeShowNotes() {
+		showNotes = !showNotes;
+	}
+	
+	public void setBirth(boolean birth) {
+		this.birth = birth;
+	}
+	
+	public void setDeath(boolean death) {
+		this.death = death;
+	}
+	
+	public void setOSC(boolean osc) {
+		this.osc = osc;
+	}
+	
+	public void setShowNotes(boolean showNotes) {
+		this.showNotes = showNotes;
+	}
 
 	public boolean isOSC() {
 		return osc;
@@ -395,21 +418,20 @@ public class Grid {
 		oscSend.setPort(port);
 	}
 
-	public void exportScore() {
+	public void exportScore(File scoreFile) {
 		if (noteCells.size() > 0) {
 			//Find LCM for cycle length
 			int index = 0;
 			int[] LCMcalc = new int[noteCells.size()];
 			for(NoteCell cell : noteCells) {
 				LCMcalc[index] = cell.getPathLength();
-				System.out.println("LCM " + index + ": " + LCMcalc[index]);
+				//System.out.println("LCM " + index + ": " + LCMcalc[index]);
 				index++;
 			}
 			int cycleLength = lcm(LCMcalc);
-			System.out.println("Cycle Length: " + cycleLength);
+			//System.out.println("Cycle Length: " + cycleLength);
 			//Advance Cells and write to file
-			//resetCells();
-			try (BufferedWriter file = new BufferedWriter(new FileWriter("score.txt",false))) { //change to true to over write
+			try (BufferedWriter file = new BufferedWriter(new FileWriter(scoreFile,false))) {
 				file.write("\\version \"2.18.2\"");
 				file.newLine();
 				file.write("\\language \"english\"");
@@ -495,6 +517,28 @@ public class Grid {
 		for(int i = 1; i < input.length; i++) result = lcm(result, input[i]);
 		return result;
 	}
-
-
+	
+	public void exportPreset(File presetFile, int bpm, String IP, String port) {
+		try (BufferedWriter file = new BufferedWriter(new FileWriter(presetFile,false))) {
+			String info;
+			for(NoteCell cell : noteCells) {
+				info = cell.getPitch() + "_" + cell.getOctave() + "_" + 
+						cell.getColor().getRed()+":"+cell.getColor().getGreen()+":"+cell.getColor().getBlue() + "_";
+				if (cell instanceof BirthCell) {
+					info = info + "B" + "_" + ((BirthCell) cell).isPlaced() + "_" 
+							+ ((BirthCell) cell).getXStart() + "," + ((BirthCell) cell).getYStart();
+				} else {
+					info = info + "N" + "_" + cell.getPathString();
+				}
+				file.write(info);
+				file.newLine();
+			}
+			file.write("*_" + bpm + "_" + IP + "_" + port);
+			file.newLine();
+			file.write("+_" + birth +"_" + death + "_" + osc + "_" + showNotes);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
+	}
 }

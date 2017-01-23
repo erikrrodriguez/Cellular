@@ -42,7 +42,9 @@ public class View extends JFrame {
 	private JButton insert = new JButton("Insert");
 	private JButton delete = new JButton("Delete");
 	private JButton reset = new JButton("Reset");
-	private JButton score = new JButton("Export");
+	private JButton score = new JButton("Score");
+	private JButton importPreset = new JButton("Import");
+	private JButton exportPreset = new JButton("Export");
 	
 	private JCheckBox birth = new JCheckBox("Birth", false);
 	private JCheckBox OSC = new JCheckBox("OSC", false);
@@ -89,9 +91,9 @@ public class View extends JFrame {
 		this.setForeground(Color.WHITE);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{220, 0, 90, 90, 90, 90, 0, 0};
-		gridBagLayout.rowHeights = new int[]{50, 30, 30, 35, 50, 30, 30, 30, 0, 0};
+		gridBagLayout.rowHeights = new int[]{50, 30, 30, 35, 50, 30, 30, 30, 15, 0, 0};
 		gridBagLayout.columnWeights = new double[]{1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		getContentPane().setLayout(gridBagLayout);
 		
 //		JPanel panel = new JPanel();
@@ -99,7 +101,7 @@ public class View extends JFrame {
 		GridBagConstraints gbc_panel = new GridBagConstraints();
 		gbc_panel.fill = GridBagConstraints.BOTH;
 		gbc_panel.insets = new Insets(0, 0, 0, 5);
-		gbc_panel.gridheight = 10;
+		gbc_panel.gridheight = 11;
 		gbc_panel.gridx = 0;
 		gbc_panel.gridy = 0;
 		getContentPane().add(gamePanel, gbc_panel);
@@ -250,18 +252,6 @@ public class View extends JFrame {
 		gbc_delete.gridy = 4;
 		getContentPane().add(delete, gbc_delete);
 		
-		//JButton score = new JButton("Export Score");
-		GridBagConstraints gbc_score = new GridBagConstraints();
-		gbc_score.fill = GridBagConstraints.HORIZONTAL;
-		gbc_score.insets = new Insets(0, 0, 5, 5);
-		gbc_score.gridx = 5;
-		gbc_score.gridy = 4;
-//		score.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent arg0) {
-//			}
-//		});
-		getContentPane().add(score, gbc_score);
-		
 		GridBagConstraints gbc_lblBpm = new GridBagConstraints();
 		gbc_lblBpm.insets = new Insets(0, 0, 5, 5);
 		gbc_lblBpm.gridx = 2;
@@ -309,6 +299,28 @@ public class View extends JFrame {
 		gbc_txtPort.gridy = 7;
 		getContentPane().add(txtPort, gbc_txtPort);
 		txtPort.setColumns(10);
+		
+		GridBagConstraints gbc_btnImport = new GridBagConstraints();
+		gbc_btnImport.fill = GridBagConstraints.HORIZONTAL;
+		gbc_btnImport.insets = new Insets(0, 0, 5, 5);
+		gbc_btnImport.gridx = 2;
+		gbc_btnImport.gridy = 9;
+		getContentPane().add(importPreset, gbc_btnImport);
+		
+		GridBagConstraints gbc_btnExport = new GridBagConstraints();
+		gbc_btnExport.fill = GridBagConstraints.HORIZONTAL;
+		gbc_btnExport.insets = new Insets(0, 0, 5, 5);
+		gbc_btnExport.gridx = 3;
+		gbc_btnExport.gridy = 9;
+		getContentPane().add(exportPreset, gbc_btnExport);
+		
+		//JButton score = new JButton("Export Score");
+		GridBagConstraints gbc_score = new GridBagConstraints();
+		gbc_score.fill = GridBagConstraints.HORIZONTAL;
+		gbc_score.insets = new Insets(0, 0, 5, 5);
+		gbc_score.gridx = 4;
+		gbc_score.gridy = 9;
+		getContentPane().add(score, gbc_score);
 		setBounds(100, 100, 514, 367);
 		
 		controlSetup();
@@ -336,6 +348,8 @@ public class View extends JFrame {
 		OSC.setActionCommand("OSC");
 		reset.setActionCommand("reset");
 		score.setActionCommand("score");
+		importPreset.setActionCommand("import");
+		exportPreset.setActionCommand("export");
 		showNotes.setActionCommand("showNotes");
 	}
 	
@@ -421,10 +435,35 @@ public class View extends JFrame {
 		gamePanel.changeShowNotes();
 	}
 	
+	public void setBirth(boolean birth) {
+		this.birth.setSelected(birth);
+	}
+	
+	public void setDeath(boolean death) {
+		this.death.setSelected(death);
+	}
+	
+	public void setOSC(boolean osc) {
+		this.OSC.setSelected(osc);
+	}
+	
+	public void setBPM(String bpm) {
+		this.bpm.setText(bpm);
+	}
+	
+	public void setIpAndPort(String ip, String port) {
+		this.txtIpAddress.setText(ip);
+		this.txtPort.setText(port);
+	}
+	
+	public void setShowNotes(boolean showNotes) {
+		this.showNotes.setSelected(showNotes);
+		gamePanel.setShowNotes(showNotes);
+	}
+	
 	public int randomInt(int min, int max) {
 		return ThreadLocalRandom.current().nextInt(min, max + 1);
 	}
-	
 	
 	public void addListener(ActionListener listener) {
 		startStop.addActionListener(listener);
@@ -438,5 +477,7 @@ public class View extends JFrame {
 		reset.addActionListener(listener);
 		score.addActionListener(listener);
 		showNotes.addActionListener(listener);
+		importPreset.addActionListener(listener);
+		exportPreset.addActionListener(listener);
 	}
 }

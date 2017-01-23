@@ -21,6 +21,17 @@ public class BirthCell extends NoteCell {
 		this.placed = placed;
 		this.color = mixColors(parColor1, parColor2);
 	}
+	
+	public BirthCell(int x, int y, String newNote, Color color, boolean placed, int newGridSize) {
+		super(x, y, newNote, newGridSize);
+		gridSize = newGridSize;
+		note = newNote;
+		this.xStart = x;
+		this.yStart = y;
+		reset = false;
+		this.placed = placed;
+		this.color = color;
+	}
 
 	@Override
 	public void advance() {
@@ -37,6 +48,14 @@ public class BirthCell extends NoteCell {
 			} while (!isNeighbor(newX, newY));
 		}
 		curPos.set(newX, newY);
+	}
+	
+	public int getXStart() {
+		return xStart;
+	}
+	
+	public int getYStart() {
+		return yStart;
 	}
 
 	@Override

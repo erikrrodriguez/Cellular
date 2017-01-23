@@ -1,14 +1,20 @@
 import java.awt.Color;
+import java.awt.FileDialog;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
+import javax.swing.JFileChooser;
 import javax.swing.SwingUtilities;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import Model.BirthCell;
 import Model.Coordinates;
@@ -28,12 +34,16 @@ public class Controller {
 	private int gridSize;
 	private int bpm;
 	private ArrayList<Coordinates> drawnPath; //To hold the path that the user draws.
+	private JFileChooser presetFileChooser;
+	private JFileChooser scoreFileChooser;
+	private FileDialog fd;
+	private String dir = System.getProperty("user.home") + "/Desktop";
 
 	public Controller(View frame, Grid grid) { //MainFrame
 		drawnPath = new ArrayList<Coordinates>();
 		this.mainScreen = frame;
 		this.grid = grid;
-		
+
 		gridSize = grid.getNumCells();
 
 		mainScreen.getFrame().addListener(new Listener()); //Listener for all buttons
@@ -45,6 +55,16 @@ public class Controller {
 		grid.update();
 
 		updateView(); //Transfers note cells from the grid to the frame
+
+		presetFileChooser = new JFileChooser();
+		scoreFileChooser = new JFileChooser();
+		FileNameExtensionFilter filter = new FileNameExtensionFilter(
+				"Text Files", "txt");
+		presetFileChooser.setFileFilter(filter);
+		scoreFileChooser.setFileFilter(filter);
+
+		fd = new FileDialog(mainScreen, "Choose A File:");
+		fd.setFile("*.txt");
 	}
 
 	/*
@@ -56,7 +76,7 @@ public class Controller {
 				grid.setIpandPort(mainScreen.getIP(), mainScreen.getPort());
 				grid.update();
 				updateView(); //Update panel with new cell info
-				setBPM();
+				setBPM(Integer.parseInt(mainScreen.getBpm()));
 			}
 			try { //Delay before next grid update
 				TimeUnit.MILLISECONDS.sleep(bpm);
@@ -79,7 +99,7 @@ public class Controller {
 	public Set<GridCell> getOccupiedCells() {
 		return grid.getOccupiedCells();
 	}
-	
+
 	public Set<GridCell> getGridCellsWithPaths() {
 		return grid.getGridCellsWithPaths();
 	}
@@ -94,11 +114,11 @@ public class Controller {
 	public boolean isPause() {
 		return pause;
 	}
-	
-	public void setBPM() {
+
+	public void setBPM(int newBPM) {
 		//converting from bpm to milliseconds
-		if (Integer.parseInt(mainScreen.getBpm()) > 0 ) {
-			bpm = 60000 / Integer.parseInt(mainScreen.getBpm());
+		if (newBPM > 0 ) {
+			bpm = 60000 / newBPM;
 		}
 	}
 
@@ -126,7 +146,7 @@ public class Controller {
 	 * Listener for all buttons on the frame.
 	 */
 	private class Listener implements ActionListener {
-		
+
 		@Override
 		public void actionPerformed(ActionEvent button) {
 			String b = button.getActionCommand(); //Determine which button was pressed
@@ -139,16 +159,16 @@ public class Controller {
 			case "birth": grid.changeBirth(); break;
 			case "death": grid.changeDeath(); break;
 			case "reset": reset(); break;
-			case "OSC": setOSC(); break;
+			case "OSC": grid.changeOSC(); break;
 			case "score": exportScore(); break;
-			case "showNotes": mainScreen.changeShowNotes(); break;
+			case "import": importPreset(); break;
+			case "export": exportPreset(); break;
+			case "showNotes": showNotes(); break;
 			default: break;
 			}
 			updateView();
 		}
-		public void setOSC() {
-			grid.changeOSC();
-		}
+
 		public void reset() {
 			grid.resetCells();
 		}
@@ -175,14 +195,110 @@ public class Controller {
 				drawnPath.clear();
 			}
 		}
+
+		public void showNotes() {
+			mainScreen.changeShowNotes();
+			grid.changeShowNotes();
+		}
+
 		public void exportScore() {
-			grid.exportScore();
-			
+			fd.setDirectory(dir);
+			fd.setMode(FileDialog.SAVE);
+			fd.setVisible(true);
+			String dir = fd.getDirectory();
+			String filename = fd.getFile();
+			if(filename != null) {
+				if(!filename.endsWith(".txt")) filename = filename + ".txt";
+				File file = new File(dir+filename);
+				grid.exportScore(file);
+			}
+		}
+
+		public void importPreset() {
+			fd.setDirectory(dir);
+			fd.setMode(FileDialog.LOAD);
+			fd.setVisible(true);
+			dir = fd.getDirectory();
+			String filename = fd.getFile();
+			if(filename != null) {
+				if(!filename.endsWith(".txt")) filename = filename + ".txt";
+				File file = new File(dir+filename);
+				clear();
+				try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+					String line, pitch, octave, colorString;
+					String[] info;
+					int size;
+					Color color;
+					while ((line = br.readLine()) != null) {
+						if(line.startsWith("*")) { //Set bpm, IP, and Port
+							info = line.split("_");
+							setBPM(Integer.parseInt(info[1]));
+							mainScreen.setBPM(info[1]);
+							grid.setIpandPort(info[2], info[3]);
+							mainScreen.setIpAndPort(info[2], info[3]);
+						} else if (line.startsWith("+")) { //Set toggles
+							info = line.split("_");
+							grid.setBirth(Boolean.valueOf(info[1]));
+							grid.setDeath(Boolean.valueOf(info[2]));
+							grid.setOSC(Boolean.valueOf(info[3]));
+							grid.setShowNotes(Boolean.valueOf(info[4]));
+							mainScreen.setShowNotes(Boolean.valueOf(info[4]));
+						} else {
+							info = line.split("_");
+							size = info.length;
+							pitch = info[0];
+							octave = info[1];
+							colorString = info[2]; //"r:g:b"
+							color = new Color(Integer.parseInt(colorString.split(":")[0]), Integer.parseInt(colorString.split(":")[1]),
+									Integer.parseInt(colorString.split(":")[2]));
+							if (info[3].equals("N")) { //Note Cell
+								NoteCell noteCell = new NoteCell(Integer.parseInt(info[4].split(",")[0]), Integer.parseInt(info[4].split(",")[1]),
+										pitch+octave, color, gridSize, true);
+								for(int i = 5; i < size; i++) { //build path
+									noteCell.addToPath(Integer.parseInt(info[i].split(",")[0]), Integer.parseInt(info[i].split(",")[1]));
+								}
+								grid.addNoteCell(noteCell);
+							} else {
+								if (info[4].equals("true")) { // is birth cell placed?
+									BirthCell birthCell = new BirthCell(Integer.parseInt(info[5].split(",")[0]),
+											Integer.parseInt(info[5].split(",")[1]), pitch+octave, color, true, gridSize);
+									grid.addNoteCell(birthCell);
+								} else {
+									BirthCell birthCell = new BirthCell(Integer.parseInt(info[5].split(",")[0]),
+											Integer.parseInt(info[5].split(",")[1]), pitch+octave, color, false, gridSize);
+									grid.addNoteCell(birthCell);
+								}
+							}
+						}
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+
+		public void exportPreset() {
+			fd.setDirectory(dir);
+			fd.setMode(FileDialog.SAVE);
+			fd.setVisible(true);
+			String dir = fd.getDirectory();
+			String filename = fd.getFile();
+			if(filename != null) {
+				if(!filename.endsWith(".txt")) filename = filename + ".txt";
+				File file = new File(dir+filename);
+				grid.exportPreset(file, bpm, mainScreen.getIP(), mainScreen.getPort());
+			}
+
+			//			int returnVal = presetFileChooser.showSaveDialog(null);
+			//			if(returnVal == JFileChooser.APPROVE_OPTION) {
+			//				grid.exportPreset(presetFileChooser.getSelectedFile(), bpm, mainScreen.getIP(), mainScreen.getPort());
+			//			}
+
 		}
 		public void insert() {
 			if (mainScreen.getFrame().getPitch() != "- "	&& 
 					mainScreen.getFrame().getOctave() != "-" && 
-							mainScreen.getFrame().getPath() == "Birth") {
+					mainScreen.getFrame().getPath() == "Birth") {
 				String note = mainScreen.getFrame().getPitch();
 				String octave = mainScreen.getFrame().getOctave();
 				Color color = mainScreen.getFrame().getColor();
@@ -192,8 +308,8 @@ public class Controller {
 			}
 			if (mainScreen.getFrame().getPitch() != "- "	&& 
 					mainScreen.getFrame().getOctave() != "-" && 
-							mainScreen.getFrame().getPath() == "Drawn" &&
-								drawnPath.size() > 0) {
+					mainScreen.getFrame().getPath() == "Drawn" &&
+					drawnPath.size() > 0) {
 				String note = mainScreen.getFrame().getPitch();
 				String octave = mainScreen.getFrame().getOctave();
 				Color color = mainScreen.getFrame().getColor();
@@ -203,7 +319,7 @@ public class Controller {
 			}
 			if (mainScreen.getFrame().getPitch() != "- "	&& 
 					mainScreen.getFrame().getOctave() != "-" && 
-							mainScreen.getFrame().getPath() == "Random") {
+					mainScreen.getFrame().getPath() == "Random") {
 				String note = mainScreen.getFrame().getPitch();
 				String octave = mainScreen.getFrame().getOctave();
 				Color color = mainScreen.getFrame().getColor();
@@ -246,7 +362,7 @@ public class Controller {
 		private boolean drag = false;
 		private int lastDragCellX = -1;
 		private int lastDragCellY = -1;
-		
+
 		private void drawnPathAddRemove(int x, int y) {
 			if (drawnPath.size() == 0) {
 				drawnPath.add(new Coordinates(x, y, gridSize));
@@ -274,13 +390,13 @@ public class Controller {
 				}
 				else {
 					boolean found = false; //uncommenting below restricts drawn paths from overlapping
-//					for (int i = 1; i < drawnPath.size(); i++){
-//						if (drawnPath.get(i).getX() == x && drawnPath.get(i).getY() == y) {
-//							//drawnPath.remove(i); //uncommenting this allows for looped triangle paths and skipped squares
-//							found = true;
-//							break;
-//						}
-//					}
+					//					for (int i = 1; i < drawnPath.size(); i++){
+					//						if (drawnPath.get(i).getX() == x && drawnPath.get(i).getY() == y) {
+					//							//drawnPath.remove(i); //uncommenting this allows for looped triangle paths and skipped squares
+					//							found = true;
+					//							break;
+					//						}
+					//					}
 					if (!found && isNeighbor(last.getX(), last.getY(), x, y) && !(last.equals(start) && size > 2)) {
 						drawnPath.add(new Coordinates(x,y, gridSize));
 						lastDragCellX = clickedCellX;
@@ -289,14 +405,14 @@ public class Controller {
 				}				
 			}			
 		}
-		
+
 		private Boolean isNeighbor(int x, int y, int nx, int ny) {
 			if ((nx==x && (y==ny-1 || y==ny+1)) || (ny==y && (x==nx-1 || x==nx+1))) {
 				return true;
 			}
 			return false;
 		}
-		
+
 		@Override
 		public void mousePressed(MouseEvent click) {
 			if(SwingUtilities.isRightMouseButton(click)){ //right click delete grid cell
@@ -311,14 +427,14 @@ public class Controller {
 				updateView();
 			}
 		}
-		
+
 		@Override
 		public void mouseReleased(MouseEvent arg0) {
 			drag = false;
 			lastDragCellX = -1;
 			lastDragCellY = -1;
 		}
-		
+
 		@Override
 		public void mouseDragged(MouseEvent mouseDrag) {
 			if (drag) {
@@ -326,7 +442,7 @@ public class Controller {
 				int mouseDragCellY = (int)((mouseDrag.getY()-mainScreen.getVoffset())/mainScreen.getCellSize());
 				if ((mouseDragCellX != lastDragCellX || mouseDragCellY != lastDragCellY) && 
 						mouseDrag.getX() < mainScreen.getGamePanelSize() 
-							&& mouseDrag.getY() < mainScreen.getGamePanelSize()) {
+						&& mouseDrag.getY() < mainScreen.getGamePanelSize()) {
 					clickedCellX = mouseDragCellX;
 					clickedCellY = mouseDragCellY;
 					drawnPathAddRemove(mouseDragCellX, mouseDragCellY);
@@ -348,7 +464,7 @@ public class Controller {
 			// TODO Auto-generated method stub
 
 		}
-		
+
 		@Override
 		public void mouseClicked(MouseEvent click) {
 			//System.out.println("click");
@@ -358,7 +474,7 @@ public class Controller {
 		public void mouseMoved(MouseEvent arg0) {
 			//System.out.println("move");
 			// TODO Auto-generated method stub
-			
+
 		}
 	}
 }

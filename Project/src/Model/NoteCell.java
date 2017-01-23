@@ -53,6 +53,26 @@ public class NoteCell{
 		pathLength = 1;
 		setColor(color);
 	}
+	
+	//Constructor for importing notecells. So that colors are not darkened or lightened repeatedly
+	public NoteCell(int x, int y, String newNote, Color color, int newGridSize, boolean importing) {
+		gridSize = newGridSize;
+		curPos = new Coordinates(x, y, gridSize);
+		note = newNote;
+		pitch = note.substring(0, 2);
+		octave = Integer.parseInt(note.substring(2));
+		loop = false;
+		reverse = false;
+		path = new ArrayList<Coordinates>();
+		path.add(curPos);
+		pathPos = -1;
+		pathLength = 1;
+		if (importing) {
+			this.color = color;
+		} else {
+			setColor(color);
+		}
+	}
 
 	/*
 	 * Constructor for Drawn Cell Paths
@@ -144,9 +164,20 @@ public class NoteCell{
 
 	public String getPathColorString() {
 		String pathstring = "";
+		int r = color.getRed();
+		int g = color.getGreen();
+		int b = color.getBlue();
 		for(int i = 0; i < path.size(); i++) {
 			pathstring = pathstring + path.get(i).getX() + ":" + path.get(i).getY() + ":" 
-					+ color.getRed() + ":" + color.getGreen() + ":" + color.getBlue() + " ";
+					+ r + ":" + g + ":" + b + " ";
+		}
+		return pathstring;
+	}
+	
+	public String getPathString() {
+		String pathstring = "";
+		for(int i = 0; i < path.size(); i++) {
+			pathstring = pathstring + path.get(i).getX() + "," + path.get(i).getY() + "_";
 		}
 		return pathstring;
 	}
@@ -162,6 +193,7 @@ public class NoteCell{
 			loop = false;
 			reverse = true;
 		}
+		setPathLength();
 	}
 
 	public void setColor(Color newColor) {
