@@ -4,7 +4,7 @@ import java.net.UnknownHostException;
 import Model.Audio;
 import Model.Grid;
 import Model.OSCSend;
-import NewView.View;
+import View.View;
 
 /*
  * Initiate and run the program.
