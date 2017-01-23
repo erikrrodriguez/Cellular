@@ -8,7 +8,7 @@ A musical cellular automation application. Written in Java using Eclipse - utili
 * Each cell has a musical note attributed to it.
 * A cell will "play" it's note when it collides with one or more cells.
 
-![Cellular](http://i.imgur.com/Qie6w4Z.jpg)
+![Cellular](http://i.imgur.com/ED80wib.jpg)
 
 To quickly see the game in action press the **Generate** button. Generate creates between 4 and 7 random pitches with random paths.
 
