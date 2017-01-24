@@ -17,6 +17,8 @@ public class Grid {
 	private Set<GridCell> occupiedCells;
 	private GridCell[][] grid;
 	private int gridSize; //number of cells in the grid
+	private int furthestX;
+	private int furthestY;
 	private Audio sound;
 	private OSCSend oscSend;
 	private boolean clear;
@@ -35,6 +37,8 @@ public class Grid {
 
 		gridSize = newNumCells;
 		grid = new GridCell[gridSize][gridSize];
+		furthestX = 0;
+		furthestY = 0;
 
 		this.sound = sound;
 		this.oscSend = oscSend;
@@ -185,6 +189,8 @@ public class Grid {
 		if (grid[x][y].getNumNoteCells() > 1) {
 			collisions.add(grid[x][y]);
 		}
+		furthestX = Math.max(furthestX, newCell.getFurthestX());
+		furthestY = Math.max(furthestY, newCell.getFurthestY());
 	}
 
 	public void fillPathInfo(NoteCell cell) {
@@ -286,6 +292,8 @@ public class Grid {
 		occupiedCells.clear();
 		noteCells.clear();
 		clear = true;
+		furthestX = 0;
+		furthestY = 0;
 	}
 
 	public void clearCell(int x, int y) {
@@ -300,6 +308,18 @@ public class Grid {
 		grid[x][y].removeNoteCells();
 		occupiedCells.remove(grid[x][y]);
 		refillPathInfo();
+		if (furthestX == x || furthestY == y) {
+			findFurthestXY();
+		}
+	}
+	
+	private void findFurthestXY() {
+		furthestX = 0;
+		furthestY = 0;
+		for (NoteCell cell : noteCells) {
+			furthestX = Math.max(furthestX, cell.getFurthestX());
+			furthestY = Math.max(furthestY, cell.getFurthestY());
+		}
 	}
 
 	public ArrayList<NoteCell> getCells(){
@@ -395,6 +415,14 @@ public class Grid {
 		for (NoteCell cell : noteCells) {
 			cell.setPos(0);
 		}
+	}
+	
+	public int getFurthestX() {
+		return furthestX;
+	}
+	
+	public int getFurthestY() {
+		return furthestY;
 	}
 
 	private void deleteChildCells() {

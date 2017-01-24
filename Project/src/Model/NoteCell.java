@@ -21,11 +21,15 @@ public class NoteCell{
 	private int pathLength;
 	private Random rand = new Random();
 	protected Color color;
+	private int furthestX;
+	private int furthestY;
 
 	//Constructor for Generated Cells
 	public NoteCell(int x, int y, String newNote, int newGridSize) {
 		gridSize = newGridSize;
 		curPos = new Coordinates(x, y, gridSize);
+		furthestX = x;
+		furthestY = y;
 		note = newNote;
 		pitch = note.substring(0, 2);
 		octave = Integer.parseInt(note.substring(2));
@@ -42,6 +46,8 @@ public class NoteCell{
 	public NoteCell(int x, int y, String newNote, Color color, int newGridSize) {
 		gridSize = newGridSize;
 		curPos = new Coordinates(x, y, gridSize);
+		furthestX = x;
+		furthestY = y;
 		note = newNote;
 		pitch = note.substring(0, 2);
 		octave = Integer.parseInt(note.substring(2));
@@ -58,6 +64,8 @@ public class NoteCell{
 	public NoteCell(int x, int y, String newNote, Color color, int newGridSize, boolean importing) {
 		gridSize = newGridSize;
 		curPos = new Coordinates(x, y, gridSize);
+		furthestX = x;
+		furthestY = y;
 		note = newNote;
 		pitch = note.substring(0, 2);
 		octave = Integer.parseInt(note.substring(2));
@@ -80,6 +88,7 @@ public class NoteCell{
 	public NoteCell(String newNote, Color newColor, ArrayList<Coordinates> newPath, int newGridSize){
 		gridSize = newGridSize;
 		path = new ArrayList<Coordinates>(newPath);
+		setFurthestXY();
 		curPos = path.get(0);
 		pathPos = -1;
 		note = newNote; //pitch+octave
@@ -97,6 +106,13 @@ public class NoteCell{
 			pathLength = 2 * path.size() - 2;
 		}
 		setColor(newColor);
+	}
+	
+	public void setFurthestXY() {
+		for (int i = 0; i < path.size(); i++) {
+			furthestX = Math.max(furthestX, path.get(i).getX());
+			furthestY = Math.max(furthestY, path.get(i).getY());
+		}
 	}
 
 	/*
@@ -194,6 +210,8 @@ public class NoteCell{
 			reverse = true;
 		}
 		setPathLength();
+		furthestX = Math.max(furthestX, x);
+		furthestY = Math.max(furthestX, y);
 	}
 
 	public void setColor(Color newColor) {
@@ -325,6 +343,14 @@ public class NoteCell{
 
 	public void reverse() {
 		reverse = !reverse;
+	}
+	
+	public int getFurthestX() {
+		return furthestX;
+	}
+	
+	public int getFurthestY() {
+		return furthestY;
 	}
 
 	public int randInt(int min, int max) {
