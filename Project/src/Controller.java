@@ -206,8 +206,8 @@ public class Controller {
 			gridSize = mainScreen.getTxtGridSize();
 			grid.changeGridSize(gridSize);
 			if(grid.getFurthestX() > gridSize-1 || grid.getFurthestY() > gridSize-1) {
-				//clear();
-				grid.reducePaths(gridSize);
+				clear();
+				//grid.reducePaths(gridSize);
 			}
 //			if(grid.getFurthestX() < gridSize-1 || grid.getFurthestY() < gridSize-1) {
 //				grid.enlargePaths(gridSize);
