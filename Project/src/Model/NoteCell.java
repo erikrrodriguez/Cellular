@@ -23,6 +23,7 @@ public class NoteCell{
 	protected Color color;
 	private int furthestX;
 	private int furthestY;
+	private int countSkip;
 
 	//Constructor for Generated Cells
 	public NoteCell(int x, int y, String newNote, int newGridSize) {
@@ -40,6 +41,7 @@ public class NoteCell{
 		path.add(curPos);
 		pathPos = -1;
 		pathLength = 1;
+		countSkip = 0;
 		setRandomColor();
 	}
 
@@ -57,6 +59,7 @@ public class NoteCell{
 		path.add(curPos);
 		pathPos = -1;
 		pathLength = 1;
+		countSkip = 0;
 		setColor(color);
 	}
 	
@@ -75,6 +78,7 @@ public class NoteCell{
 		path.add(curPos);
 		pathPos = -1;
 		pathLength = 1;
+		countSkip = 0;
 		if (importing) {
 			this.color = color;
 		} else {
@@ -105,6 +109,7 @@ public class NoteCell{
 		} else {
 			pathLength = 2 * path.size() - 2;
 		}
+		countSkip = 0;
 		setColor(newColor);
 	}
 	
@@ -184,8 +189,10 @@ public class NoteCell{
 		int g = color.getGreen();
 		int b = color.getBlue();
 		for(int i = 0; i < path.size(); i++) {
-			pathstring = pathstring + path.get(i).getX() + ":" + path.get(i).getY() + ":" 
-					+ r + ":" + g + ":" + b + " ";
+			if (!path.get(i).getSkip()) {
+				pathstring = pathstring + path.get(i).getX() + ":" + path.get(i).getY() + ":" 
+						+ r + ":" + g + ":" + b + " ";
+			}
 		}
 		return pathstring;
 	}
@@ -193,7 +200,9 @@ public class NoteCell{
 	public String getPathString() {
 		String pathstring = "";
 		for(int i = 0; i < path.size(); i++) {
-			pathstring = pathstring + path.get(i).getX() + "," + path.get(i).getY() + "_";
+			if (!path.get(i).getSkip()) {
+				pathstring = pathstring + path.get(i).getX() + "," + path.get(i).getY() + "_";
+			}
 		}
 		return pathstring;
 	}
@@ -281,7 +290,11 @@ public class NoteCell{
 					reverse = false;
 				}
 			}
-			curPos = path.get(pathPos);			
+			if (path.get(pathPos).getSkip()) {
+				advance();
+			} else {
+				curPos = path.get(pathPos);
+			}
 		}
 	}
 
@@ -351,6 +364,35 @@ public class NoteCell{
 	
 	public int getFurthestY() {
 		return furthestY;
+	}
+	
+	public void setGridSize(int gridSize) {
+		this.gridSize = gridSize;
+	}
+	
+	public void reducePath(int gridSize) {
+		for (Coordinates coor : path) {
+			coor.reducePath(gridSize);
+		}
+		calcSkip();
+	}
+	
+	public void enlargePath(int gridSize) {
+		for (Coordinates coor : path) {
+			coor.enlargePath(gridSize);
+		}
+		calcSkip();
+	}
+	
+	public void calcSkip() {
+		countSkip = 0;
+		for (Coordinates coor : path) {
+			if (coor.getSkip()) countSkip++;
+		}
+	}
+	
+	public int getSkip() {
+		return countSkip;
 	}
 
 	public int randInt(int min, int max) {

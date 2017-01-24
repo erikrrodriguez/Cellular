@@ -54,6 +54,9 @@ public class Grid {
 		this.gridSize = gridSize;
 		grid = new GridCell[gridSize][gridSize];
 		setGrid();
+		for(NoteCell cell : noteCells) {
+			cell.setGridSize(gridSize);
+		}
 	}
 
 	public void setGrid() {
@@ -195,7 +198,7 @@ public class Grid {
 
 	public void fillPathInfo(NoteCell cell) {
 		//fill grid cells with this note cell's path
-		int size = cell.getPath().size();
+		int size = cell.getPath().size() - cell.getSkip();
 		if (size > 1) {
 			String[] path = new String[size];
 			String[] node1 = new String[5];
@@ -423,6 +426,20 @@ public class Grid {
 	
 	public int getFurthestY() {
 		return furthestY;
+	}
+	
+	public void reducePaths(int gridSize) {
+		for (NoteCell cell : noteCells) {
+			cell.reducePath(gridSize);
+		}
+		refillPathInfo();
+	}
+	
+	public void enlargePaths(int gridSize) {
+		for (NoteCell cell : noteCells) {
+			cell.enlargePath(gridSize);
+		}
+		refillPathInfo();
 	}
 
 	private void deleteChildCells() {

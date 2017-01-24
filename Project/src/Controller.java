@@ -204,14 +204,14 @@ public class Controller {
 		
 		public void changeGridSize() {
 			gridSize = mainScreen.getTxtGridSize();
-			if(grid.getFurthestX() > gridSize-1 || grid.getFurthestY() > gridSize-1) {
-				clear();
-				//grid.reducePaths(gridSize);
-			}
-			if(grid.getFurthestX() < gridSize-1 || grid.getFurthestY() < gridSize-1) {
-				//grid.enlargePaths(gridSize);
-			}
 			grid.changeGridSize(gridSize);
+			if(grid.getFurthestX() > gridSize-1 || grid.getFurthestY() > gridSize-1) {
+				//clear();
+				grid.reducePaths(gridSize);
+			}
+//			if(grid.getFurthestX() < gridSize-1 || grid.getFurthestY() < gridSize-1) {
+//				grid.enlargePaths(gridSize);
+//			}
 			mainScreen.changeGridSize(gridSize); //passes to game panel. not the txtfield
 			reset(); //to bring out of bounds birth cells back into range, but still preserving cycle
 		}
