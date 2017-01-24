@@ -523,8 +523,12 @@ public class Grid {
 		return result;
 	}
 	
-	public void exportPreset(File presetFile, int bpm, String IP, String port) {
+	public void exportPreset(File presetFile, String IP, String port, int bpm, int gridSize) {
 		try (BufferedWriter file = new BufferedWriter(new FileWriter(presetFile,false))) {
+			file.write("*_" + IP + "_" + port + "_" + bpm + "_" + gridSize);
+			file.newLine();
+			file.write("+_" + birth +"_" + death + "_" + osc + "_" + showNotes); //toggles
+			file.newLine();
 			String info;
 			for(NoteCell cell : noteCells) {
 				info = cell.getPitch() + "_" + cell.getOctave() + "_" + 
@@ -538,9 +542,6 @@ public class Grid {
 				file.write(info);
 				file.newLine();
 			}
-			file.write("*_" + bpm + "_" + IP + "_" + port);
-			file.newLine();
-			file.write("+_" + birth +"_" + death + "_" + osc + "_" + showNotes);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

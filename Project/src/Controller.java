@@ -239,12 +239,14 @@ public class Controller {
 					int size;
 					Color color;
 					while ((line = br.readLine()) != null) {
-						if(line.startsWith("*")) { //Set bpm, IP, and Port
+						if(line.startsWith("*")) { //Set IP, Port, bpm, gridSize
 							info = line.split("_");
-							setBPM(Integer.parseInt(info[1]));
-							mainScreen.setBPM(info[1]);
-							grid.setIpandPort(info[2], info[3]);
-							mainScreen.setIpAndPort(info[2], info[3]);
+							setBPM(Integer.parseInt(info[3]));
+							mainScreen.setBPM(info[3]);
+							grid.setIpandPort(info[1], info[2]);
+							mainScreen.setIpAndPort(info[1], info[2]);
+							mainScreen.setGridSize(info[4]);
+							changeGridSize();
 						} else if (line.startsWith("+")) { //Set toggles
 							info = line.split("_");
 							grid.setBirth(Boolean.valueOf(info[1]));
@@ -295,7 +297,7 @@ public class Controller {
 			if(filename != null) {
 				if(!filename.endsWith(".txt")) filename = filename + ".txt";
 				File file = new File(dir+filename);
-				grid.exportPreset(file, bpm, mainScreen.getIP(), mainScreen.getPort());
+				grid.exportPreset(file, mainScreen.getIP(), mainScreen.getPort(), mainScreen.getBpm(), gridSize);
 			}
 
 		}

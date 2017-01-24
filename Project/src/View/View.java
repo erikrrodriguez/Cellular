@@ -520,6 +520,10 @@ public class View extends JFrame {
 		this.txtPort.setText(port);
 	}
 	
+	public void setGridSize(String gridSize) {
+		this.txtGridSize.setText(gridSize);
+	}
+	
 	public void setShowNotes(boolean showNotes) {
 		this.showNotes.setSelected(showNotes);
 		gamePanel.setShowNotes(showNotes);
