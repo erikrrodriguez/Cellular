@@ -1,13 +1,17 @@
 package Model;
+
 import kuusisto.tinysound.TinySound;
 
 public class Audio {
-	
-	public kuusisto.tinysound.Sound A4, AS4, B4, C4, CS4, D4, DS4, E4, F4, FS4, G4, GS4;
-	public kuusisto.tinysound.Sound A5, AS5, B5, C5, CS5, D5, DS5, E5, F5, FS5, G5, GS5;
-	public kuusisto.tinysound.Sound A6, AS6, B6, C6, CS6, D6, DS6, E6, F6, FS6, G6, GS6;
+
+	public kuusisto.tinysound.Sound A4, AS4, B4, C4, CS4, D4, DS4, E4, F4, FS4,
+			G4, GS4;
+	public kuusisto.tinysound.Sound A5, AS5, B5, C5, CS5, D5, DS5, E5, F5, FS5,
+			G5, GS5;
+	public kuusisto.tinysound.Sound A6, AS6, B6, C6, CS6, D6, DS6, E6, F6, FS6,
+			G6, GS6;
 	public kuusisto.tinysound.Sound[] sounds;
-	
+
 	public Audio() {
 		TinySound.init();
 		A4 = TinySound.loadSound("A4.wav");
@@ -22,7 +26,7 @@ public class Audio {
 		FS4 = TinySound.loadSound("FS4.wav");
 		G4 = TinySound.loadSound("G4.wav");
 		GS4 = TinySound.loadSound("GS4.wav");
-		
+
 		A5 = TinySound.loadSound("A5.wav");
 		AS5 = TinySound.loadSound("AS5.wav");
 		B5 = TinySound.loadSound("B5.wav");
@@ -35,7 +39,7 @@ public class Audio {
 		FS5 = TinySound.loadSound("FS5.wav");
 		G5 = TinySound.loadSound("G5.wav");
 		GS5 = TinySound.loadSound("GS5.wav");
-		
+
 		A6 = TinySound.loadSound("A6.wav");
 		AS6 = TinySound.loadSound("AS6.wav");
 		B6 = TinySound.loadSound("B6.wav");
@@ -48,16 +52,17 @@ public class Audio {
 		FS6 = TinySound.loadSound("FS6.wav");
 		G6 = TinySound.loadSound("G6.wav");
 		GS6 = TinySound.loadSound("GS6.wav");
-		
-		sounds = new kuusisto.tinysound.Sound[] {A4, AS4, B4, C4, CS4, D4, DS4, E4, F4, FS4, G4, GS4,
-												A5, AS5, B5, C5, CS5, D5, DS5, E5, F5, FS5, G5, GS5,
-												A6, AS6, B6, C6, CS6, D6, DS6, E6, F6, FS6, G6, GS6};
+
+		sounds = new kuusisto.tinysound.Sound[] { A4, AS4, B4, C4, CS4, D4,
+				DS4, E4, F4, FS4, G4, GS4, A5, AS5, B5, C5, CS5, D5, DS5, E5,
+				F5, FS5, G5, GS5, A6, AS6, B6, C6, CS6, D6, DS6, E6, F6, FS6,
+				G6, GS6 };
 	}
-	
-	public void playSound(int index, double volume){
+
+	public void playSound(int index, double volume) {
 		sounds[index].play(volume);
 	}
-	
+
 	public void shutdown() {
 		TinySound.shutdown();
 	}

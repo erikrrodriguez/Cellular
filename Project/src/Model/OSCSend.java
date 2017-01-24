@@ -8,20 +8,21 @@ import java.net.UnknownHostException;
 import com.illposed.osc.*;
 
 public class OSCSend {
-	
+
 	private InetAddress ip;
 	private int port;
-	
+
 	public OSCSend() throws SocketException, UnknownHostException {
 		this.ip = InetAddress.getLocalHost();
 		this.port = 57110;
 	}
-	
-	public void sendMsg(int[] array) throws UnknownHostException, SocketException {
+
+	public void sendMsg(int[] array) throws UnknownHostException,
+			SocketException {
 		OSCPortOut sender = new OSCPortOut(ip, port);
 		OSCMessage toMax = new OSCMessage("/coornotes/");
-		
-		for(int i = 0; i < array.length; i++) {
+
+		for (int i = 0; i < array.length; i++) {
 			toMax.addArgument(array[i]);
 		}
 		try {
@@ -31,15 +32,15 @@ public class OSCSend {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public int getPort() {
 		return port;
 	}
-	
+
 	public InetAddress getIP() {
 		return ip;
 	}
-	
+
 	public void setIP(String newIp) throws UnknownHostException {
 		if (newIp.equals("localhost")) {
 			this.ip = InetAddress.getLocalHost();
@@ -47,11 +48,10 @@ public class OSCSend {
 			ip = InetAddress.getByName(newIp);
 		}
 	}
-	
+
 	public void setPort(String newPort) {
 		if (newPort.length() >= 5) {
 			port = Integer.parseInt(newPort);
 		}
 	}
 }
-

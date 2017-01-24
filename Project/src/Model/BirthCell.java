@@ -10,7 +10,8 @@ public class BirthCell extends NoteCell {
 	private int yStart;
 	private String note;
 
-	public BirthCell(int x, int y, String newNote, Color parColor1, Color parColor2, boolean placed, int newGridSize) {
+	public BirthCell(int x, int y, String newNote, Color parColor1,
+			Color parColor2, boolean placed, int newGridSize) {
 		super(x, y, newNote, newGridSize);
 		note = newNote;
 		this.xStart = x;
@@ -19,8 +20,9 @@ public class BirthCell extends NoteCell {
 		this.placed = placed;
 		this.color = mixColors(parColor1, parColor2);
 	}
-	
-	public BirthCell(int x, int y, String newNote, Color color, boolean placed, int newGridSize) {
+
+	public BirthCell(int x, int y, String newNote, Color color, boolean placed,
+			int newGridSize) {
 		super(x, y, newNote, newGridSize);
 		note = newNote;
 		this.xStart = x;
@@ -29,8 +31,9 @@ public class BirthCell extends NoteCell {
 		this.placed = placed;
 		this.color = color;
 	}
-	
-	public BirthCell(int x, int y, String newNote, boolean placed, int newGridSize) {
+
+	public BirthCell(int x, int y, String newNote, boolean placed,
+			int newGridSize) {
 		super(x, y, newNote, newGridSize);
 		note = newNote;
 		this.xStart = x;
@@ -47,20 +50,19 @@ public class BirthCell extends NoteCell {
 			newX = xStart;
 			newY = yStart;
 			reset = false;
-		}
-		else {
+		} else {
 			do {
-				newX = randInt(curPos.getX()-1, curPos.getX()+1);
-				newY = randInt(curPos.getY()-1, curPos.getY()+1);
+				newX = randInt(curPos.getX() - 1, curPos.getX() + 1);
+				newY = randInt(curPos.getY() - 1, curPos.getY() + 1);
 			} while (!isNeighbor(newX, newY));
 		}
 		curPos.set(newX, newY);
 	}
-	
+
 	public int getXStart() {
 		return xStart;
 	}
-	
+
 	public int getYStart() {
 		return yStart;
 	}
@@ -73,18 +75,20 @@ public class BirthCell extends NoteCell {
 	public boolean isPlaced() {
 		return placed;
 	}
-	
+
 	@Override
 	public String getScoreNote() {
 		return "\\parenthesize_" + note;
 	}
 
 	private boolean isNeighbor(int nx, int ny) {
-		if (nx < 0 || nx > gridSize-1 || ny < 0 || ny > gridSize-1) {
+		if (nx < 0 || nx > gridSize - 1 || ny < 0 || ny > gridSize - 1) {
 			return false;
 		}
-		if ((nx < curPos.getX() && ny < curPos.getY()) || (nx > curPos.getX() && ny > curPos.getY())
-				|| (nx > curPos.getX() && ny < curPos.getY()) || (nx < curPos.getX() && ny > curPos.getY())) {
+		if ((nx < curPos.getX() && ny < curPos.getY())
+				|| (nx > curPos.getX() && ny > curPos.getY())
+				|| (nx > curPos.getX() && ny < curPos.getY())
+				|| (nx < curPos.getX() && ny > curPos.getY())) {
 			return false;
 		}
 		if (nx == curPos.getX() && ny == curPos.getY()) {
@@ -104,14 +108,16 @@ public class BirthCell extends NoteCell {
 		double a = Math.max(color1.getAlpha(), color2.getAlpha());
 
 		Color newColor = new Color((int) r, (int) g, (int) b, (int) a);
-		switch(getOctave()){
-		case 4: newColor = newColor.darker();
-		break;
-		case 6: newColor = newColor.brighter();
-		break;
-		default: break;
+		switch (getOctave()) {
+		case 4:
+			newColor = newColor.darker();
+			break;
+		case 6:
+			newColor = newColor.brighter();
+			break;
+		default:
+			break;
 		}
 		return newColor;
 	}
 }
-
