@@ -16,7 +16,7 @@ public class BirthCell extends NoteCell {
 		note = newNote;
 		this.xStart = x;
 		this.yStart = y;
-		reset = false;
+		reset = true;
 		this.placed = placed;
 		this.color = mixColors(parColor1, parColor2);
 	}
@@ -27,7 +27,7 @@ public class BirthCell extends NoteCell {
 		note = newNote;
 		this.xStart = x;
 		this.yStart = y;
-		reset = false;
+		reset = true;
 		this.placed = placed;
 		this.color = color;
 	}
@@ -38,7 +38,7 @@ public class BirthCell extends NoteCell {
 		note = newNote;
 		this.xStart = x;
 		this.yStart = y;
-		reset = false;
+		reset = true;
 		this.placed = placed;
 		setRandomColor();
 	}
