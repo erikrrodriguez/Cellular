@@ -53,6 +53,9 @@ public class Grid {
 	public void changeGridSize(int gridSize) {
 		this.gridSize = gridSize;
 		grid = new GridCell[gridSize][gridSize];
+		for (NoteCell cell : noteCells) {
+			cell.changeGridSize(gridSize);
+		}
 		setGrid();
 	}
 

@@ -8,12 +8,10 @@ public class BirthCell extends NoteCell {
 	private boolean reset;
 	private int xStart;
 	private int yStart;
-	private int gridSize;
 	private String note;
 
 	public BirthCell(int x, int y, String newNote, Color parColor1, Color parColor2, boolean placed, int newGridSize) {
 		super(x, y, newNote, newGridSize);
-		gridSize = newGridSize;
 		note = newNote;
 		this.xStart = x;
 		this.yStart = y;
@@ -24,7 +22,6 @@ public class BirthCell extends NoteCell {
 	
 	public BirthCell(int x, int y, String newNote, Color color, boolean placed, int newGridSize) {
 		super(x, y, newNote, newGridSize);
-		gridSize = newGridSize;
 		note = newNote;
 		this.xStart = x;
 		this.yStart = y;
@@ -35,7 +32,6 @@ public class BirthCell extends NoteCell {
 	
 	public BirthCell(int x, int y, String newNote, boolean placed, int newGridSize) {
 		super(x, y, newNote, newGridSize);
-		gridSize = newGridSize;
 		note = newNote;
 		this.xStart = x;
 		this.yStart = y;

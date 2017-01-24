@@ -10,7 +10,7 @@ import java.util.Random;
  */
 public class NoteCell{
 	protected Coordinates curPos;
-	private int gridSize;
+	protected int gridSize;
 	private String note; //Holds Pitch and Octave
 	private String pitch;
 	private int octave;
@@ -113,6 +113,10 @@ public class NoteCell{
 			furthestX = Math.max(furthestX, path.get(i).getX());
 			furthestY = Math.max(furthestY, path.get(i).getY());
 		}
+	}
+	
+	public void changeGridSize(int gridSize) {
+		this.gridSize = gridSize;
 	}
 
 	/*
